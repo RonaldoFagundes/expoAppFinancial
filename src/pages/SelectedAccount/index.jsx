@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import {
+   ActivityIndicator,
    KeyboardAvoidingView,
    Platform,
    Pressable,
@@ -41,28 +42,35 @@ export default function SelectedAccount({ navigation }) {
    //const endpointPhp = 'http://localhost:3322/php-api-financial';
 
 
+   const {
+      setLoad,
+      load,
+      endpoint,
+      user,
+      bankData,
+      accountData,
+      setAccountData,
+      setAmountAccount,
+      amountAccount, 
+   } = useContext(AuthContext);
+
+
 
 
    useEffect(() => {
+      navigation.addListener('focus', () => setLoad(!load));
       //selectAccount(idAccont);
 
       //console.log(" id bank "+bankData.id+" conta select "+accountData.id);
 
       getListAccountByBank();
-   }, []);
+   }, [load, navigation]);
 
 
 
 
 
-   const {
-      endpoint,
-      bankData,
-      accountData,
-      setAccountData,
-   } = useContext(AuthContext);
-
-
+   const [isLoading, setIsLoading] = useState(true);
 
 
    const [surchAccount, setSurchAccount] = useState({
@@ -88,7 +96,7 @@ export default function SelectedAccount({ navigation }) {
 
    const getListAccountByBank = async () => {
 
-      console.log(surchAccount)
+      //console.log(surchAccount)
 
       await fetch(endpoint + "?action=listAccountByBankIgnoreId", {
          method: 'POST',
@@ -102,6 +110,8 @@ export default function SelectedAccount({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
+
+               setIsLoading(false);
 
                setAccount(result);
 
@@ -159,9 +169,11 @@ export default function SelectedAccount({ navigation }) {
             ...accountData, ['id']: id,
             accountData, ['type']: type,
             accountData, ['number']: number,
-            accountData, ['amount']: amount,
+           // accountData, ['amount']: amount,
          }
       )
+
+      setAmountAccount(amount);
       setEnableAccount(false);
    }
 
@@ -473,7 +485,15 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-
+  if (isLoading) {
+        return (
+          <View style={styles.containerLoading}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text>Loading...</Text>
+          </View>
+        )
+   }
+    
 
 
 
@@ -485,8 +505,6 @@ export default function SelectedAccount({ navigation }) {
          behavior={Platform.OS === "ios" ? "padding" : "height"}
          style={styles.main}
       >
-
-
 
 
          <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeaderOne}>
@@ -511,29 +529,21 @@ export default function SelectedAccount({ navigation }) {
                    <Text style={styles.textInfo}>{` ID = ${accountData.id}`}</Text>
                  */}
 
-            <Text style={styles.textInfo}>{` User `}</Text>
-
-
-
+            <Text style={styles.textInfo}>{user}</Text>
 
 
             <View style={styles.contentHeaderBox}>
 
-
                <Text style={styles.textInfo}>{`Conta ${accountData.type}`}</Text>
 
                <Text style={styles.textInfo}>{`Nº ${accountData.number}`}</Text>
-
 
                <Pressable style={styles.btn}
                   onPress={() => chooseAccount()}>
                   <FontAwesome name='sort-down' size={20} color={"#44E8C3"} />
                </Pressable>
 
-
-
             </View>
-
 
 
             {
@@ -595,14 +605,12 @@ export default function SelectedAccount({ navigation }) {
          <View style={styles.containerInfo}>
 
 
-
-
-
             {showAmount ?
 
                <Pressable style={styles.btn}
                   onPress={() => setShowAmount(false)}>
-                  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text>
+                 {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
+                 <Text style={styles.textInfo}>{` AMOUNT = ${amountAccount}`}</Text>
                </Pressable>
 
                :
@@ -612,16 +620,7 @@ export default function SelectedAccount({ navigation }) {
                </Pressable>
             }
 
-
          </View>
-
-
-
-
-
-
-
-
 
 
 
@@ -672,7 +671,9 @@ export default function SelectedAccount({ navigation }) {
 
                </View>
 
+
             </ScrollView>
+            
 
          </LinearGradient>
 
@@ -687,14 +688,16 @@ export default function SelectedAccount({ navigation }) {
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
                   onPress={() => navigation.navigate("SelectedBank")}>
-                  <FontAwesome name='backward' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='backward' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Voltar</Text>
                </Pressable>
             </LinearGradient>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
                   onPress={() => navigation.navigate("Home")}>
-                  <FontAwesome name='home' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Home</Text>
                </Pressable>
             </LinearGradient>
 

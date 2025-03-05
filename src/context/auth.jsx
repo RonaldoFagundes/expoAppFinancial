@@ -17,7 +17,10 @@ function AuthProvider({children}){
 //const endpointPhp = 'http://192.168.170.155:3322/php-api-financial';
 //const endpointPhp = 'http://192.168.100.6:3322/php-api-financial';
 
+  const [load, setLoad] = useState(true);
 
+
+  const [user, setUser] = useState("Ronaldo");
 
   const [endpoint, setEndpoint] = useState("");
 
@@ -25,7 +28,19 @@ function AuthProvider({children}){
 
   const [accountData, setAccountData] = useState([]);
 
+  const [amountAccount, setAmountAccount] = useState();
+
   const [creditCardData, setCreditCardData] = useState([]);
+
+
+  const [infoDate, setInfoDate] = useState({    
+    hours:"",
+    day:"",
+    month:"",
+    nextMonth:"",
+  });
+
+
 
  // const [idAccont , setIdAccount] = useState(0);
 
@@ -36,6 +51,12 @@ function AuthProvider({children}){
              {
               //endpointPhp,
 
+              setLoad,
+              load,
+
+              setUser,
+              user, 
+
               setEndpoint,
               endpoint, 
               
@@ -45,8 +66,14 @@ function AuthProvider({children}){
               setAccountData,
               accountData,
 
+              setAmountAccount,
+              amountAccount,
+
               setCreditCardData,
               creditCardData, 
+
+              setInfoDate,
+              infoDate,
                                    
              }}>
           {children}

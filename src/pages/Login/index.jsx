@@ -30,6 +30,8 @@ export default function Login({ navigation }) {
 
 const {   
     endpoint,
+    setLoad,
+    load,
 } = useContext(AuthContext);
 
 

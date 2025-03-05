@@ -45,7 +45,7 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-    /*
+
     const listMonth = [
         { key: '1', value: 'January', },
         { key: '2', value: 'February', },
@@ -60,8 +60,6 @@ export default function SelectedCreditCard({ navigation }) {
         { key: '11', value: 'November' },
         { key: '12', value: 'December' },
     ]
-    */
-
 
 
     /*
@@ -90,21 +88,18 @@ export default function SelectedCreditCard({ navigation }) {
 
     useEffect(() => {
         navigation.addListener('focus', () => setLoad(!load));
-
+        
       //  listPostByCreditCard();
 
-      //  listUserCC(creditCardData.id);
+        listUserCC(creditCardData.id);
 
         nextDueDay();
 
-        proofPost(creditCardData.id);
+        //proofPost(creditCardData.id);
 
         // console.log(" dados do cartao  id "+accountData.id+" data vencimento "+creditCardData.due_day)
 
     }, [load, navigation]);
-
-
-
 
 
 
@@ -116,7 +111,8 @@ export default function SelectedCreditCard({ navigation }) {
       if ( bestDay > infoDate.day){
 
          setMonthPay(infoDate.month);
-      }else{        
+      }else{
+
          setMonthPay(infoDate.nextMonth);
       }
 
@@ -127,19 +123,13 @@ export default function SelectedCreditCard({ navigation }) {
 
     const [monthPay, setMonthPay] = useState("");
 
-    const [modalPost, setModalPost] = useState(false);
+ //   const [modalPost, setModalPost] = useState(false);
 
-    const [modalUpdatePost, setModalUpdatePost] = useState(false);
-
-    const [showProof, setShowProof] = useState(false);
-
-    const [resultPost, setResultPost] = useState();
-
-    const [proof, setProof] = useState({}); 
-  
+ //   const [modalUpdatePost, setModalUpdatePost] = useState(false);
 
 
 
+   /*
     const [postCreditCard, setPostCreditCard] = useState({
         placeshop: "",
         date: "",
@@ -150,7 +140,7 @@ export default function SelectedCreditCard({ navigation }) {
         expery: "",
         fkcc: creditCardData.id
     });
-
+   */
 
 
     /*
@@ -159,21 +149,16 @@ export default function SelectedCreditCard({ navigation }) {
      date: 12,
      user: "Neyde",
     */
-  
 
-    /*
     const [surch, setSurch] = useState({
         fkac: accountData.id,
         due: creditCardData.due_day,
         date: infoDate.month,
 
-        /     
+        /*     
          fkcc: creditCardData.id
-        /
+        */
     });
-    */
-
-
 
     /*
     const [surchUser, setSurchUser] = useState({
@@ -187,16 +172,11 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-
-
     const [isList, setIsList] = useState(false);
-
 
     const [reportList, setReportList] = useState([]);
 
-
     const [selectedPrinter, setSelectedPrinter] = useState();
-
 
     const [amount, setAmount] = useState(0);
 
@@ -205,7 +185,7 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-
+  /*
     const handleInputChange = (atribute, value) => {
 
         setPostCreditCard(
@@ -214,22 +194,8 @@ export default function SelectedCreditCard({ navigation }) {
             }
         )
     }
+  */
 
-
-
-
-
-
-
-
-
-    const closeModal = (atribute) => {
-        if (atribute == "post") {
-            setModalPost(false);
-        } else {
-            setModalUpdatePost(false);
-        }
-    }
 
 
 
@@ -237,6 +203,20 @@ export default function SelectedCreditCard({ navigation }) {
 
 
   /*
+    const closeModal = (atribute) => {
+        if (atribute == "post") {
+            setModalPost(false);
+        } else {
+            setModalUpdatePost(false);
+        }
+    }
+  */
+
+
+
+
+
+
     const listPostByCreditCard = async () => {
 
         //  console.log(" fkcc "+surch.fkcc+" mes "+surch.date)
@@ -269,17 +249,18 @@ export default function SelectedCreditCard({ navigation }) {
 
                     }
 
+
                 })
             .catch(function (error) {
                 console.log('erro => listPostByCreditCard' + error.message);
             });
     }
-   */
 
 
 
 
-  /*
+
+
     const listPostByCreditCardByUser = async () => {
 
         //  console.log(" tela selectdeCreditCard getListPostByCreditCard idCC ");
@@ -309,13 +290,14 @@ export default function SelectedCreditCard({ navigation }) {
                 console.log('erro => ' + error.message);
             });
     }
-  */
 
 
 
 
-   /*
+
+
     const [usersCC, setUsersCC] = useState([]);
+
 
     const users = [];
 
@@ -353,14 +335,16 @@ export default function SelectedCreditCard({ navigation }) {
             .catch(function (error) {
                 console.log('erro => listUserCC ' + error.message);
             });
-       }
-    */
+
+    }
 
 
 
 
 
 
+
+   /*
     const safePost = async () => {
 
         await fetch(endpoint + "?action=postCreditCard", {
@@ -377,11 +361,9 @@ export default function SelectedCreditCard({ navigation }) {
                 (result) => {
 
                     //console.log(' postCreditCard => ' + result);
-                    showProof(true);
-                    setResultPost(result);
                     cleanFields();
                     closeModal("post");
-                   // listPostByCreditCard();
+                    listPostByCreditCard();
 
                 })
             .catch(function (error) {
@@ -389,11 +371,11 @@ export default function SelectedCreditCard({ navigation }) {
             });
 
     }
+   */
 
 
 
-
-
+    /*
     const proofPost = async (fkac) => {    
             
         await fetch(endpoint + "?action=proofPostCreditCard", {
@@ -411,25 +393,26 @@ export default function SelectedCreditCard({ navigation }) {
   
                  console.log(result);   
                  
-                
+              
                 { result.map((item)=>
   
                     {                     
                        setProof(
                           {
-                             ...proof,'id':item.id_pcc, 
-                                proof,'shop':item.shop_pcc, 
-                                proof,'date':item.date_pcc,
-                                proof,'user':item.user_pcc,
-                                proof,'parcel':item.parcel_pcc,
-                                proof,'value':item.value_pcc,
-                                proof,'desc':item.desc_pcc,
-                                proof,'expery':item.expery_date_pcc,
+                             ...proof,'id':item.id_trs, 
+                                proof,'move':item.mov_trs, 
+                                proof,'date':item.date_trs,
+                                proof,'type':item.type_trs,
+                                proof,'source':item.source_trs,
+                                proof,'form':item.form_trs,
+                                proof,'desc':item.desc_trs,
+                                proof,'value':item.value_trs,
                           }
                        )
                     }
   
-                 )}                
+                 )}
+                
   
   
               })
@@ -439,10 +422,12 @@ export default function SelectedCreditCard({ navigation }) {
          
      }
 
+    */
 
 
 
-    /*
+
+
     const getAmount = async () => {
 
         await fetch(endpoint + "?action=amountCreditCard", {
@@ -466,12 +451,12 @@ export default function SelectedCreditCard({ navigation }) {
                 console.log('erro => ' + error.message);
             });
     }
-    */
 
 
 
 
-   /*
+
+
     const getAmountByUser = async () => {
 
         await fetch(endpoint + "?action=amountCreditCardByUser", {
@@ -495,7 +480,6 @@ export default function SelectedCreditCard({ navigation }) {
                 console.log('erro => ' + error.message);
             });
     }
-    */
 
 
 
@@ -507,6 +491,7 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
+   /*
     const cleanFields = () => {
 
         setPostCreditCard(
@@ -521,6 +506,7 @@ export default function SelectedCreditCard({ navigation }) {
             }
         )
     }
+  */
 
 
 
@@ -529,7 +515,6 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
- /*   
     const printReport = async () => {
         // On iOS/android prints the given html. On web prints the HTML from the current page.
         await Print.printAsync({
@@ -539,7 +524,6 @@ export default function SelectedCreditCard({ navigation }) {
         // checkImgStatus();
     };
 
- */
 
 
 
@@ -547,528 +531,6 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-
-
-
-
-
-
-    return (
-
-
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.main}>
-
-
-            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
-
-
-                <View>
-                    <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
-                </View>
-
-                <View style={styles.contentHeaderTitle}>
-                    <Header user={`${user}`} />
-                </View>
-
-
-                <View style={styles.contentHeaderItem}>
-
-                    <Text style={styles.textDesc}>{`${creditCardData.type.toUpperCase()}  `}</Text>
-                    <Text style={styles.textDesc}>{`${creditCardData.number}`}</Text>
-                    <Text style={styles.textDesc}>{`Vencimento ${creditCardData.due_day}/${monthPay}`}</Text>
-
-                </View>
-
-
-            </LinearGradient>
-
-
-        {
-         showProof
-         ?  
-
-
-          <View style={styles.containerProof}>
-                          
-                <View>
-                    <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
-                </View> 
-
-
-                <Text style={styles.textProof}>{`ID : ${proof.id}  `}</Text>
-            
-                <Text style={styles.textProof}>{`Date : ${proof.date}  `}</Text>
-            
-                <Text style={styles.textProof}>{`Shop : ${proof.shop}  `}</Text>
-            
-                <Text style={styles.textProof}>{`User : ${proof.user}  `}</Text>
-            
-                <Text style={styles.textProof}>{`Desc : ${proof.desc}  `}</Text>
-            
-                <Text style={styles.textProof}>{`Value R$ : ${proof.value}  `}</Text>
-
-                <Text style={styles.textProof}>{`Parcel : ${proof.parcel}  `}</Text>
-
-                <Text style={styles.textProof}>{`Expery : ${proof.expery}  `}</Text>
-
-          </View>
-
-
-           :
-
-          <View style={styles.containeEmpty}>            
-
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
-                        onPress={() => setModalPost(true)}>
-                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>{` Registrar Compras  `}</Text>
-                    </Pressable>
-                </LinearGradient>
-
-          </View>
-
-        }
-
-
-
-       {/* 
-        <View style={styles.containerInfo}>
-            <Text style={styles.textInfo}>{` ID  ${creditCardData.id}`}</Text>
-            <Text style={styles.textInfo}>{` NUMBER  ${creditCardData.number}`}</Text>
-            <Text style={styles.textInfo}>{` TYPE  ${creditCardData.type}`}</Text>
-            <Text style={styles.textInfo}>{` EXPIRY  ${creditCardData.expiry}`}</Text>
-        </View>
-      */}
-
-
-
-
-
-            <View style={styles.containerBtn}>
-
-
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
-                        onPress={() => setModalPost(true)}>
-                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Post</Text>
-                    </Pressable>
-                </LinearGradient>
-
-
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("ReportCreditCard")}>
-                        <FontAwesome name='wpforms' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Report</Text>
-                    </Pressable>
-                </LinearGradient>
-
-               
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("CreditCard")}>
-                        <FontAwesome name='backward' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Voltar</Text>
-                    </Pressable>
-                </LinearGradient>
-
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("Home")}>
-                        <FontAwesome name='home' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Home</Text>
-                    </Pressable>
-                </LinearGradient>
-
-            </View>
-
-
-
-
-            <Modal
-                animationType='fade'
-                visible={modalPost}
-            >
-              
-                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
-                    <View style={styles.contentModal} >
-                        <Text style={styles.textInfo}>{` Register PostCreditCard`}</Text>
-                    </View>
-
-
-                    <View style={styles.formModal}>
-
-
-                        <TextInput style={styles.input}
-                            placeholder="Placeshop"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('placeshop', valor)
-                            }
-                            value={postCreditCard.placeshop}
-                        />
-
-                        <TextInput style={styles.input}
-                            placeholder="Date"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('date', valor)
-                            }
-                            value={postCreditCard.date}
-                        />
-
-                        <TextInput style={styles.input}
-                            placeholder="User"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('user', valor)
-                            }
-                            value={postCreditCard.user}
-                        />
-
-                        <TextInput style={styles.input}
-                            placeholder="Parcel"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('parcel', valor)
-                            }
-                            value={postCreditCard.parcel}
-                        />
-
-                        <TextInput style={styles.input}
-                            placeholder="Value"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('value', valor)
-                            }
-                            value={postCreditCard.value}
-                        />
-
-
-                        <TextInput style={styles.input}
-                            placeholder="Description"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('desc', valor)
-                            }
-                            value={postCreditCard.desc}
-                        />
-
-                        <TextInput style={styles.input}
-                            placeholder="Due Date"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('expery', valor)
-                            }
-                            value={postCreditCard.expery}
-                        />
-
-                    </View>
-
-
-                    <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>                        
-
-                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                            <Pressable style={styles.btn}
-                                onPress={() => safePost()}>
-                                <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                                <Text style={styles.textBtn}>Safe</Text>
-                            </Pressable>
-                        </LinearGradient>
-
-                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                            <Pressable style={styles.btn}
-                                onPress={() => closeModal('post')}>
-                                <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                                <Text style={styles.textBtn}>Cancel</Text>
-                            </Pressable>
-                        </LinearGradient>
-
-                    </LinearGradient>  
-                   
-                </LinearGradient>              
-
-            </Modal>
-
-
-        </KeyboardAvoidingView>
-
-    )
-
-}
-
-
-
-
-
-
-
- {/* 
-            <ScrollView>
-
-                <View style={styles.boxInfo}>
-
-                    <View style={styles.boxSurch}>
-
-                        <SelectList
-
-                            setSelected={(key) =>
-
-                                setSurch(
-                                    {
-                                        ...surch, 'date': key
-                                    }
-                                )
-                            }
-
-                            data={listMonth}
-                            save="key"
-
-                            placeholder='Select month'
-
-
-                            onSelect={() => listPostByCreditCard()}                           
-
-                            //placeholderTextColor='#44E8C3'
-                            // boxStyles={{color:'#44E8C3'}}        
-                            // dropdownItemStyles={{color:'#44E8C3'}}
-                            boxStyles={{ backgroundColor: '#314452' }}
-
-                            inputStyles={{ color: '#44E8C3' }}
-                            dropdownTextStyles={{ color: '#44E8C3' }}
-                        />
-
-
-                         //
-                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                            <Pressable style={styles.btn}
-                                //</View>onPress={() => listPostByCreditCardByUser()} >
-                                onPress={() => listPostByCreditCard()} >
-                                <FontAwesome name='search' size={14} color={"#44E8C3"} />
-                                <Text style={styles.textBtn}>List By Date</Text>
-                            </Pressable>
-                        </LinearGradient>
-                         //
-
-                    </View>
-
-
-
-
-                    <View style={styles.boxSurch}>
-
-                        <SelectList
-
-                            setSelected={(val) =>
-
-                                setSurch(
-                                    {
-                                        ...surch, 'user': val
-                                    }
-                                )
-                            }
-
-                            data={usersCC}
-                            save="value"
-
-                            placeholder='Select User'
-
-                            onSelect={() => listPostByCreditCardByUser()}
-                          
-
-                            //placeholderTextColor='#44E8C3'
-                            // boxStyles={{color:'#44E8C3'}}        
-                            // dropdownItemStyles={{color:'#44E8C3'}}
-                            boxStyles={{ backgroundColor: '#314452' }}
-
-                            inputStyles={{ color: '#44E8C3' }}
-                            dropdownTextStyles={{ color: '#44E8C3' }}
-                        />
-
-
-                        / 
-                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                            <Pressable style={styles.btn}
-                                //</View>onPress={() => listPostByCreditCardByUser()} >
-                                onPress={() => listPostByCreditCardByUser()} >
-                                <FontAwesome name='search' size={14} color={"#44E8C3"} />
-                                <Text style={styles.textBtn}>List By User</Text>
-                            </Pressable>
-                        </LinearGradient>
-                        /
-
-
-
-                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                            <Pressable style={styles.btn}
-                                //</View>onPress={() => listPostByCreditCardByUser()} >
-                                onPress={() => listPostByCreditCard()} >
-                                <FontAwesome name='search' size={14} color={"#44E8C3"} />
-                                <Text style={styles.textBtn}>List All</Text>
-                            </Pressable>
-                        </LinearGradient>
-
-                    </View>
-
-                </View>
-               
-
-            { !isList ?                     
-               
-              
-            <View style={styles.boxInfo}>
-
-                <Text style={styles.textInfo}>{` Não Existem Compras no mês de ${surch.date} `}</Text>
-
-            </View>            
-
-               :
-
-                <View style={styles.containerReport}>
-
-                    <View style={styles.boxInfo}>
-
-                        <Text style={styles.textInfo}>{` Total R$ ${amount}`}</Text>
-
-                    </View>
-
-
-                    <View style={styles.headerReport}>
-
-
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.textTitle}>
-                                {`Date`}
-                            </Text>
-                        </View>
-
-
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.textTitle}>
-                                {`Shop`}
-                            </Text>
-                        </View>
-
-
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.textTitle}>
-                                {`User`}
-                            </Text>
-                        </View>
-
-
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.textTitle}>
-                                {`Parcel`}
-                            </Text>
-                        </View>
-
-
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.textTitle}>
-                                {`Value`}
-                            </Text>
-                        </View>
-
-
-                        <View style={styles.contentTitle}>
-                            <Text style={styles.textTitle}>
-                                {`Desc`}
-                            </Text>
-                        </View>
-
-                    </View>
-
-
-                    <FlatList
-
-                        // horizontal
-                        data={reportList}
-                        renderItem={({ item }) =>
-
-
-                            <View style={styles.containerList} >
-
-
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.date_pcc}
-                                    </Text>
-                                </View>
-
-
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.shop_pcc}
-                                    </Text>
-                                </View>
-
-
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.user_pcc}
-                                    </Text>
-                                </View>
-
-
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.parcel_pcc}
-                                    </Text>
-                                </View>
-
-
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.value_pcc}
-                                    </Text>
-                                </View>
-
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.desc_pcc}
-                                    </Text>
-                                </View>
-
-                            </View>
-
-                        }
-
-                    //  showsHorizontalScrollIndicator={false}
-
-                    >
-
-                    </FlatList>
-
-                </View>
-
-             }             
-
-             <View style={{height:10}}></View>
-
-        </ScrollView>
-
-   */}
-
-
-
-
-
-
-  /*   
-      
     const createDynamicData = () => {
 
         var reportData = '';
@@ -1274,7 +736,8 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-const html =
+
+        const html =
             `
   <!DOCTYPE html> 
    <html>
@@ -1337,14 +800,473 @@ const html =
   </html>        
  `;
         return html;
-}  
-  
-  
-  */
+    }
 
 
 
 
+
+
+
+
+
+
+    return (
+
+
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.main}>
+
+
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+
+
+                <View>
+                    <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
+                </View>
+
+                <View style={styles.contentHeaderTitle}>
+                    <Header user={`${user}`} />
+                </View>
+
+
+                <View style={styles.contentHeaderItem}>
+
+                    <Text style={styles.textDesc}>{`${creditCardData.type.toUpperCase()}  `}</Text>
+                    <Text style={styles.textDesc}>{`${creditCardData.number}`}</Text>
+                    <Text style={styles.textDesc}>{`Vencimento ${creditCardData.due_day}/${monthPay}`}</Text>
+
+                </View>
+
+
+            </LinearGradient>
+
+
+
+
+
+            {/* 
+        <View style={styles.containerInfo}>
+            <Text style={styles.textInfo}>{` ID  ${creditCardData.id}`}</Text>
+            <Text style={styles.textInfo}>{` NUMBER  ${creditCardData.number}`}</Text>
+            <Text style={styles.textInfo}>{` TYPE  ${creditCardData.type}`}</Text>
+            <Text style={styles.textInfo}>{` EXPIRY  ${creditCardData.expiry}`}</Text>
+        </View>
+        */}
+
+
+
+            <View style={styles.containerBtn}>
+
+               {/* 
+                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                    <Pressable style={styles.btn}
+                        onPress={() => setModalPost(true)}>
+                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Post</Text>
+                    </Pressable>
+                </LinearGradient>
+              */}
+
+                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                    <Pressable style={styles.btn}
+                        onPress={() => printReport()}>
+                        <FontAwesome name='wpforms' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Report</Text>
+                    </Pressable>
+                </LinearGradient>
+
+               
+                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                    <Pressable style={styles.btn}
+                        onPress={() => navigation.navigate("SelectedCreditCard")}>
+                        <FontAwesome name='backward' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Voltar</Text>
+                    </Pressable>
+                </LinearGradient>
+
+                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                    <Pressable style={styles.btn}
+                        onPress={() => navigation.navigate("Home")}>
+                        <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Home</Text>
+                    </Pressable>
+                </LinearGradient>
+
+
+            </View>
+
+
+
+
+            <ScrollView>
+
+
+                <View style={styles.boxInfo}>
+
+
+                    <View style={styles.boxSurch}>
+
+                        <SelectList
+
+                            setSelected={(key) =>
+
+                                setSurch(
+                                    {
+                                        ...surch, 'date': key
+                                    }
+                                )
+                            }
+
+                            data={listMonth}
+                            save="key"
+
+                            placeholder='Select month'
+
+
+                            onSelect={() => listPostByCreditCard()}
+                           
+
+                            //placeholderTextColor='#44E8C3'
+                            // boxStyles={{color:'#44E8C3'}}        
+                            // dropdownItemStyles={{color:'#44E8C3'}}
+                            boxStyles={{ backgroundColor: '#314452' }}
+
+                            inputStyles={{ color: '#44E8C3' }}
+                            dropdownTextStyles={{ color: '#44E8C3' }}
+                        />
+
+
+                        {/* 
+                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                            <Pressable style={styles.btn}
+                                //</View>onPress={() => listPostByCreditCardByUser()} >
+                                onPress={() => listPostByCreditCard()} >
+                                <FontAwesome name='search' size={14} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>List By Date</Text>
+                            </Pressable>
+                        </LinearGradient>
+                      */}
+
+                    </View>
+
+
+                    <View style={styles.boxSurch}>
+
+                        <SelectList
+
+                            setSelected={(val) =>
+
+                                setSurch(
+                                    {
+                                        ...surch, 'user': val
+                                    }
+                                )
+                            }
+
+                            data={usersCC}
+                            save="value"
+
+                            placeholder='Select User'
+
+                            onSelect={() => listPostByCreditCardByUser()}
+                          
+
+                            //placeholderTextColor='#44E8C3'
+                            // boxStyles={{color:'#44E8C3'}}        
+                            // dropdownItemStyles={{color:'#44E8C3'}}
+                            boxStyles={{ backgroundColor: '#314452' }}
+
+                            inputStyles={{ color: '#44E8C3' }}
+                            dropdownTextStyles={{ color: '#44E8C3' }}
+                        />
+
+
+                        {/* 
+                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                            <Pressable style={styles.btn}
+                                //</View>onPress={() => listPostByCreditCardByUser()} >
+                                onPress={() => listPostByCreditCardByUser()} >
+                                <FontAwesome name='search' size={14} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>List By User</Text>
+                            </Pressable>
+                        </LinearGradient>
+                        */}
+
+
+
+                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                            <Pressable style={styles.btn}
+                                //</View>onPress={() => listPostByCreditCardByUser()} >
+                                onPress={() => listPostByCreditCard()} >
+                                <FontAwesome name='search' size={14} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>List All</Text>
+                            </Pressable>
+                        </LinearGradient>
+
+                    </View>
+
+                </View>
+
+
+
+               
+
+            { !isList ?                     
+              
+              
+            <View style={styles.boxInfo}>
+
+                <Text style={styles.textInfo}>{` Não Existem Compras no mês de ${surch.date} `}</Text>
+
+            </View>            
+
+
+               :
+
+                <View style={styles.containerReport}>
+
+                    <View style={styles.boxInfo}>
+
+                        <Text style={styles.textInfo}>{` Total R$ ${amount}`}</Text>
+
+                    </View>
+
+
+                    <View style={styles.headerReport}>
+
+
+                        <View style={styles.contentTitle}>
+                            <Text style={styles.textTitle}>
+                                {`Date`}
+                            </Text>
+                        </View>
+
+
+                        <View style={styles.contentTitle}>
+                            <Text style={styles.textTitle}>
+                                {`Shop`}
+                            </Text>
+                        </View>
+
+
+                        <View style={styles.contentTitle}>
+                            <Text style={styles.textTitle}>
+                                {`User`}
+                            </Text>
+                        </View>
+
+
+                        <View style={styles.contentTitle}>
+                            <Text style={styles.textTitle}>
+                                {`Parcel`}
+                            </Text>
+                        </View>
+
+
+                        <View style={styles.contentTitle}>
+                            <Text style={styles.textTitle}>
+                                {`Value`}
+                            </Text>
+                        </View>
+
+
+                        <View style={styles.contentTitle}>
+                            <Text style={styles.textTitle}>
+                                {`Desc`}
+                            </Text>
+                        </View>
+
+                    </View>
+
+
+
+                    <FlatList
+
+                        // horizontal
+                        data={reportList}
+                        renderItem={({ item }) =>
+
+
+                            <View style={styles.containerList} >
+
+
+                                <View style={styles.contentList} >
+                                    <Text style={styles.textList}>
+                                        {item.date_pcc}
+                                    </Text>
+                                </View>
+
+
+                                <View style={styles.contentList} >
+                                    <Text style={styles.textList}>
+                                        {item.shop_pcc}
+                                    </Text>
+                                </View>
+
+
+
+                                <View style={styles.contentList} >
+                                    <Text style={styles.textList}>
+                                        {item.user_pcc}
+                                    </Text>
+                                </View>
+
+
+                                <View style={styles.contentList} >
+                                    <Text style={styles.textList}>
+                                        {item.parcel_pcc}
+                                    </Text>
+                                </View>
+
+
+
+                                <View style={styles.contentList} >
+                                    <Text style={styles.textList}>
+                                        {item.value_pcc}
+                                    </Text>
+                                </View>
+
+
+                                <View style={styles.contentList} >
+                                    <Text style={styles.textList}>
+                                        {item.desc_pcc}
+                                    </Text>
+                                </View>
+
+
+                            </View>
+
+                        }
+
+                    //  showsHorizontalScrollIndicator={false}
+
+                    >
+
+                    </FlatList>
+
+                </View>
+
+             }             
+
+             <View style={{height:10}}></View>
+
+         </ScrollView>
+
+
+
+
+
+
+
+
+           {/* 
+            <Modal
+                animationType='fade'
+                visible={modalPost}
+            >              
+                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+                    <View style={styles.contentModal} >
+                        <Text style={styles.textInfo}>{` Register PostCreditCard`}</Text>
+                    </View>
+                    <View style={styles.formModal}>
+                        <TextInput style={styles.input}
+                            placeholder="Placeshop"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('placeshop', valor)
+                            }
+                            value={postCreditCard.placeshop}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder="Date"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('date', valor)
+                            }
+                            value={postCreditCard.date}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder="User"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('user', valor)
+                            }
+                            value={postCreditCard.user}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder="Parcel"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('parcel', valor)
+                            }
+                            value={postCreditCard.parcel}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder="Value"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('value', valor)
+                            }
+                            value={postCreditCard.value}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder="Description"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('desc', valor)
+                            }
+                            value={postCreditCard.desc}
+                        />
+                        <TextInput style={styles.input}
+                            placeholder="Due Date"
+                            placeholderTextColor="#44E8C3"
+                            type="text"
+                            onChangeText={
+                                (valor) => handleInputChange('expery', valor)
+                            }
+                            value={postCreditCard.expery}
+                        />
+                    </View>
+                    <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>                        
+                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                            <Pressable style={styles.btn}
+                                onPress={() => safePost()}>
+                                <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>Safe</Text>
+                            </Pressable>
+                        </LinearGradient>
+                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                            <Pressable style={styles.btn}
+                                onPress={() => closeModal('post')}>
+                                <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>Cancel</Text>
+                            </Pressable>
+                        </LinearGradient>
+                    </LinearGradient>                 
+                </LinearGradient>             
+            </Modal>
+         */}
+
+
+
+
+
+
+
+
+        </KeyboardAvoidingView>
+
+    )
+
+}
 
 
 

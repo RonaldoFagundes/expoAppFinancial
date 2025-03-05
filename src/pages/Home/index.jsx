@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useContext, ref, useRef } from 'react';
 import {
+   ActivityIndicator,
    Pressable,
    FlatList,
    Text,
@@ -31,15 +32,64 @@ const h_scroll_distance = h_max_hight - h_min_hight;
 export default function Home({ navigation }) {
 
    const {
-      endpointPhp,
+      setLoad,
+      load,
+      user,      
       endpoint,
       setBankData,
       bankData,
+      setInfoDate,
+      infoDate
    } = useContext(AuthContext);
 
+
    useEffect(() => {
+      navigation.addListener('focus', () => setLoad(!load));
+      getTime();
       getListBank();
-   }, []);
+   }, [load, navigation]);
+
+   
+
+   
+
+
+   const getTime = () => {
+
+      var dta = new Date();
+      var hours = dta.getHours();
+      var dd = dta.getDate().toString().padStart(2, '0');
+      var mm = (dta.getMonth() + 1).toString().padStart(2, '0');
+      var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');
+     
+     // var yyyy = dta.getFullYear();
+     // var today = dd + "/" + mm + "/" + yyyy;
+
+     setInfoDate(
+      {
+         ...infoDate, 'day': dd,
+            infoDate, 'month': mm,
+            infoDate, 'month': mm,
+            infoDate, 'nextMonth': nxt,            
+      }  
+     )
+  
+
+      if (hours > 0 && hours < 12) {
+        setWelcome("Bom dia")
+      } else if (hours >= 12 && hours < 18) {
+        setWelcome("Boa tarde")
+      } else {
+        setWelcome("Boa noite")
+      }
+    }
+  
+
+
+
+
+
+
 
    //const imgUpdate = null;
 
@@ -66,6 +116,9 @@ export default function Home({ navigation }) {
    ];
    */
 
+   const [isLoading, setIsLoading] = useState(true);
+
+   const [welcome, setWelcome] = useState();
 
    const [modalCadBank, setModalCadBank] = useState(false);
 
@@ -169,27 +222,14 @@ export default function Home({ navigation }) {
       })
          .then((res) => res.json())
          .then(
-            (result) => {
 
-               console.log(' => ' + result);
+            (result) => {                    
 
-               /*
-               if (result !== "error") {
-
-                  //alert(result + " cad success");
-                  console.log(' insertBank => ' + result);
-
-               } else {
-
-                  //alert(result + " on api ");
-                  console.log(' insertBank => ' + result);
-
-               }
-                */
+               //alert(result + " on api ");
+               console.log(' insertBank => ' + result);
 
             })
          .catch((error) =>
-            // alert('Error no fetch'));
             console.log(" type error => " + error));
 
       closeModal('cad');
@@ -224,28 +264,23 @@ export default function Home({ navigation }) {
 
    const getListBank = async () => {
 
-      console.log(" tela home getListBank ");
+     // console.log(" tela home getListBank ");
 
       await fetch(endpoint + "?action=listBank")
          .then((res) => res.json())
          .then(
             (result) => {
-
-
-               console.log(" result getListBank => " + result);
-
+          
                if (result !== "not found") {
 
+                  setIsLoading(false);
                   setIsList(true);
-                  setListBank(result);
-
-                  console.log(" result getListBank => " + result);
+                  setListBank(result);              
 
                } else {
 
                   //alert(result);
                   console.log(" return api => " + result);
-
                }
 
             })
@@ -256,9 +291,12 @@ export default function Home({ navigation }) {
 
 
 
+
+
+
    const getListBankById = async (id, number, name, ein, contact, desc, img) => {
 
-      console.log("function getListBankById nº " + id);
+     // console.log("function getListBankById nº " + id);
 
       //  cleanFields();
 
@@ -307,7 +345,7 @@ export default function Home({ navigation }) {
 
    const updateBank = async () => {
 
-      console.log("function updateBank " + bank.id + "  " + bank.name + "  " + bank.contact);
+     // console.log("function updateBank " + bank.id + "  " + bank.name + "  " + bank.contact);
 
       await fetch(endpoint + "?action=updateBank", {
          method: 'POST',
@@ -321,13 +359,9 @@ export default function Home({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
+           
+                  console.log(result);              
 
-               if (result != "error") {
-                  // alert(result);
-                  console.log(result);
-               } else {
-                  console.log(result);
-               }
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
@@ -341,7 +375,7 @@ export default function Home({ navigation }) {
 
    const deleteBank = async (id) => {
 
-      console.log("function deletebank id nº ", id);
+     // console.log("function deletebank id nº ", id);
 
       await fetch(endpoint + "?action=deleteBank", {
          method: 'POST',
@@ -357,8 +391,9 @@ export default function Home({ navigation }) {
             (result) => {
 
                if (result != "error") {
+
                   getListBank();
-                  console.log(result);
+                 // console.log(result);
                   // alert(result);
                } else {
                   console.log(result);
@@ -393,7 +428,7 @@ export default function Home({ navigation }) {
 
    const selectBanc = (id, name, img) => {
 
-      console.log(id, name);
+      //console.log(id, name);
 
       setBankData(
          {
@@ -409,11 +444,24 @@ export default function Home({ navigation }) {
 
 
 
+
+
    const screenCashPost = () => {
       console.log("Cash");
    }
 
 
+
+   if (isLoading) {
+      return (
+        <View style={styles.containerLoading}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text>Loading...</Text>
+        </View>
+      )
+    }
+  
+   
 
 
    return (
@@ -421,9 +469,7 @@ export default function Home({ navigation }) {
       <View style={styles.main}>
 
          <StatusBar
-            backgroundColor={"#121212"}
-
-           // backgroundColor={"yellow"}
+            backgroundColor={"#121212"}          
             barStyle={'light-content'}
             translucent={false}
          />
@@ -436,11 +482,8 @@ export default function Home({ navigation }) {
                right: 0,
                zIndex: 99,
                width: '100%',
-               padding: 10,
-               //backgroundColor: '#121212',
+               padding: 10,              
                backgroundColor: '#1C1B20',
-
-               
                alignItems: 'center',
                justifyContent: 'center',
                height: headerScrollHeight,
@@ -457,8 +500,9 @@ export default function Home({ navigation }) {
                }}
                resizeModel='contain'
             />
-            <Header user="user name" />
-            <Header info="App Banc" />
+            <Header user= {`${welcome} ${user}`} />
+            <Header info="App Banc"/>
+
          </Animated.View>
 
          {
@@ -477,9 +521,7 @@ export default function Home({ navigation }) {
                             colors={[
                                'rgba(255, 249, 145, 0.07)',
                                'rgba(249, 225, 175 ,0.09)',
-                            ]}
-                           
-                           colors={['#121212', '#cc0000']}
+                            ]}                          
                            */
 
                            colors={['#0a0439', '#170c7c']}
@@ -529,20 +571,10 @@ export default function Home({ navigation }) {
                                        item.img_bnk
                                     )}
                                  >
-
-                                    <FontAwesome name='eye' size={30} color={"#44E8C3"} />
+                                    <FontAwesome name='eye' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Select</Text>
                                  </Pressable>
-                              </LinearGradient>
-
-                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
-                                 <Pressable style={styles.btn}
-                                    onPress={() => deleteBank(
-                                       item.id_bnk
-                                    )}
-                                 >
-                                    <FontAwesome name='trash' size={30} color={"#44E8C3"} />
-                                 </Pressable>
-                              </LinearGradient>
+                              </LinearGradient>                             
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                  <Pressable style={styles.btn}
@@ -556,7 +588,19 @@ export default function Home({ navigation }) {
                                        item.img_bnk
                                     )}
                                  >
-                                    <FontAwesome name='edit' size={30} color={"#44E8C3"} />
+                                    <FontAwesome name='edit' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Edit</Text>
+                                 </Pressable>
+                              </LinearGradient>
+
+                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
+                                 <Pressable style={styles.btn}
+                                    onPress={() => deleteBank(
+                                       item.id_bnk
+                                    )}
+                                 >
+                                    <FontAwesome name='trash' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Delete</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -602,6 +646,9 @@ export default function Home({ navigation }) {
          }
 
 
+
+
+
          {/*
 
         <View style={{          
@@ -633,14 +680,16 @@ export default function Home({ navigation }) {
                <Pressable style={styles.btn}
                   onPress={() => setModalCadBank(true)}
                >
-                  <FontAwesome name='plus' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='plus' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Add Banc</Text>                 
                </Pressable>
             </LinearGradient>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
                   onPress={() => navigation.navigate("CashPayment")}>
-                  <FontAwesome name='money' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='money' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Cash Payment</Text>
                </Pressable>
             </LinearGradient>
 
@@ -648,7 +697,7 @@ export default function Home({ navigation }) {
 
 
 
-         <View>
+         
             <Modal
                animationType='fade'
                visible={modalCadBank}
@@ -747,30 +796,31 @@ export default function Home({ navigation }) {
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable onPress={() => insertBank()} style={styles.btn}>
-                           <FontAwesome name='save' size={30} color={"#44E8C3"} />
+                           <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>Safe</Text>
                         </Pressable>
                      </LinearGradient>
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable onPress={() => closeModal('cad')} style={styles.btn}>
-                           <FontAwesome name='close' size={30} color={"#44E8C3"} />
+                           <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>Cancel</Text>
                         </Pressable>
                      </LinearGradient>
 
                   </LinearGradient>
 
-
                </LinearGradient>
 
             </Modal>
 
-         </View>
+         
 
 
 
 
 
-         <View>
+         
             <Modal animationType='fade'
                visible={modalUpdateBank}
             >
@@ -870,14 +920,16 @@ export default function Home({ navigation }) {
                           <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                               <Pressable style={styles.btn}
                                  onPress={() => updateBank()}>
-                                 <FontAwesome name='save' size={30} color={"#44E8C3"} />
+                                 <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                                 <Text style={styles.textBtn}>Safe</Text>
                               </Pressable>
                            </LinearGradient>
 
                            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                               <Pressable style={styles.btn}
                                  onPress={() => closeModal('update')}>
-                                 <FontAwesome name='close' size={30} color={"#44E8C3"} />
+                                 <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                                 <Text style={styles.textBtn}>Cancel</Text>
                               </Pressable>
                            </LinearGradient>
 
@@ -1002,13 +1054,11 @@ export default function Home({ navigation }) {
 
                </LinearGradient>
 
-
-
-
-
             </Modal>
 
-         </View>
+
+
+        
 
       </View>
 

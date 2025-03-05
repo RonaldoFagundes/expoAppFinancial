@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useContext, ref, useRef } from 'react';
 import {
+   ActivityIndicator,
    Pressable,
    FlatList,
    Text,
@@ -42,13 +43,27 @@ export default function SelectedBank({ navigation }) {
 
    //const testBankDataId = 10; 
 
+   const {
+      setLoad,
+      load,
+      endpoint,
+      user,
+      bankData,
+      setAccountData,
+      accountData,
+      setAmountAccount,
+     // amountAccount,      
+   } = useContext(AuthContext);
+
 
 
    useEffect(() => {
+      navigation.addListener('focus', () => setLoad(!load));
       // getListAccount();
-      console.log(' bankData.id ', bankData.id)
+      // console.log(' bankData.id ', bankData.id)
       getListAccountByBank(bankData.id);
-   }, []);
+   }, [load, navigation]);
+
 
 
 
@@ -57,13 +72,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-   const {
-      // endpointPhp,
-      endpoint,
-      bankData,
-      setAccountData,
-      accountData,
-   } = useContext(AuthContext);
+   
 
 
 
@@ -82,7 +91,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
+   const [isLoading, setIsLoading] = useState(true);
 
    const [modalCadAccount, setModalCadAccount] = useState(false);
 
@@ -220,7 +229,7 @@ export default function SelectedBank({ navigation }) {
 
    const insertAccount = async () => {
 
-      console.log(" insertAccount  idBank " + account.fkbnk + " number " + account.number);
+      //console.log(" insertAccount  idBank " + account.fkbnk + " number " + account.number);
 
       await fetch(endpoint + "?action=cadAccount", {
          method: 'POST',
@@ -235,13 +244,9 @@ export default function SelectedBank({ navigation }) {
          .then(
             (result) => {
 
-               if (result !== "error") {
-                  //  alert(result+" cad success");
-                  console.log(' insertAccount => ' + result);
-               } else {
-                  //alert(result+" on api ");
-                  console.log(' insertAccount => ' + result);
-               }
+               //alert(result+" on api ");
+               console.log(' insertAccount => ' + result);
+
 
             })
          .catch(function (error) {
@@ -259,21 +264,21 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
-   const getListAccount = async () => {
-
-      await fetch(endpoint + "?action=listAccount")
-         .then((res) => res.json())
-         .then(
-            (result) => {
-
-               console.log(result);
-            })
-         .catch(function (error) {
-            console.log('erro => ' + error.message);
-         });
-   }
-
+   /*
+      const getListAccount = async () => {
+   
+         await fetch(endpoint + "?action=listAccount")
+            .then((res) => res.json())
+            .then(
+               (result) => {
+   
+                  console.log(result);
+               })
+            .catch(function (error) {
+               console.log('erro => ' + error.message);
+            });
+      }
+   */
 
 
 
@@ -282,7 +287,7 @@ export default function SelectedBank({ navigation }) {
 
    const getListAccountByBank = async (idBank) => {
 
-      console.log(" tela selectedBank getListAccountByBank  id bank " + idBank)
+      // console.log(" tela selectedBank getListAccountByBank  id bank " + idBank)
 
       await fetch(endpoint + "?action=listAccountByBank", {
          method: 'POST',
@@ -299,9 +304,10 @@ export default function SelectedBank({ navigation }) {
 
                if (result != "not found") {
 
+                  setIsLoading(false);
                   setListAccount(result);
                   setIsList(true);
-                  console.log(" result getListAccountByBank => " + result);
+                  // console.log(" result getListAccountByBank => " + result);
 
                } else {
 
@@ -325,7 +331,7 @@ export default function SelectedBank({ navigation }) {
 
    const getListAccountById = async (id, number, type, open, desc, amount) => {
 
-      console.log(" update id getListAccountById  id account " + id + " id do banco " + account.fkbnk);
+      // console.log(" update id getListAccountById  id account " + id + " id do banco " + account.fkbnk);
 
       setAccount(
          {
@@ -392,7 +398,7 @@ export default function SelectedBank({ navigation }) {
 
    const updateAccount = async () => {
 
-      console.log(" id bank " + account.fkbnk + " id accont " + account.id);
+      // console.log(" id bank " + account.fkbnk + " id accont " + account.id);
 
       await fetch(endpoint + "?action=updateAccount", {
          method: 'POST',
@@ -407,11 +413,8 @@ export default function SelectedBank({ navigation }) {
          .then(
             (result) => {
 
-               if (result != "error") {
-                  alert(result);
-               } else {
-                  alert(result);
-               }
+               // alert(result);
+               console.log(result);
 
             })
          .catch(function (error) {
@@ -429,7 +432,7 @@ export default function SelectedBank({ navigation }) {
 
 
    const deleteAccount = async (id) => {
-      console.log(id);
+      //console.log(id);
       await fetch(endpoint + "?action=deleteAccount", {
          method: 'POST',
          headers: {
@@ -493,9 +496,11 @@ export default function SelectedBank({ navigation }) {
             ...accountData, ['id']: id,
             accountData, ['type']: type,
             accountData, ['number']: number,
-            accountData, ['amount']: amount,
+           // accountData, ['amount']: amount,
          }
       )
+
+      setAmountAccount(amount)
 
       navigation.navigate("SelectedAccount")
    }
@@ -557,7 +562,15 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
+   if (isLoading) {
+        return (
+          <View style={styles.containerLoading}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text>Loading...</Text>
+          </View>
+        )
+    }
+    
 
 
    return (
@@ -597,10 +610,10 @@ export default function SelectedBank({ navigation }) {
                resizeModel='contain'
             />
             <Header info={bankData.name} />
-            <Header user="user name" />
+            <Header user={`${user}`} />
          </Animated.View>
 
-      {/* 
+         {/* 
 
         <View style={styles.containerHeader}>
 
@@ -627,7 +640,7 @@ export default function SelectedBank({ navigation }) {
                   width: 'auto',
                   height: 'auto',
                   alignItems: 'center',
-                  backgroundColor: '#0A0352',                  
+                  backgroundColor: '#0A0352',
                   marginStart: 10,
                   marginEnd: 10,
                   borderRadius: 10,
@@ -652,7 +665,7 @@ export default function SelectedBank({ navigation }) {
 
                            <View style={styles.contentCardList}>
 
-                  {/*
+                              {/*
                    <Text style={styles.textList}>
                      {`Bank Name : ${item.name_bnk}`}
                    </Text>
@@ -683,15 +696,8 @@ export default function SelectedBank({ navigation }) {
                                        item.amount_bka,
                                     )}
                                  >
-                                    <FontAwesome name='eye' size={30} color={"#44E8C3"} />
-                                 </Pressable>
-                              </LinearGradient>
-
-                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btn}
-                                    onPress={() => deleteAccount(item.id_bka)}
-                                 >
-                                    <FontAwesome name='trash' size={30} color={"#44E8C3"} />
+                                    <FontAwesome name='eye' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Select</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -706,7 +712,17 @@ export default function SelectedBank({ navigation }) {
                                        item.amount_bka,
                                     )}
                                  >
-                                    <FontAwesome name='edit' size={30} color={"#44E8C3"} />
+                                    <FontAwesome name='edit' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Edit</Text>
+                                 </Pressable>
+                              </LinearGradient>
+
+                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                                 <Pressable style={styles.btn}
+                                    onPress={() => deleteAccount(item.id_bka)}
+                                 >
+                                    <FontAwesome name='trash' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Delete</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -723,15 +739,16 @@ export default function SelectedBank({ navigation }) {
                   scrollEventThrottle={16}
                >
                </FlatList>
-         }         
+         }
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>     
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
                   onPress={() => setModalCadAccount(true)}
                >
-                  <FontAwesome name='plus' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='plus' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Add Account</Text>
                </Pressable>
             </LinearGradient>
 
@@ -739,7 +756,8 @@ export default function SelectedBank({ navigation }) {
                <Pressable style={styles.btn}
                   onPress={() => navigation.navigate("Home")}
                >
-                  <FontAwesome name='home' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Home</Text>
                </Pressable>
             </LinearGradient>
 
@@ -748,188 +766,213 @@ export default function SelectedBank({ navigation }) {
 
 
 
-         <View>
 
-            <Modal
-               animationType='fade'
-               visible={modalCadAccount}
-            >
 
-              <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+         <Modal
+            animationType='fade'
+            visible={modalCadAccount}
+         >
 
-                  <View style={styles.contentModal} >
-                     <Text style={styles.textInfo}>{` REGISTER ACCOUNT`}</Text>
-                  </View>
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
-                  <View style={styles.formModal}>
+               <View style={styles.contentModal} >
+                  <Text style={styles.textInfo}>{` REGISTER ACCOUNT`}</Text>
+               </View>
+
+               <View style={styles.formModal}>
+
+                  <TextInput style={styles.input}
+                     placeholder="Account Number"
+                     placeholderTextColor="#44E8C3"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('number', valor)
+                     }
+                     value={account.number}
+                  />
+
+                  <TextInput style={styles.input}
+                     placeholder="type"
+                     placeholderTextColor="#44E8C3"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('type', valor)
+                     }
+                     value={account.type}
+                  />
+
+                  <TextInput style={styles.input}
+                     placeholder="open date"
+                     placeholderTextColor="#44E8C3"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('open', valor)
+                     }
+                     value={account.open}
+                  />
+
+                  <TextInput style={styles.input}
+                     placeholder="description"
+                     placeholderTextColor="#44E8C3"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('desc', valor)
+                     }
+                     value={account.desc}
+                  />
+
+                  <TextInput style={styles.input}
+                     placeholder="Saldo"
+                     placeholderTextColor="#44E8C3"
+                     type="text"
+                     onChangeText={
+                        (valor) => handleInputChange('amount', valor)
+                     }
+                  // value={account.amount}
+                  />
+
+               </View>
+
+               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn}
+                        onPress={() => insertAccount()}
+                     >
+                        <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Safe</Text>
+                     </Pressable>
+                  </LinearGradient>
+
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn}
+                        onPress={() => closeModal('cad')}>
+                        <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Cancel</Text>
+                     </Pressable>
+                  </LinearGradient>
+
+               </LinearGradient>
+
+            </LinearGradient>
+
+         </Modal>
+
+
+
+
+
+
+         <Modal
+            animationType='fade'
+            visible={modalUpdateAccount}
+         >
+
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+
+               <View style={styles.contentModal} >
+                  <Text style={styles.textInfo}>{` UPDATE ACCOUNT `}</Text>
+               </View>
+
+               <View style={styles.containerList}>
+
+                  <View style={styles.contentList}>
 
                      <TextInput style={styles.input}
-                        placeholder="Account Number"
-                        placeholderTextColor="#44E8C3"
+                        placeholder={` ${account.number}`}
                         type="text"
-                        onChangeText={
-                           (valor) => handleInputChange('number', valor)
+                        placeholderTextColor="#cc0000"
+                        onChangeText={(valor) =>
+                           handleInputChange('number', valor)
                         }
                         value={account.number}
                      />
 
                      <TextInput style={styles.input}
-                        placeholder="type"
-                        placeholderTextColor="#44E8C3"
+                        placeholder={` ${account.type}`}
+                        placeholderTextColor="#cc0000"
                         type="text"
-                        onChangeText={
-                           (valor) => handleInputChange('type', valor)
+                        onChangeText={(valor) =>
+                           handleInputChange('type', valor)
                         }
                         value={account.type}
                      />
 
                      <TextInput style={styles.input}
-                        placeholder="open date"
-                        placeholderTextColor="#44E8C3"
+                        placeholder={` ${account.open}`}
+                        placeholderTextColor="#cc0000"
                         type="text"
-                        onChangeText={
-                           (valor) => handleInputChange('open', valor)
+                        onChangeText={(valor) =>
+                           handleInputChange('open', valor)
                         }
                         value={account.open}
                      />
 
                      <TextInput style={styles.input}
-                        placeholder="description"
-                        placeholderTextColor="#44E8C3"
+                        placeholder={` ${account.desc}`}
+                        placeholderTextColor="#cc0000"
                         type="text"
-                        onChangeText={
-                           (valor) => handleInputChange('desc', valor)
+                        onChangeText={(valor) =>
+                           handleInputChange('desc', valor)
                         }
                         value={account.desc}
                      />
 
                      <TextInput style={styles.input}
-                        placeholder="Saldo"
-                        placeholderTextColor="#44E8C3"
+                        placeholder={` ${account.amount}`}
+                        placeholderTextColor="#cc0000"
                         type="text"
-                        onChangeText={
-                           (valor) => handleInputChange('amount', valor)
+                        onChangeText={(valor) =>
+                           handleInputChange('amount', valor)
                         }
-                       // value={account.amount}
+                        value={account.amount}
                      />
 
-                  </View>                 
+                     <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
-                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>     
-
-                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                        <Pressable style={styles.btn}
-                           onPress={() => insertAccount()}
-                        >
-                           <FontAwesome name='save' size={30} color={"#44E8C3"} />
-                        </Pressable>
-                     </LinearGradient>
-
-                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                        <Pressable style={styles.btn}
-                           onPress={() => closeModal('cad')}>
-                           <FontAwesome name='close' size={30} color={"#44E8C3"} />
-                        </Pressable>
-                     </LinearGradient>
-
-                  </LinearGradient>
-
-               </LinearGradient>
-
-            </Modal>
-
-         </View>
-
-
-         <View>
-
-            <Modal
-               animationType='fade'
-               visible={modalUpdateAccount}
-            >
-            
-              <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
-                  <View style={styles.contentModal} >
-                     <Text style={styles.textInfo}>{` UPDATE ACCOUNT `}</Text>
-                  </View>
-
-                  <View style={styles.containerList}>
-
-                     <View style={styles.contentList}>
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${account.number}`}
-                           type="text"
-                           placeholderTextColor="#cc0000"
-                           onChangeText={(valor) =>
-                              handleInputChange('number', valor)
-                           }
-                           value={account.number}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${account.type}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={(valor) =>
-                              handleInputChange('type', valor)
-                           }
-                           value={account.type}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${account.open}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={(valor) =>
-                              handleInputChange('open', valor)
-                           }
-                           value={account.open}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${account.desc}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={(valor) =>
-                              handleInputChange('desc', valor)
-                           }
-                           value={account.desc}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${account.amount}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={(valor) =>
-                              handleInputChange('amount', valor)
-                           }
-                           value={account.amount}
-                        />
-                       
-                        <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>  
-
-                           <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                              <Pressable style={styles.btn}
-                                 onPress={() => updateAccount()}>
-                                 <FontAwesome name='save' size={30} color={"#44E8C3"} />
-                              </Pressable>
-                           </LinearGradient>
-
-                           <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                              <Pressable style={styles.btn}
-                                 onPress={() => closeModal('update')}>
-                                 <FontAwesome name='close' size={30} color={"#44E8C3"} />
-                              </Pressable>
-                           </LinearGradient>
-
+                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                           <Pressable style={styles.btn}
+                              onPress={() => updateAccount()}>
+                              <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                              <Text style={styles.textBtn}>Safe</Text>
+                           </Pressable>
                         </LinearGradient>
 
+                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                           <Pressable style={styles.btn}
+                              onPress={() => closeModal('update')}>
+                              <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                              <Text style={styles.textBtn}>Cancel</Text>
+                           </Pressable>
+                        </LinearGradient>
+
+                     </LinearGradient>
+
+                  </View>
+
+               </View>
+
+            </LinearGradient>
+
+         </Modal>
 
 
 
-     {/*
+
+
+
+
+      </View>
+
+   )
+
+}
+
+
+
+
+
+{/*
            <FlatList
 
                data={listAccount}
@@ -1018,21 +1061,12 @@ export default function SelectedBank({ navigation }) {
           </FlatList>
     */}
 
-                 </View>
 
-              </View>
 
-           </LinearGradient>
 
-        </Modal>
 
-      </View>
 
-    </View>
 
-   )
-
-}
 
 
 

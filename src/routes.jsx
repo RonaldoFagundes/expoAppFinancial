@@ -14,6 +14,7 @@ import SelectedBank from './pages/SelectedBank';
 import SelectedAccount from './pages/SelectedAccount';
 import CreditCard from './pages/Creditcard';
 import SelectedCreditCard from './pages/SelectedCreditCard';
+import ReportCreditCard from './pages/reportCreditCard';
 import Transactions from './pages/Transactions';
 import CashPayment from './pages/CashPayment';
 
@@ -83,7 +84,14 @@ export default function Routes() {
       <Stack.Screen
         name='SelectedCreditCard'
         component={SelectedCreditCard}
-      />     
+      />   
+
+      <Stack.Screen
+        name='ReportCreditCard'
+        component={ReportCreditCard}
+      /> 
+
+
 
       <Stack.Screen
         name='Transactions'

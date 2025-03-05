@@ -5,6 +5,17 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 
 
+
+  containerLoading: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    paddingBottom: 200,
+    justifyContent: 'center',
+    alignItems: 'center'
+ },
+
+
+ 
   main:{
     flex:1,
     height:'100%',
@@ -37,16 +48,13 @@ export default StyleSheet.create({
  
   containerHeaderTwo:{
     flexDirection:'column',
-    padding:10, 
-   
+    padding:10,    
     marginStart:10,
     marginEnd:10,
     marginTop:-70,
     borderWidth: 1,
     borderBottomColor: "#44E8C3", 
-    borderRadius: 10,
-
-    backgroundColor:'green'
+    borderRadius: 10,    
   },
 
 
@@ -103,14 +111,16 @@ export default StyleSheet.create({
 
 
  containerCarrousel:{
-  height:'auto',
+  height:'34%',
   width:"100%",
   padding:20,
   marginTop:'auto', 
+  paddingTop:50  
  },
 
 
  contentCarrousel:{
+  height:'auto',
   flexDirection:'row', 
   justifyContent:'space-between',  
   padding:10,  
@@ -119,13 +129,19 @@ export default StyleSheet.create({
 
 
  boxBtnCarrousel: {
+  height:80,
   borderRadius: 10,
   marginTop:10,
   marginLeft:20
 },
  
   
-
+textInfo:{
+  color: '#44E8C3',
+  fontSize: 14,
+  fontWeight: 'bold', 
+  marginTop:10   
+},
 
 
 
@@ -152,25 +168,11 @@ export default StyleSheet.create({
   },
 
 
-
-
-
-
-
-
-  textInfo:{
-    color: '#44E8C3',
-    fontSize: 14,
-    fontWeight: 'bold', 
-    marginTop:10   
+  btn: {
+    width: 'auto',
+    height: 'auto',
+    padding: 14,  
   },
-
-
-btn: {
-  width: 'auto',
-  height: 'auto',
-  padding: 14,  
-},
 
 
 textBtn: {

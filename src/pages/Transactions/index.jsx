@@ -2,13 +2,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
    KeyboardAvoidingView,
+   Platform,
+   Image,
    Pressable,
    FlatList,
    Text,
    TextInput,
    View,
    Modal,
-   Platform,
    ScrollView,
 } from 'react-native';
 
@@ -20,6 +21,8 @@ import { AuthContext } from '../../context/auth';
 import { FontAwesome } from '@expo/vector-icons';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 import styles from './styles';
 
@@ -33,24 +36,29 @@ import Header from '../../components/Header';
 export default function Transactions({ navigation }) {
 
 
-
-   //const endpointPhp = 'http://localhost:3322/php-api-financial';
-   //const accountData_id = 4;
-
    const {
-      // endpointPhp,
+      setLoad,
+      load,
       endpoint,
+      user,     
       accountData,
       bankData,
+      setAmountAccount,
+      amountAccount, 
    } = useContext(AuthContext);
 
 
 
+
    useEffect(() => {
+      navigation.addListener('focus', () => setLoad(!load));
       listAccounts(accountData.id);
-   }, []);
+      proofPost(accountData.id);
+   }, [load, navigation]);
 
 
+
+   const [isList, setIsList] = useState(false);
 
 
 
@@ -65,12 +73,19 @@ export default function Transactions({ navigation }) {
       form: "",
       desc: "",
       value: 0,
-      idac: accountData.id,
-      idacf: 0
+      idac: accountData.id,      
    });
 
 
+   const [showAmount, setShowAmount] = useState(false);
 
+   const [proof, setProof] = useState({});
+
+   const [showProof, setShowProof] = useState(false);
+
+   const [resultPost, setResultPost] = useState();
+
+  
 
 
    const handleInputChangeCad = (atribute, value) => {
@@ -100,14 +115,18 @@ export default function Transactions({ navigation }) {
    ]
 
 
-   const checkType = () => {
-      console.log(' type ' + selectedType);
-   }
+ 
 
 
+   const mov = [
+      { key: '1', value: 'out' },
+      { key: '2', value: 'in' },
+   ]
 
 
-
+   const [checkBox, setCheckBox] = useState([]);
+   const [randomCheckBox, setRandomCheckBox] = useState(null);
+   const [statusCheckBox, setStatusCheckBox] = useState(null);
 
 
 
@@ -136,7 +155,7 @@ export default function Transactions({ navigation }) {
             (result) => {
 
                var count = Object.keys(result).length;
-               console.log(" count " + count);
+             //  console.log(" count " + count);
 
                for (var i = 0; i < count; i++) {
 
@@ -155,7 +174,7 @@ export default function Transactions({ navigation }) {
                }
 
                setAccount(accounts);
-               console.log(" listUserCC " + accounts);
+              // console.log(" listUserCC " + accounts);
 
             })
          .catch(function (error) {
@@ -166,23 +185,13 @@ export default function Transactions({ navigation }) {
 
 
 
-   const checkAccount = () => {
-      console.log(' type ' + selectedAccount);
-   }
-
-
-
-
-
-
-
 
 
 
    const safePost = async () => {
 
-      console.log('safePost');
-
+    if( parseFloat(accountData.amount) >= parseFloat (transaction.value) ){
+          
       await fetch(endpoint + "?action=postTransaction", {
          method: 'POST',
          headers: {
@@ -196,19 +205,107 @@ export default function Transactions({ navigation }) {
          .then(
             (result) => {
 
-               console.log(' postTransactionOut => ' + result);
+               showProof(true);
+
+               console.log(result);
+               setResultPost(result);
 
                setModalTransaction(false);
                cleanFields();
+               updateAmount(accountData.id);
 
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
+     
+
+      }else{
+  
+         console.log(" transação "+transaction.value+" Saldo insuficiente "+accountData.amount);   
+  
+      }
 
    }
 
+
+
+
+   const proofPost = async (id) => {    
+            
+      await fetch(endpoint + "?action=proofTransaction", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         }, 
+         body: JSON.stringify({
+            id
+         })        
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {
+         
+
+              console.log(result);   
+               
+              { result.map((item)=>
+
+                  {                     
+                     setProof(
+                        {
+                           ...proof,'id':item.id_trs, 
+                              proof,'move':item.mov_trs, 
+                              proof,'date':item.date_trs,
+                              proof,'type':item.type_trs,
+                              proof,'source':item.source_trs,
+                              proof,'form':item.form_trs,
+                              proof,'desc':item.desc_trs,
+                              proof,'value':item.value_trs,
+                        }
+                     )
+                  }
+
+               )}
+
+
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });     
+       
+   }
+ 
+   
+
+
+
+
+   const updateAmount = async (id) => {    
+            
+        await fetch(endpoint + "?action=amountAccountById", {
+           method: 'POST',
+           headers: {
+              'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({
+              id
+           })
+        })
+           .then((res) => res.json())
+           .then(
+              (result) => {
+  
+                 console.log(result); 
+                 setAmountAccount(result)
+  
+              })
+           .catch(function (error) {
+              console.log('erro => ' + error.message);
+           });     
+         
+     }
 
 
 
@@ -235,21 +332,6 @@ export default function Transactions({ navigation }) {
 
 
 
-   const mov = [
-      { key: '1', value: 'out' },
-      { key: '2', value: 'in' },
-   ]
-
-
-
-
-
-   const [checkBox, setCheckBox] = useState([]);
-   const [randomCheckBox, setRandomCheckBox] = useState(null);
-   const [statusCheckBox, setStatusCheckBox] = useState(null);
-
-
-
 
    const selectStatus = (index, item) => {
 
@@ -267,65 +349,33 @@ export default function Transactions({ navigation }) {
             ...transaction, 'move': item
          }
       )
-
-      // console.log(" index "+index+" item "+item)
-
-      /*
-       console.log(" index "+index+" value "+value)
- 
-       if (checkBox[index] !== undefined) {
- 
-          checkBox[index] = undefined;
- 
-       } else {
- 
-          checkBox[index] = value;
-       }
- 
-       setStatusCheckBox(Math.random());
- 
-       console.log(checkBox)
-      */
-
-
-
    }
 
 
 
 
 
-   /*
-   const selectStatus = (key, value) => {
 
-      setStatusCheckBox(key);
 
-    
-      if (statusCheckBox !== index && checkBox[index] !== undefined) {
-         checkBox[index] = undefined;
-      } else {
-         checkBox[index] = item.id_tag;
-         setStatusCheckBox(index);
-      }
 
-      
-      setRandomCheckBox(Math.random());
-      setDataRel(
-          {
-              ...dataRel, ['status']: item.status_tag,
-          }
-      )
-   
-
+ 
+   const cancel = () => {
+      setModalTransaction(false);
+      cleanFields();
    }
-*/
 
 
+  
 
-
-   const checkMov = () => {
-      console.log(' type statusCheckBox ', transaction.move);
+   const getReport = ()=>{
+      console.log("gerar relatorio/extrato")
    }
+
+
+  
+
+
+
 
 
 
@@ -333,60 +383,178 @@ export default function Transactions({ navigation }) {
 
    return (
 
-      /*  
-       <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-       >
-      */
+      <KeyboardAvoidingView
+         behavior={Platform.OS === "ios" ? "padding" : "height"}
+         style={styles.main} >
 
 
-      <View style={styles.main}>
+
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+
+            <View>
+               <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
+            </View>
+
+            <View style={styles.contentHeaderTitle}>
+               <Header user={`${user}`} />
+            </View>
+
+            <View style={styles.contentHeaderItem}>
+               <Text style={styles.textDesc}>{`Conta ${accountData.type}  `}</Text>
+               <Text style={styles.textDesc}>{`${accountData.number}`}</Text>
+            </View>       
+
+         </LinearGradient>
 
 
-         <Header user="user name" />
 
+         <View style={styles.containerInfo}>          
 
-         <View style={styles.containerInfo}>
-
-            <Text style={styles.textInfo}>{` Banc = ${bankData.name}`}</Text>
-
-            <Text style={styles.textInfo}>{` ID = ${accountData.id}`}</Text>
-
-            <Text style={styles.textInfo}>{` NUMBER = ${accountData.number}`}</Text>
-
-            <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text>
+            {showAmount ?
+            
+               <Pressable style={styles.btn}
+                  onPress={() => setShowAmount(false)}>
+                 {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
+                 <Text style={styles.textDesc}>{` AMOUNT = ${amountAccount}`}</Text>
+               </Pressable>
+            
+               :
+               <Pressable style={styles.btn}
+                  onPress={() => setShowAmount(true)}>
+                  <FontAwesome name='eye' size={30} color={"#44E8C3"} />
+               </Pressable>
+            }
 
          </View>
+
+            
+
+
+           {/* 
+            <Text style={styles.textInfo}>{` Banc = ${bankData.name}`}</Text>
+            <Text style={styles.textInfo}>{` ID = ${accountData.id}`}</Text>
+            <Text style={styles.textInfo}>{` NUMBER = ${accountData.number}`}</Text>
+            <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text>
+           */}
+
+
+
+
+
+        {
+         showProof
+         ?       
+
+         <View style={styles.containerProof}>
+                 
+            <View>
+              <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
+            </View>    
+
+            <Text style={styles.textProof}>{`ID :${proof.id}  `}</Text>
+
+            <Text style={styles.textProof}>{`Date :${proof.date}  `}</Text>
+
+            <Text style={styles.textProof}>{`Origem :${proof.source}  `}</Text>
+
+            <Text style={styles.textProof}>{`Tipo :${proof.type}  `}</Text>
+
+            <Text style={styles.textProof}>{`Detalhes :${proof.desc}  `}</Text>
+
+            <Text style={styles.textProof}>{`Valor R$:${proof.value}  `}</Text>
+
+
+         </View>
+
+          :
+
+
+          <View style={styles.containeEmpty}>              
+
+              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                    <Pressable style={styles.btn}
+                        onPress={() => setModalTransaction(true)}>
+                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>{` Registrar movimentações `}</Text>
+                    </Pressable>
+              </LinearGradient>
+
+          </View>
+
+        }
+
+
+
+
 
 
 
          <View style={styles.containerBtn}>
-
-            <Pressable style={styles.btn} onPress={() => setModalTransaction(true)}                  >
-               <Text style={styles.textBtn}>Post</Text>
-            </Pressable>
-
-            <Pressable style={styles.btn}
-               onPress={() => navigation.navigate("Home")}>
-               <Text style={styles.textBtn}>Home</Text>
-            </Pressable>
-
+            
+          {/*      
             <Pressable style={styles.btn}
                onPress={() => checkType()}>
                <Text style={styles.textBtn}>checkType</Text>
             </Pressable>
+
 
             <Pressable style={styles.btn}
                onPress={() => checkAccount()}>
                <Text style={styles.textBtn}>checkAccount</Text>
             </Pressable>
 
+
             <Pressable style={styles.btn}
                onPress={() => checkMov()}>
                <Text style={styles.textBtn}>checkMov</Text>
             </Pressable>
+         */}
+
+
+           <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                  <Pressable style={styles.btn}
+                     onPress={() => setModalTransaction(true)}>
+                     <FontAwesome name='plus' size={16} color={"#44E8C3"} />
+                     <Text style={styles.textBtn}>Add post</Text>
+                  </Pressable>
+            </LinearGradient>
+
+
+            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => getReport()}>
+                  <FontAwesome name='backward' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Extrato</Text>
+               </Pressable>
+            </LinearGradient>
+
+
+            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => navigation.navigate("SelectedAccount")}>
+                  <FontAwesome name='backward' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Voltar</Text>
+               </Pressable>
+            </LinearGradient>
+
+            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                  <Pressable style={styles.btn}
+                     onPress={() => navigation.navigate("Home")}>
+                     <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                      <Text style={styles.textBtn}>Home</Text>
+                  </Pressable>
+            </LinearGradient>
+
 
          </View>
+
+
+
+
+
+
+
+
 
 
 
@@ -397,31 +565,41 @@ export default function Transactions({ navigation }) {
             visible={modalTransaction}
          >
 
-            <ScrollView>
 
-               <View style={styles.modal}>
-
-
-
-                  <View style={styles.boxCard}>
+          <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}> 
 
 
 
-                     <View style={styles.contentCheckBox}>
+            <View style={styles.infoModal} >
+                      <Text style={styles.textInfo}>{` Register Post `}</Text>
+            </View>
 
 
-                        <View>
-                           <Text style={styles.textInfo}>Tipo de Movimentação</Text>
-                        </View>
+
+
+
+            <ScrollView style={styles.contentModal} >
+
+
+
+               
+               <View style={styles.infoCheckBox} >
+                         <Text style={styles.textInfo}>{` Tipo de Movimentação `}</Text>
+               </View>              
+
+
+               <View style={styles.containerCheckBox}>                     
 
 
                         <FlatList
+                           horizontal={true}                           
                            data={mov}
                            renderItem={({ item, index }) =>
 
-                              <View>
 
-                                 <Pressable onPress={() => selectStatus(index, item.value)}>
+                           <View style={styles.contentCheckBox}>
+
+                              <Pressable onPress={() => selectStatus(index, item.value)}>
 
                                     {
 
@@ -431,10 +609,15 @@ export default function Transactions({ navigation }) {
 
                                           <View style={styles.checkBox}>
 
-                                             <Text style={styles.textInfo}>{item.value}</Text>
+                                            <View>
+                                              <Text style={styles.textInfo}>{item.value}</Text>
+                                            </View>
 
-                                             <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
-                                             {/*   
+                                            <View>
+                                              <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
+                                            </View> 
+
+                                         {/*   
                                           <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
                                           <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
                                          */}
@@ -445,44 +628,19 @@ export default function Transactions({ navigation }) {
 
                                           <View style={styles.checkBox}>
 
-                                             <Text style={styles.textInfo}>{item.value}</Text>
-                                             <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
+                                             <View>
+                                               <Text style={styles.textInfo}>{item.value}</Text>
+                                             </View>
+
+                                             <View>
+                                               <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
+                                             </View>  
 
                                           </View>
                                     }
 
 
-
-
                                  </Pressable>
-
-
-                                 {/*  
-                          
-                          <Pressable onPress={() => selectStatus(key , value)}>
-
-                              {
-
-                                 statusCheckBox !== key
-                                    ?
-
-                                    <View>
-                                      <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
-                                      <Text>{key}</Text>
-                                    </View>
-
-                                    :
-
-                                    <View>
-                                      <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
-                                      <Text>{key}</Text>
-                                    </View>
-
-                              }
-
-                           </Pressable> 
-                           
-                           */}
 
                               </View>
 
@@ -490,17 +648,18 @@ export default function Transactions({ navigation }) {
                         >
                         </FlatList>
 
-                     </View>
+               </View>
+
+
+                
 
 
 
 
-                  </View>
 
 
 
-
-                  <View style={styles.boxCard}>
+               <View style={styles.boxCard}>
 
 
                      <View>
@@ -597,13 +756,16 @@ export default function Transactions({ navigation }) {
                            <View></View>
                      }
 
-                  </View>
+               </View>
 
 
 
 
 
-                  <View style={styles.boxCard}>
+
+
+               <View style={styles.boxCard}>
+
 
                      <TextInput style={styles.input}
                         placeholder="Date"
@@ -654,46 +816,84 @@ export default function Transactions({ navigation }) {
                         }
                      //value={postTransaction.value}
                      />
-                  </View>
+               </View>
 
 
 
-                  <View style={styles.containerBtn}>
 
-                     <Pressable style={styles.btn} onPress={() => safePost()}                  >
-                        <Text style={styles.textBtn}>Confirm</Text>
+               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+               
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn} onPress={() => safePost()}>
+                        <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Safe</Text>
                      </Pressable>
-
-                     <Pressable style={styles.btn} onPress={() => setModalTransaction(false)}                  >
+                  </LinearGradient>
+               
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn} onPress={() => cancel()}                  >
+                        <FontAwesome name='close' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Cancel</Text>
                      </Pressable>
+                  </LinearGradient>
+               
+               </LinearGradient>
 
-                  </View>
 
-
-               </View>
 
             </ScrollView>
 
-         </Modal>
+
+
+         </LinearGradient>
+           
+
+      </Modal>
+
+
+
+   </KeyboardAvoidingView>
+
+
+
+   )
+}
 
 
 
 
 
 
+{/*  
+                          
+                          <Pressable onPress={() => selectStatus(key , value)}>
+
+                              {
+
+                                 statusCheckBox !== key
+                                    ?
+
+                                    <View>
+                                      <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
+                                      <Text>{key}</Text>
+                                    </View>
+
+                                    :
+
+                                    <View>
+                                      <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
+                                      <Text>{key}</Text>
+                                    </View>
+
+                              }
+
+                           </Pressable> 
+                           
+                         */}
 
 
 
-
-
-
-
-
-
-
-
-         {/* 
+{/* 
          {listCreditCard == "not found"
 
             ?
@@ -815,20 +1015,6 @@ export default function Transactions({ navigation }) {
        </View>
 
    */}
-
-
-
-      </View>
-
-      /* 
-       </KeyboardAvoidingView>
-      */
-
-
-   )
-}
-
-
 
 
 

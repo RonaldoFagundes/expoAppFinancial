@@ -46,16 +46,16 @@ const styles = StyleSheet.create({
 
      container:{
       
-         width:'100%',
+         width:'auto',
          height:'auto',
-         alignItems:'center',
+        // alignItems:'center',
         
       
          padding:10,
          marginTop:5,
          marginBottom:10, 
          
-         borderRadius: 10,
+        // borderRadius: 6,
       /*
         
         paddingTop:statusBarHeight,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
 
 
      content:{
-         borderRadius: 10,
+         borderRadius: 6,
 
          width:'auto',
          height:'auto',

@@ -1,14 +1,16 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import {
+   ActivityIndicator,
    KeyboardAvoidingView,
+   Platform,
+   Image,
    Pressable,
    FlatList,
    Text,
    TextInput,
    View,
    Modal,
-   Platform,
    ScrollView,
    //UIManager, LayoutAnimation
 } from 'react-native';
@@ -38,9 +40,11 @@ export default function CreditCard({ navigation }) {
    //const endpointPhp = 'http://localhost:3322/php-api-financial';
    //const accountData_id = 4;
 
-   const {
-      //endpointPhp,
+   const {     
+      setLoad,
+      load,
       endpoint,
+      user,
       accountData,
       bankData,
       setCreditCardData,
@@ -50,14 +54,15 @@ export default function CreditCard({ navigation }) {
 
 
    useEffect(() => {
+      navigation.addListener('focus', () => setLoad(!load));
       //  amountCreditCard();
       getListCreditCardByAccount(accountData.id);
-   }, []);
+   },[load, navigation]);
 
 
 
    //const [useLiteCreditCardInput, setUseLiteCreditCardInput] = useState(false);
-
+   const [isLoading, setIsLoading] = useState(true);
 
    const [modalCreditCard, setModalCreditCard] = useState(false);
 
@@ -80,7 +85,7 @@ export default function CreditCard({ navigation }) {
 
    const [listCreditCard, setListCreditCard] = useState([]);
 
-   const [selectedCreditCard, setSelectedCreditCard] = useState([]);
+   //const [selectedCreditCard, setSelectedCreditCard] = useState([]);
 
    const [isList, setIsList] = useState(false);
 
@@ -171,9 +176,10 @@ export default function CreditCard({ navigation }) {
 
                if (result != "not found") {
 
+                  setIsLoading(false); 
                   setIsList(true);
                   setListCreditCard(result);
-                  console.log(" result getListCreditCardByAccount => " + result);
+                  // console.log(" result getListCreditCardByAccount => " + result);
 
                } else {
 
@@ -198,8 +204,6 @@ export default function CreditCard({ navigation }) {
 
 
    const postCreditCard = async () => {
-
-      setModalCreditCard(false);
 
       /*
       console.log(" dados para api => " +
@@ -232,7 +236,7 @@ export default function CreditCard({ navigation }) {
                   getListCreditCardByAccount(accountData.id);
                   cleanFields();
                   //  alert(result+" cad success");
-                  console.log(' insertBank => ' + result);
+                  //  console.log(' insertBank => ' + result);
 
 
                } else {
@@ -246,6 +250,8 @@ export default function CreditCard({ navigation }) {
             console.log('erro => ' + error.message);
          });
 
+      setModalCreditCard(false);
+
    }
 
 
@@ -258,7 +264,7 @@ export default function CreditCard({ navigation }) {
 
 
    const selectCreditCard = (id, number, type, ex, due) => {
-      console.log(" selectCreditCard id " + id);
+      // console.log(" selectCreditCard id " + id);
 
       setCreditCardData(
          {
@@ -311,8 +317,6 @@ export default function CreditCard({ navigation }) {
 
    const updateCreditCard = async () => {
 
-      setModalUpdate(false);
-
       await fetch(endpoint + "?action=updateCreditCard", {
          method: 'POST',
          headers: {
@@ -342,6 +346,8 @@ export default function CreditCard({ navigation }) {
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
+
+      setModalUpdate(false);
    }
 
 
@@ -533,46 +539,74 @@ export default function CreditCard({ navigation }) {
 
 
 
-
+  if (isLoading) {
+      return (
+        <View style={styles.containerLoading}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text>Loading...</Text>
+        </View>
+      )
+   }
+  
 
 
 
    return (
 
-      /*   
-       <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-       >
-      */
 
-   <View style={styles.main}>
+      <KeyboardAvoidingView
+         behavior={Platform.OS === "ios" ? "padding" : "height"}
+         style={styles.main}
+      >
 
 
-         <Header user="user name" />
+
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
 
 
+            <View>
+               <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
+            </View>
+
+            <View style={styles.contentHeaderTitle}>
+               <Header user={`${user}`} />
+            </View>
+
+
+            <View style={styles.contentHeaderItem}>
+               <Text style={styles.textDesc}>{`Conta ${accountData.type}  `}</Text>
+               <Text style={styles.textDesc}>{`${accountData.number}`}</Text>
+            </View>
+
+
+         </LinearGradient>
+
+
+
+
+         {/* 
          <View style={styles.containerInfo}>
-
             <Text style={styles.textInfo}>{` Banc = ${bankData.name}`}</Text>
-
             <Text style={styles.textInfo}>{` ID ACC= ${accountData.id}`}</Text>
-
             <Text style={styles.textInfo}>{` TYPE = ${accountData.type}`}</Text>
-
             <Text style={styles.textInfo}>{` NUMBER = ${accountData.number}`}</Text>
-
          </View>
+      */}
 
 
 
 
          {!isList
 
-          ?
+            ?
 
-         <View style={styles.emptyBox}></View>
+            <View style={styles.containerNoList}>
 
-          :        
+               <Text style={styles.textInfo}>{`${user} Ainda não existem cartões nessa conta !!!`}</Text>
+
+            </View>
+
+            :
 
             <ScrollView style={styles.scrollView}>
 
@@ -601,13 +635,15 @@ export default function CreditCard({ navigation }) {
                            </View>
                          */}
 
-                           <View style={styles.dataCard}>
+
+                           <View>
                               <Text style={styles.textCard}>
                                  {` ${item.number_cc} `}
                               </Text>
                            </View>
 
-                           <View style={styles.dataContent}>
+
+                           <View>
                               <Text style={styles.textCard}>
                                  {` ${item.format_cc} `}
                               </Text>
@@ -615,6 +651,7 @@ export default function CreditCard({ navigation }) {
                                  {` ${item.expery_date_cc} `}
                               </Text>
                            </View>
+
 
                         </View>
 
@@ -630,8 +667,8 @@ export default function CreditCard({ navigation }) {
                                     item.expery_date_cc,
                                     item.due_day_cc
                                  )}>
+                                 <FontAwesome name='eye' size={16} color={"#44E8C3"} />
                                  <Text style={styles.textBtn}>Select</Text>
-                                 <FontAwesome name='eye' size={26} color={"#44E8C3"} />
                               </Pressable>
                            </LinearGradient>
 
@@ -649,16 +686,16 @@ export default function CreditCard({ navigation }) {
                                     item.limit_cc,
                                     item.fk_bac
                                  )}>
+                                 <FontAwesome name='edit' size={16} color={"#44E8C3"} />
                                  <Text style={styles.textBtn}>Update</Text>
-                                 <FontAwesome name='edit' size={26} color={"#44E8C3"} />
                               </Pressable>
                            </LinearGradient>
 
                            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                               <Pressable style={styles.btn}
                                  onPress={() => deleteCreditCard(item.id_cc)}>
+                                 <FontAwesome name='trash' size={16} color={"#44E8C3"} />
                                  <Text style={styles.textBtn}>Delete</Text>
-                                 <FontAwesome name='trash' size={26} color={"#44E8C3"} />
                               </Pressable>
                            </LinearGradient>
 
@@ -668,61 +705,64 @@ export default function CreditCard({ navigation }) {
 
                   }>
 
-               </FlatList>                
+               </FlatList>
 
-            </ScrollView>       
+            </ScrollView>
 
          }
 
 
 
-     
-   <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.containerBtn}>
 
-     {!isList
-       ?    
-             
-      <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-         <Pressable style={styles.btn}
-           onPress={() => setModalCreditCard(true)}>
-           <Text style={styles.textBtn}>Adcione o 1º cartao</Text>
-         </Pressable>
-      </LinearGradient>    
+         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.containerFooter}>
 
-       :
+            {!isList
+               ?
 
-       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-         <Pressable style={styles.btn}
-            onPress={() => setModalCreditCard(true)}>
-            <FontAwesome name='plus' size={28} color={"#44E8C3"} />
-         </Pressable>
-       </LinearGradient>            
-     }        
+               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                  <Pressable style={styles.btn}
+                     onPress={() => setModalCreditCard(true)}>
+                     <Text style={styles.textBtn}>Adcione o 1º cartao</Text>
+                  </Pressable>
+               </LinearGradient>
 
-      <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-        <Pressable style={styles.btn}
-           onPress={() => navigation.navigate("SelectedAccount")}>
-           <FontAwesome name='backward' size={28} color={"#44E8C3"}/>            
-        </Pressable>
-      </LinearGradient> 
+               :
 
-      <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-        <Pressable style={styles.btn}
-           onPress={() => navigation.navigate("Home")}>
-           <FontAwesome name='home' size={28} color={"#44E8C3"}/>            
-        </Pressable>
-      </LinearGradient> 
+               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                  <Pressable style={styles.btn}
+                     onPress={() => setModalCreditCard(true)}>
+                     <FontAwesome name='plus' size={16} color={"#44E8C3"} />
+                     <Text style={styles.textBtn}>Add Credit Card</Text>
+                  </Pressable>
+               </LinearGradient>
+            }
 
-   </LinearGradient>
+            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => navigation.navigate("SelectedAccount")}>
+                  <FontAwesome name='backward' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Voltar</Text>
+               </Pressable>
+            </LinearGradient>
 
+            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => navigation.navigate("Home")}>
+                  <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>Home</Text>
+               </Pressable>
+            </LinearGradient>
 
-  
-
-
+         </LinearGradient>
 
 
 
-     <Modal
+
+
+
+
+
+         <Modal
             animationType='fade'
             visible={modalCreditCard}
          >
@@ -809,13 +849,15 @@ export default function CreditCard({ navigation }) {
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                      <Pressable style={styles.btn} onPress={() => postCreditCard()}>
-                        <FontAwesome name='save' size={30} color={"#44E8C3"} />
+                        <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Safe</Text>
                      </Pressable>
                   </LinearGradient>
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                      <Pressable style={styles.btn} onPress={() => setModalCreditCard(false)}                  >
-                        <FontAwesome name='close' size={30} color={"#44E8C3"} />
+                        <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Cancel</Text>
                      </Pressable>
                   </LinearGradient>
 
@@ -858,136 +900,136 @@ export default function CreditCard({ navigation }) {
                </View> 
              */}
 
-             
-              <View style={styles.containerList}>
 
-               <ScrollView>
+               <View style={styles.containerList}>
 
-                  <View style={styles.contentList}>
+                  <ScrollView>
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.id}`}
-                        placeholderTextColor="#44E8C3"
-                        //type="text"
-                        editable={false}
+                     <View style={styles.contentList}>
 
-                        /*
-                        onChangeText={
-                           (valor) => handleInputChangeCad('id', valor)
-                        }   
-                        */
-                        value={cadCreditCard.id}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.id}`}
+                           placeholderTextColor="#44E8C3"
+                           //type="text"
+                           editable={false}
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.number}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('number', valor)
-                        }
-                        value={cadCreditCard.number}
-                     />
+                           /*
+                           onChangeText={
+                              (valor) => handleInputChangeCad('id', valor)
+                           }   
+                           */
+                           value={cadCreditCard.id}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.type}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('type', valor)
-                        }
-                        value={cadCreditCard.type}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.number}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('number', valor)
+                           }
+                           value={cadCreditCard.number}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.format}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('format', valor)
-                        }
-                        value={cadCreditCard.format}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.type}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('type', valor)
+                           }
+                           value={cadCreditCard.type}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.desc}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('desc', valor)
-                        }
-                        value={cadCreditCard.desc}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.format}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('format', valor)
+                           }
+                           value={cadCreditCard.format}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.fromDate}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('fromDate', valor)
-                        }
-                        value={cadCreditCard.fromDate}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.desc}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('desc', valor)
+                           }
+                           value={cadCreditCard.desc}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.expiry}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('expiry', valor)
-                        }
-                        value={cadCreditCard.expiry}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.fromDate}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('fromDate', valor)
+                           }
+                           value={cadCreditCard.fromDate}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.due}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('due', valor)
-                        }
-                        value={cadCreditCard.due}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.expiry}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('expiry', valor)
+                           }
+                           value={cadCreditCard.expiry}
+                        />
 
-                     <TextInput style={styles.input}
-                        placeholder={` ${creditCardData.limit}`}
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('limit', valor)
-                        }
-                        value={cadCreditCard.limit}
-                     />
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.due}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('due', valor)
+                           }
+                           value={cadCreditCard.due}
+                        />
 
-                  </View>
+                        <TextInput style={styles.input}
+                           placeholder={` ${creditCardData.limit}`}
+                           placeholderTextColor="#44E8C3"
+                           type="text"
+                           onChangeText={
+                              (valor) => handleInputChangeCad('limit', valor)
+                           }
+                           value={cadCreditCard.limit}
+                        />
 
-               </ScrollView>
+                     </View>
 
-            </View>
+                  </ScrollView>
+
+               </View>
 
                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
-<LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-   <Pressable style={styles.btn} onPress={() => updateCreditCard()}>
-      <FontAwesome name='save' size={30} color={"#44E8C3"} />
-      <Text style={styles.textBtn}>Confirm</Text>
-   </Pressable>
-</LinearGradient>
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn} onPress={() => updateCreditCard()}>
+                        <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Confirm</Text>
+                     </Pressable>
+                  </LinearGradient>
 
-<LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-   <Pressable style={styles.btn} onPress={() => setModalUpdate(false)}>
-      <FontAwesome name='close' size={30} color={"#44E8C3"} />
-      <Text style={styles.textBtn}>Cancel</Text>
-   </Pressable>
-</LinearGradient>
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn} onPress={() => setModalUpdate(false)}>
+                        <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Cancel</Text>
+                     </Pressable>
+                  </LinearGradient>
 
-</LinearGradient>
-
-         
+               </LinearGradient>
 
 
 
-             
+
+
+
 
 
 
@@ -999,7 +1041,13 @@ export default function CreditCard({ navigation }) {
 
 
 
-   </View >
+
+
+
+
+
+
+      </KeyboardAvoidingView>
 
 
    )
