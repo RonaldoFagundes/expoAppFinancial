@@ -52,8 +52,7 @@ export default function Transactions({ navigation }) {
 
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
-      listAccounts(accountData.id);
-      proofPost(accountData.id);
+      listAccounts(accountData.id);   
    }, [load, navigation]);
 
 
@@ -73,6 +72,8 @@ export default function Transactions({ navigation }) {
       form: "",
       desc: "",
       value: 0,
+      account: accountData.type,
+      number: accountData.number,
       idac: accountData.id,      
    });
 
@@ -188,10 +189,25 @@ export default function Transactions({ navigation }) {
 
 
 
+
+
+    /*
+    const [cashMov, setCashMov] = useState({
+           date: "",
+           type: "",
+           source: "",
+           desc: "",
+           value: 0,
+           fktrs: null,
+       });
+    */
+
+
+
    const safePost = async () => {
 
-    if( parseFloat(accountData.amount) >= parseFloat (transaction.value) ){
-          
+    if( parseFloat(amountAccount) >= parseFloat (transaction.value) ){  
+                     
       await fetch(endpoint + "?action=postTransaction", {
          method: 'POST',
          headers: {
@@ -205,34 +221,34 @@ export default function Transactions({ navigation }) {
          .then(
             (result) => {
 
-               showProof(true);
 
-               console.log(result);
+               //console.log(result);
+               
+               setShowProof(true);               
                setResultPost(result);
-
                setModalTransaction(false);
                cleanFields();
                updateAmount(accountData.id);
-
+               proofPost(accountData.id);
+              
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
-         });
-     
+         });        
+       
 
-      }else{
-  
-         console.log(" transação "+transaction.value+" Saldo insuficiente "+accountData.amount);   
-  
-      }
-
+      }else{  
+         console.log(" transação "+transaction.value+" Saldo insuficiente "+amountAccount);   
+        }
    }
 
 
 
 
-   const proofPost = async (id) => {    
+
+
+   const proofPost = async (fkac) => {    
             
       await fetch(endpoint + "?action=proofTransaction", {
          method: 'POST',
@@ -240,7 +256,7 @@ export default function Transactions({ navigation }) {
             'Content-Type': 'application/json'
          }, 
          body: JSON.stringify({
-            id
+            fkac
          })        
       })
          .then((res) => res.json())
@@ -252,7 +268,9 @@ export default function Transactions({ navigation }) {
                
               { result.map((item)=>
 
-                  {                     
+                  {
+                     
+                     
                      setProof(
                         {
                            ...proof,'id':item.id_trs, 
@@ -265,10 +283,32 @@ export default function Transactions({ navigation }) {
                               proof,'value':item.value_trs,
                         }
                      )
-                  }
+                  
+                   /*
+                  if(item.type_trs === "Saque"){                         
+
+                     setCashMov(
+                        {
+                            ...cashMov, ['date']: item.date_trs,
+                            cashMov, ['type']: 'in',
+                            cashMov, ['source']: item.type_trs,
+                            cashMov, ['desc']: bankData.name+" "+accountData.type+" "+accountData.number,
+                            cashMov, ['value']: item.value_trs,
+                            cashMov, ['fktrs']: item.id_trs
+                        }
+                    )
+
+                     safeCashMov();
+
+                   }
+                  */
+                   
+
+                 }
 
                )}
 
+             
 
             })
          .catch(function (error) {
@@ -278,6 +318,40 @@ export default function Transactions({ navigation }) {
    }
  
    
+
+
+
+   /*
+   const safeCashMov = async () => {
+      
+      await fetch(endpoint + "?action=postCashMov", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              cashMov
+          })
+      })
+          .then((res) => res.json())
+          .then(
+              (result) => {
+
+                  console.log(result);                 
+
+              })
+          .catch(function (error) {
+              console.log('erro => ' + error.message);
+          });     
+
+    }
+    */
+
+
+
+
+
+
 
 
 
@@ -451,17 +525,17 @@ export default function Transactions({ navigation }) {
               <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
             </View>    
 
-            <Text style={styles.textProof}>{`ID :${proof.id}  `}</Text>
+            <Text style={styles.textProof}>{`ID :  ${proof.id}  `}</Text>
 
-            <Text style={styles.textProof}>{`Date :${proof.date}  `}</Text>
+            <Text style={styles.textProof}>{`Date :  ${proof.date}  `}</Text>
 
-            <Text style={styles.textProof}>{`Origem :${proof.source}  `}</Text>
+            <Text style={styles.textProof}>{`Origem :  ${proof.source}  `}</Text>
 
-            <Text style={styles.textProof}>{`Tipo :${proof.type}  `}</Text>
+            <Text style={styles.textProof}>{`Tipo :  ${proof.type}  `}</Text>
 
-            <Text style={styles.textProof}>{`Detalhes :${proof.desc}  `}</Text>
+            <Text style={styles.textProof}>{`Detalhes :  ${proof.desc}  `}</Text>
 
-            <Text style={styles.textProof}>{`Valor R$:${proof.value}  `}</Text>
+            <Text style={styles.textProof}>{`Valor R$:  ${proof.value}  `}</Text>
 
 
          </View>
@@ -584,7 +658,7 @@ export default function Transactions({ navigation }) {
 
                
                <View style={styles.infoCheckBox} >
-                         <Text style={styles.textInfo}>{` Tipo de Movimentação `}</Text>
+                         <Text style={styles.textInfo}>{` Mov Type `}</Text>
                </View>              
 
 
@@ -675,12 +749,14 @@ export default function Transactions({ navigation }) {
 
                               setTransaction(
                                  {
-                                    ...transaction, 'type': val
+                                    ...transaction, 'type': val ,
+                                       transaction, 'source': bankData.name
                                  }
                               )
+                             
                            }
 
-
+                           
 
                            data={type}
                            save="value"
@@ -721,7 +797,7 @@ export default function Transactions({ navigation }) {
                                  //setSelected={ (key) => setSelectedAccount(key.substr(0, 2))}
 
 
-                                 setSelected={(val) =>
+                                 setSelected={(val) =>                                    
 
                                     setTransaction(
                                        {
@@ -759,6 +835,8 @@ export default function Transactions({ navigation }) {
                </View>
 
 
+                
+
 
 
 
@@ -777,15 +855,53 @@ export default function Transactions({ navigation }) {
                         value={transaction.date}
                      />
 
-                     <TextInput style={styles.input}
+                       {
+                        transaction.type === "Saque" 
+                        ?
+                        
+                        <TextInput style={styles.input}
+                         editable={false}
+                         placeholder={bankData.name}
+                         placeholderTextColor="#44E8C3"
+                         type="text"          
+                         value={bankData.name}
+                       />
+                 
+                        :
+
+                        <TextInput style={styles.input}
                         placeholder="Origem"
                         placeholderTextColor="#44E8C3"
-                        type="text"
+                        type="text"  
                         onChangeText={
                            (valor) => handleInputChangeCad('source', valor)
                         }
                         value={transaction.source}
+                       />
+
+                  
+                     }
+
+
+
+{/* 
+                     <TextInput style={styles.input}
+                        placeholder="Origem"
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                       
+
+                        onChangeText={
+                           (valor) => handleInputChangeCad('source', valor)
+                        }
+
+                        value={transaction.source}
                      />
+
+ */}
+
+
+
 
                      <TextInput style={styles.input}
                         placeholder="Tipo de Transação"

@@ -9,17 +9,20 @@ import {
     View,
     Modal,
     Image,
-}from 'react-native';
+    ScrollView,
+} from 'react-native';
 
 
 //import  SelectList  from 'react-native-dropdown-select-list';
 
-import * as Print from 'expo-print';
 
 import { AuthContext } from '../../context/auth';
 
 
+import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
+import { FontAwesome } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import Header from '../../components/Header';
 
@@ -27,153 +30,91 @@ import Header from '../../components/Header';
 
 
 
-export default function CashPayment ({ navigation }) {
+export default function CashPayment({ navigation }) {
 
 
 
-    const {        
-        endpoint,       
+
+    const {
+        endpoint,
+        user,
     } = useContext(AuthContext);
 
 
 
-    useEffect(() => {        
+
+
+    useEffect(() => {      
+
     }, []);
 
 
 
+    const [showAmount, setShowAmount] = useState(false);
+
+
     const [modalPost, setModalPost] = useState(false);
 
-    const [modalUpdatePost, setModalUpdatePost] = useState(false);
-
-    
-    const [postCash, setPostCash] = useState({
+    const [cashMov, setCashMov] = useState({
         date: "",
-        user: "",        
-        placeshop: "",
+        type: "",
+        category:"",
+        source: "",
+        desc: "",
         value: 0,
-        desc: "",        
+        fktrs: null,
     });
-
-
-
-    const [surchUser, setSurchUser] = useState({
-        user: "",       
-        id: 0
-    });
-
-
-
-
-
-
-
-    const [reportList, setReportList] = useState([]);
-
-
-    const [usersCC, setUsersCC] = useState([]);
-    const [selectedUser, setSelectedUser] = useState();
-
-
-    const [selectedPrinter, setSelectedPrinter] = useState();
-
-    const [amount, setAmount] = useState("");
-
-
-
-
-
 
 
     const handleInputChange = (atribute, value) => {
 
-        setPostCash(
+        setCashMov(
             {
-                ...postCash, [atribute]: value
+                ...cashMov, [atribute]: value
             }
         )
     }
 
 
+    const mov = [
+        { key: '1', value: 'out' },
+        { key: '2', value: 'in' },
+    ];
+
+
+    const [checkBox, setCheckBox] = useState([]);
+    const [randomCheckBox, setRandomCheckBox] = useState(null);
+    const [statusCheckBox, setStatusCheckBox] = useState(null);
 
 
 
+    const selectStatus = (index, item) => {
 
-    const handleInputChangeUser = (atribute, value) => {
-
-        setSurchUser(
-            {
-                ...surchUser, [atribute]: value
-            }
-        )
-    }
-
-
-
-
-
-    const closeModal = (atribute) => {
-        if (atribute == "post") {
-            setModalPost(false);
+        setStatusCheckBox(index);
+        if (statusCheckBox !== index && checkBox[index] !== undefined) {
+            checkBox[index] = undefined;
         } else {
-            setModalUpdatePost(false);
+            checkBox[index] = item;
+            setStatusCheckBox(index);
         }
+        setRandomCheckBox(Math.random());
+
+        setCashMov(
+            {
+                ...cashMov, 'type': item
+            }
+        )
     }
 
 
 
 
 
+    const [showProof, setShowProof] = useState(false);
 
+    const [resultPost, setResultPost] = useState();
 
-    const getListPostCash = async () => {      
-
-                                  
-        await fetch(endpoint + "?action=listPostCash", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },           
-        })
-            .then((res) => res.json())
-            .then(
-                (result) => {
-
-                    console.log(result);                   
-
-                })
-            .catch(function (error) {
-                console.log('erro => ' + error.message);
-            });    
-    }
-
-
-
-
-
-
-    const listPostCashByUser = async () => {      
-                               
-        await fetch(endpoint + "?action=listPostCashByUser", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                surchUser
-            })
-        })
-            .then((res) => res.json())
-            .then(
-                (result) => {
-
-                    console.log(result);                   
-
-                })
-            .catch(function (error) {
-                console.log('erro => ' + error.message);
-            });    
-    }
+    const [proof, setProof] = useState({});
 
 
 
@@ -182,74 +123,89 @@ export default function CashPayment ({ navigation }) {
 
 
 
-    const listUserCash = async () => {    
-          
-        console.log("listUserCash");   
 
 
-        /*
-      await fetch(endpoint + "?action=listUsers", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id
+
+
+
+
+
+
+    const safeCashMov = async () => {
+
+      
+      await fetch(endpoint + "?action=postCashMov", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              cashMov
           })
-       })
-              .then((res) => res.json())
-              .then(
-                  (result) => { 
-                    
-                      setUsersCC(result);
-                      console.log(result);                
-  
-                  })
-              .catch(function (error) {
-                  console.log('erro => ' + error.message);
-              });   
-      */ 
-      }
+      })
+          .then((res) => res.json())
+          .then(
+              (result) => {
+
+                  console.log(result);
+                  setResultPost(result);
+                  cleanFields();
+                  setModalPost(false);
+                  proofPost();
+
+
+              })
+          .catch(function (error) {
+              console.log('erro => ' + error.message);
+          });
+      
+
+    }
 
 
 
 
 
+    const proofPost = async () => {
 
-
-
-
-
-
-
-    const safePost = async () => {
-
-       console.log('safePost');
-
-       /*
-        await fetch(endpoint + "?action=postCash", {
+        await fetch(endpoint + "?action=proofCashMov", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                postCash
-            })
         })
             .then((res) => res.json())
             .then(
                 (result) => {
 
-                    console.log(' postCreditCard => ' + result);
-                    cleanFields();
-                    closeModal("post");
-                   
+                    console.log(result);
 
+
+                    {
+                        result.map((item) => {
+                            setProof(
+                                {
+                                    ...proof, 'id': item.id_cm,
+                                    proof, 'date': item.date_cm,
+                                    proof, 'type': item.type_cm,
+                                    proof, 'category': item.category_cm,
+                                    proof, 'source': item.source_cm,
+                                    proof, 'desc': item.desc_cm,
+                                    proof, 'value': item.value_cm,
+                                }
+                            )
+                        }
+
+                        )
+                    }
+
+                    setShowProof(true);               
+                   
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
             });
-        */   
+
     }
 
 
@@ -257,24 +213,8 @@ export default function CashPayment ({ navigation }) {
 
 
 
-    const getAmount = async () => {
-  
-        await fetch(endpoint + "?action=amountCash")
-           .then((res) => res.json())
-           .then(
-              (result) => {
-  
-                 if (result != "error"){  
-                    setAmount(result);
-                 }else{
-                    alert(result);
-                 }
-              })
-              .catch(function (error) {
-                 console.log('erro => ' + error.message);
-           });   
-     }
-  
+
+
 
 
 
@@ -284,305 +224,18 @@ export default function CashPayment ({ navigation }) {
 
     const cleanFields = () => {
 
-        setPostCash(
+        setCashMov(
             {
-                ...postCash, 'date': "",
-                postCash, 'user': "",                
-                postCash, 'placeshop': "",               
-                postCash, 'value': 0,
-                postCash, 'desc': "",
+                ...cashMov, 'date': "",
+                cashMov, 'type': "",
+                cashMov, 'category': "",
+                cashMov, 'source': "",
+                cashMov, 'desc': "",
+                cashMov, 'value': 0,
             }
         )
-    }
 
-
-
-
-
-
-    const printReport = async () => {
-        // On iOS/android prints the given html. On web prints the HTML from the current page.
-        await Print.printAsync({
-            html: createDynamicData(),
-            printerUrl: selectedPrinter?.url, // iOS only     
-        });
-        // checkImgStatus();
-    };
-
-
-
-
-
-
-    const createDynamicData = () => {
-
-        var reportData = '';
-
-        for (let i in reportList) {
-            const item = reportList[i];
-
-            reportData = reportData +
-                `
-            <div 
-              style="
-               display:block;
-                height:1052px;
-                width:814px;           
-             ">  
-             
- 
-             
-               <div            
-                  style="
-                  display:flex;
-                  justify-content: space-between;
-                  height:15%;
-                  width:100%;              
-                ">             
-    
-                       
-               
-                    <div
-                      style="            
-                        height:15%;
-                        width:90%;              
-                      ">
-                        <p 
-                          style=
-                          "
-                          font-size:30px;
-                          color:black;                      
-                          ">                               
-                           ${item.date_pcc}
-                        </p>
-                     </div>
-               
-                </div>
-
-
-
-
-
-                 <div            
-                  style="
-                  display:flex;
-                  justify-content: space-between;
-                  height:15%;
-                  width:100%;              
-                ">             
-    
-                       
-               
-                    <div
-                      style="            
-                        height:15%;
-                        width:90%;              
-                      ">
-                        <p 
-                          style=
-                          "
-                          font-size:30px;
-                          color:black;                      
-                          ">                               
-                           ${item.shop_pcc}
-                        </p>
-                     </div>
-               
-                </div>
-
-
-        
-    
-                <div            
-                  style="
-                  display:flex;
-                  justify-content: space-between;
-                  height:15%;
-                  width:100%;              
-                "> 
-                 
-
-                    <div
-                       style="            
-                        height:15%;
-                        width:80%;
-                        text-align:center;              
-                      ">
-                        <p 
-                          style=
-                          "
-                          font-size:30px;
-                          color:black;
-                          ">                               
-                          ${item.user_pcc}
-                        </p>
-                     </div>                        
-                     
-                </div>
-
-
-
-                
-                 <div            
-                  style="
-                  display:flex;
-                  justify-content: space-between;
-                  height:15%;
-                  width:100%;              
-                "> 
-                 
-
-                    <div
-                       style="            
-                        height:15%;
-                        width:80%;
-                        text-align:center;              
-                      ">
-                        <p 
-                          style=
-                          "
-                          font-size:30px;
-                          color:black;
-                          ">                               
-                          ${item.parcel_pcc}
-                        </p>
-                     </div>                        
-                     
-                </div>
-
-
-
-                 <div            
-                  style="
-                  display:flex;
-                  justify-content: space-between;
-                  height:15%;
-                  width:100%;              
-                "> 
-                 
-
-                    <div
-                       style="            
-                        height:15%;
-                        width:80%;
-                        text-align:center;              
-                      ">
-                        <p 
-                          style=
-                          "
-                          font-size:30px;
-                          color:black;
-                          ">                               
-                          ${item.value_pcc}
-                        </p>
-                     </div>                        
-                     
-                </div>
-
-
-
-                 <div            
-                  style="
-                  display:flex;
-                  justify-content: space-between;
-                  height:15%;
-                  width:100%;              
-                "> 
-                 
-
-                    <div
-                       style="            
-                        height:15%;
-                        width:80%;
-                        text-align:center;              
-                      ">
-                        <p 
-                          style=
-                          "
-                          font-size:30px;
-                          color:black;
-                          ">                               
-                          ${item.desc_pcc}
-                        </p>
-                     </div>                        
-                     
-                </div>
-
-
-                 
-              </div>                 
-             `
-        }
-
-
-
-
-
-
-
-  const html =
-            `
-  <!DOCTYPE html> 
-   <html>
-    
-   <head>
-      <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-      
-    <style>  
-    
-    body{
-          padding: 0;
-          margin: 0;
-          text-align: center;    
-    }
-            
-    
-    #desc-container{    
-           display: block;   
-           height:1057px;
-           width:814px;                 
-    }      
-    
-    #container-standards{
-        display: flex;
-        justify-content: space-between;  
-        height:auto; 
-        padding: 12px;
-    }
-           
-   </style>  
-       
- </head>
-          
-  <body>
-    
-      <section id="">
-             
-          <div id="">Relatório</div>
-    
-             <div id="">
-
-                 <div>                  
-                   ${creditCardData.type}              
-                 </div>
-
-
-                 <div id="">                  
-                   ${reportData}              
-                </div>
-                  
-             </div>  
-           
-          </div>   
-            
-      </section>
-    
-   </body>
-    
-  </html>        
- `;
-        return html;
+        setStatusCheckBox(null);
     }
 
 
@@ -592,528 +245,317 @@ export default function CashPayment ({ navigation }) {
 
 
 
+    return (
 
-
-return (
-
-    /*     
-     <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-    */
-
-
-  <View style={styles.main}>
-
-      
-    <Header user="user name"/>                       
-                 
-
-
-    <View style={styles.containerBtn}>
-
-        
-        <Pressable style={styles.btn}
-                        onPress={() => setModalPost(true)}
-                    >
-           <Text style={styles.textBtn}>Post</Text>
-        </Pressable>
-              
-        
-
-
-        <Pressable style={styles.btn}
-                        onPress={() => printReport()}
-                    >
-            <Text style={styles.textBtn}>Report</Text>
-        </Pressable>                    
-       
-         
-
-
-        <Pressable style={styles.btn}
-                  onPress={() => navigation.navigate("Home")}
-               >
-            <Text style={styles.textBtn}>Home</Text>
-        </Pressable>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.main}>
 
 
 
-    </View>
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+
+                <View style={styles.contentHeaderTitle}>
+                    <Header user={`${user}`} />
+                </View>
+
+            </LinearGradient>
 
 
 
 
-
-
-
-    <View style={styles.boxInfo}>
-
-
-    {/*
-
-        <SelectList data={usersCC} 
-
-          setSelected={
-           
-           setSurchUser(
-              {
-                ...surchUser.user
-              }
-            )
-
-          }        
-       /> 
-       
-
-    */}
-
-
-        <TextInput style={styles.input}
-            placeholderTextColor="#44E8C3"
-            placeholder="User"
-            type="text"
-            onChangeText={
-             (valor) => handleInputChangeUser('user', valor)
-            }
-            value={surchUser.user}
-        />
-
-
-        <Pressable style={styles.btn}
-            onPress={() => listUserCash()} >
-           <Text style={styles.textBtn}>User</Text>
-        </Pressable>
-
-
-        <Text style={styles.textInfo}>{` Total R$ ${amount}`}</Text>
+            <View style={styles.containerInfo}>          
             
-    </View>
-
-
-
-
-
-
-
-
-
-
-    <View style={styles.containerReport}>
-
-
-        <View style={styles.headerReport}>
-
-
-                <View style={styles.contentTitle}>
-                     <Text style={styles.textTitle}>
-                        {`Date`}
-                     </Text>
-                </View>
-
-
-                <View style={styles.contentTitle}>
-                    <Text style={styles.textTitle}>
-                        {`Shop`}
-                    </Text>
-                </View>
-
-
-                <View style={styles.contentTitle}>
-                    <Text style={styles.textTitle}>
-                        {`User`}
-                    </Text>
-                </View>
-
-
-                <View style={styles.contentTitle}>
-                    <Text style={styles.textTitle}>
-                        {`Parcel`}
-                    </Text>
-                </View>
-
-
-                <View style={styles.contentTitle}>
-                    <Text style={styles.textTitle}>
-                        {`Value`}
-                    </Text>
-                </View>
-
-
-                <View style={styles.contentTitle}>
-                    <Text style={styles.textTitle}>
-                        {`Desc`}
-                    </Text>
-                </View> 
-
-        </View>  
-
-
-
-
-
-
-        <FlatList
-
-                // horizontal
-            data={reportList}                   
-            renderItem={({ item }) =>
-
-                    
-
-            <View style={styles.containerList} >
-
+                {showAmount ?
+                        
+                    <Pressable style={styles.btn}
+                              onPress={() => setShowAmount(false)}>
+                             {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
+                             <Text style={styles.textDesc}>{` AMOUNT = `}</Text>
+                    </Pressable>
+                        
+                           :
+                           <Pressable style={styles.btn}
+                              onPress={() => setShowAmount(true)}>
+                              <FontAwesome name='eye' size={30} color={"#44E8C3"} />
+                           </Pressable>
+                        }
             
-                <View style={styles.contentList} >   
-                    <Text style={styles.textList}>
-                       {item.date_pcc}
-                    </Text>
-                </View>
-
-
-                <View style={styles.contentList} >
-                    <Text style={styles.textList}>
-                        {item.shop_pcc}
-                    </Text>                                   
-                </View>
-
-
-                               
-                <View style={styles.contentList} >   
-                    <Text style={styles.textList}>
-                       {item.user_pcc}
-                    </Text>
-                </View>
-
-
-                <View style={styles.contentList} >
-                    <Text style={styles.textList}>
-                       {item.parcel_pcc}
-                    </Text>
-                </View> 
-
-
-
-                <View style={styles.contentList} >
-                     <Text style={styles.textList}>
-                      {item.value_pcc}
-                    </Text>
-                </View>
-                               
-
-                <View style={styles.contentList} >
-                    <Text style={styles.textList}>
-                        {item.desc_pcc}
-                    </Text>                                  
-                </View>  
-
-
-            </View>
-
-            }
-
-                //  showsHorizontalScrollIndicator={false}
-       
-            >
-
-       </FlatList>
-
-    </View>
+                     </View>
 
 
 
 
-            {/* 
-            <FlatList
 
-                data={reportList}
-                renderItem={({ item }) =>
+               {
+                showProof
+                    ?
 
+                    <View style={styles.containerProof}>
 
-                    <View style={styles.dataList}>
-
-
-                        <View style={styles.cardList}>
-
-
-                            <View >
-
-                                <Text style={styles.textList}>
-                                    {`ID  :  ${item.id_pcc}`}
-                                </Text>
-
-
-                                <Text style={styles.textList}>
-                                    {`Shop :  ${item.shop_pcc}`}
-                                </Text>
-
-                                <Text style={styles.textList}>
-                                    {`Date :  ${item.date_pcc}`}
-                                </Text>
-
-                                <Text style={styles.textList}>
-                                    {`User :  ${item.user_pcc}`}
-                                </Text>
-
-                                <Text style={styles.textList}>
-                                    {`Parcel :  ${item.parcel_pcc}`}
-                                </Text>
-
-                                <Text style={styles.textList}>
-                                    {`Value :  ${item.value_pcc}`}
-                                </Text>
-
-                                <Text style={styles.textList}>
-                                    {`Desc :  ${item.desc_pcc}`}
-                                </Text>
-
-                                <Text style={styles.textList}>
-                                    {`Fk CC :  ${item.fk_cc}`}
-                                </Text>
-
-                            </View>
-
-
+                        <View>
+                            <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
                         </View>
+
+                        <Text style={styles.textProof}>{`ID : ${proof.id}  `}</Text>
+
+                        <Text style={styles.textProof}>{`Date : ${proof.date}  `}</Text>
+
+                        <Text style={styles.textProof}>{`Type : ${proof.type}  `}</Text>
+
+                        <Text style={styles.textProof}>{`Category : ${proof.category}  `}</Text>
+
+                        <Text style={styles.textProof}>{`Source : ${proof.source}  `}</Text>
+
+                        <Text style={styles.textProof}>{`Desc : ${proof.desc}  `}</Text>
+
+                        <Text style={styles.textProof}>{`Value R$ : ${proof.value}  `}</Text>
 
                     </View>
 
-                }
 
-            >
-    </FlatList>
+                    :
 
- */}
+                    <View style={styles.containeEmpty}>
 
+                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                            <Pressable style={styles.btn}
+                                onPress={() => setModalPost(true)}>
+                                <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>{` Registrar Movimentação  `}</Text>
+                            </Pressable>
 
+                        </LinearGradient>
 
-
-
-
-
-
-
-
-
+                    </View>
 
 
 
-    <Modal
-       animationType='fade'
-       visible={modalPost}
-    >
-      
-        <View style={styles.containerModal}>        
-        
-            <View style={styles.contentModal} >
-                 <Text style={styles.textInfo}>{` Register PostCash`}</Text>
-            </View>
-        
-
-
-            <View style={styles.formModal}>
-
-
-               <TextInput style={styles.input}
-                            placeholder="Date"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('date', valor)
-                            }
-                            value={postCash.date}
-                />
+            }
 
 
 
-                    <TextInput style={styles.input}
-                            placeholder="User"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('user', valor)
-                            }
-                            value={postCash.user}
-                   />
 
-
-
-                <TextInput style={styles.input}
-                            placeholder="Placeshop"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('placeshop', valor)
-                            }
-                            value={postCash.placeshop}
-                />
-
-
-                <TextInput style={styles.input}
-                            placeholder="Value"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('value', valor)
-                            }
-                         value={postCash.value}
-                />
-
-
-
-                <TextInput style={styles.input}
-                            placeholder="Description"
-                            placeholderTextColor="#44E8C3"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('desc', valor)
-                            }
-                            value={postCash.desc}
-                />
-
-            </View>
 
 
 
             <View style={styles.containerBtn}>
 
-                    
+
+                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
-                         onPress={() => closeModal('post')}>
-                        <Text style={styles.textBtn}>Cancel</Text>
+                        onPress={() => setModalPost(true)}>
+                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Post</Text>
                     </Pressable>
-                       
+                </LinearGradient>
+
+
+
+                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
-                        onPress={() => safePost()}>
-                        <Text style={styles.textBtn}>Safe</Text>
-                     </Pressable>
+                        onPress={() => navigation.navigate("Home")}>
+                        <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Home</Text>
+                    </Pressable>
+                </LinearGradient>
 
             </View>
 
 
 
-        </View>
-
-
-    </Modal>
 
 
 
 
-
-
-            {/* 
 
             <Modal
                 animationType='fade'
-                visible={modalUpdatePost}
+                visible={modalPost}
             >
 
-                <View style={styles.containerModal}>
-
-                    <View style={styles.titleModal} ><Text style={styles.textInfo}>{` UPDATE MODAL`}</Text></View>
-
-                    <FlatList
-
-                        data={listAccount}
-
-                        renderItem={({ item }) =>
-
-                            <View style={styles.dataList}>
-
-                                <View style={styles.cardList}>
-
-                                    <TextInput style={styles.input}
-                                        placeholder={` ${item.number_bka}`}
-                                        placeholderTextColor="#cc0000"
-                                        type="text"
-                                        onChangeText={
-                                            (valor) => handleInputChange('number', valor)
-                                        }
-                                        value={account.number}
-                                    />
-
-                                    <TextInput style={styles.input}
-                                        placeholder={` ${item.type_bka}`}
-                                        placeholderTextColor="#cc0000"
-                                        type="text"
-                                        onChangeText={
-                                            (valor) => handleInputChange('type', valor)
-                                        }
-                                        value={account.type}
-                                    />
-
-                                    <TextInput style={styles.input}
-                                        placeholder={` ${item.open_date_bka}`}
-                                        placeholderTextColor="#cc0000"
-                                        type="text"
-                                        onChangeText={
-                                            (valor) => handleInputChange('open', valor)
-                                        }
-                                        value={account.open}
-                                    />
-
-                                    <TextInput style={styles.input}
-                                        placeholder={` ${item.desc_bka}`}
-                                        placeholderTextColor="#cc0000"
-                                        type="text"
-                                        onChangeText={
-                                            (valor) => handleInputChange('desc', valor)
-                                        }
-                                        value={account.desc}
-                                    />
-
-                                    <TextInput style={styles.input}
-                                        placeholder={` ${item.amount_bka}`}
-                                        placeholderTextColor="#cc0000"
-                                        type="text"
-                                        onChangeText={
-                                            (valor) => handleInputChange('amount', valor)
-                                        }
-                                        value={account.amount}
-                                    />
 
 
 
-                                    <View style={styles.boxBtn}>
+                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
-                                        <View>
-                                            <Pressable style={styles.btn}
-                                                onPress={() => updateAccount()}>
-                                                <Text style={styles.textAlert}>Confirm</Text>
-                                            </Pressable>
-                                        </View>
+                    <View style={styles.infoModal} >
+                        <Text style={styles.textInfo}>{` Register PostCashMov `}</Text>
+                    </View>
 
 
-                                        <View>
-                                            <Pressable style={styles.btn}
-                                                onPress={() => closeModal('update')}>
-                                                <Text style={styles.textBtn}>Cancel</Text>
-                                            </Pressable>
-                                        </View>
+                    <ScrollView style={styles.contentModal} >
+
+
+                        <View style={styles.infoCheckBox} >
+                            <Text style={styles.textInfo}>{` Mov Type `}</Text>
+                        </View>
+
+
+                        <View style={styles.containerCheckBox}>
+
+
+                            <FlatList
+                                horizontal={true}
+                                data={mov}
+                                renderItem={({ item, index }) =>
+
+
+                                    <View style={styles.contentCheckBox}>
+
+                                        <Pressable onPress={() => selectStatus(index, item.value)}>
+
+                                            {
+
+                                                statusCheckBox !== index ?
+
+                                                    // checkBox[index] === undefined ?
+
+                                                    <View style={styles.checkBox}>
+
+                                                        <View>
+                                                            <Text style={styles.textInfo}>{item.value}</Text>
+                                                        </View>
+
+                                                        <View>
+                                                            <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
+                                                        </View>
+
+                                                        {/*   
+                           <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
+                           <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
+                         */}
+
+                                                    </View>
+
+                                                    :
+
+                                                    <View style={styles.checkBox}>
+
+                                                        <View>
+                                                            <Text style={styles.textInfo}>{item.value}</Text>
+                                                        </View>
+
+                                                        <View>
+                                                            <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
+                                                        </View>
+
+                                                    </View>
+                                            }
+
+
+                                        </Pressable>
 
                                     </View>
 
+                                }
+                            >
+                            </FlatList>
 
-                                </View>
+                        </View>
 
-                            </View>
-                        }
-                    >
-                    </FlatList>
 
-                </View>
+
+
+                        <View style={styles.boxCard}>
+
+
+
+                            <TextInput style={styles.input}
+                                placeholder="Date"
+                                placeholderTextColor="#44E8C3"
+                                type="text"
+                                onChangeText={
+                                    (valor) => handleInputChange('date', valor)
+                                }
+                                value={cashMov.date}
+                            />
+                            
+
+                            <TextInput style={styles.input}
+                                placeholder="Category"
+                                placeholderTextColor="#44E8C3"
+                                type="text"
+                                onChangeText={
+                                    (valor) => handleInputChange('category', valor)
+                                }
+                                value={cashMov.category}
+                            />
+
+
+                            <TextInput style={styles.input}
+                                placeholder="Source"
+                                placeholderTextColor="#44E8C3"
+                                type="text"
+                                onChangeText={
+                                    (valor) => handleInputChange('source', valor)
+                                }
+                                value={cashMov.source}
+                            />
+
+
+                            <TextInput style={styles.input}
+                                placeholder="Description"
+                                placeholderTextColor="#44E8C3"
+                                type="text"
+                                onChangeText={
+                                    (valor) => handleInputChange('desc', valor)
+                                }
+                                value={cashMov.desc}
+                            />
+
+                            <TextInput style={styles.input}
+                                placeholder="Value"
+                                placeholderTextColor="#44E8C3"
+                                type="text"
+                                onChangeText={
+                                    (valor) => handleInputChange('value', valor)
+                                }
+                                value={cashMov.value}
+                            />
+
+                        </View>
+
+
+
+                        <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+
+                            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                                <Pressable style={styles.btn}
+                                    onPress={() => safeCashMov()}>
+                                    <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Safe</Text>
+                                </Pressable>
+                            </LinearGradient>
+
+                            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                                <Pressable style={styles.btn}
+                                    onPress={() => setModalPost(false)}>
+                                    <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                                    <Text style={styles.textBtn}>Cancel</Text>
+                                </Pressable>
+                            </LinearGradient>
+
+                        </LinearGradient>
+
+
+                    </ScrollView>
+
+
+
+
+                </LinearGradient>
+
+
+
 
             </Modal>
-          */}
 
 
 
-    </View>
+        </KeyboardAvoidingView>
 
-
-
-  )
+    )
 
 }
 
@@ -1121,6 +563,3 @@ return (
 
 
 
-       {/* 
-        </KeyboardAvoidingView>
-      */}

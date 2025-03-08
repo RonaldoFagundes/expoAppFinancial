@@ -9,8 +9,10 @@ import {
     View,
     Modal,
     Image,
-}
-    from 'react-native';
+}from 'react-native';
+
+
+//import  SelectList  from 'react-native-dropdown-select-list';
 
 import * as Print from 'expo-print';
 
@@ -19,20 +21,23 @@ import { AuthContext } from '../../context/auth';
 
 import styles from './styles';
 
-
-export default function SelectedCreditCard({ navigation }) {
-
+import Header from '../../components/Header';
 
 
-    const {
-        endpointPhp,
-        creditCardData,
+
+
+
+export default function CashPayment ({ navigation }) {
+
+
+
+    const {        
+        endpoint,       
     } = useContext(AuthContext);
 
 
 
-    useEffect(() => {
-        getListPostByCreditCard(creditCardData.id);
+    useEffect(() => {        
     }, []);
 
 
@@ -41,17 +46,34 @@ export default function SelectedCreditCard({ navigation }) {
 
     const [modalUpdatePost, setModalUpdatePost] = useState(false);
 
-    const [postCreditCard, setPostCreditCard] = useState({
-        placeshop: "",
+    
+    const [postCash, setPostCash] = useState({
         date: "",
-        user: "",
-        parcel: "",
+        user: "",        
+        placeshop: "",
         value: 0,
-        desc: "",
-        fkcc: creditCardData.id
+        desc: "",        
     });
 
+
+
+    const [surchUser, setSurchUser] = useState({
+        user: "",       
+        id: 0
+    });
+
+
+
+
+
+
+
     const [reportList, setReportList] = useState([]);
+
+
+    const [usersCC, setUsersCC] = useState([]);
+    const [selectedUser, setSelectedUser] = useState();
+
 
     const [selectedPrinter, setSelectedPrinter] = useState();
 
@@ -61,14 +83,33 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
+
+
     const handleInputChange = (atribute, value) => {
 
-        setPostCreditCard(
+        setPostCash(
             {
-                ...postCreditCard, [atribute]: value
+                ...postCash, [atribute]: value
             }
         )
     }
+
+
+
+
+
+
+    const handleInputChangeUser = (atribute, value) => {
+
+        setSurchUser(
+            {
+                ...surchUser, [atribute]: value
+            }
+        )
+    }
+
+
+
 
 
     const closeModal = (atribute) => {
@@ -83,31 +124,98 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-    const getListPostByCreditCard = async (id) => {
 
-        console.log(" tela selectdeCreditCard getListPostByCreditCard idCC " + id);
 
-        await fetch(endpointPhp + "?action=listPostByCreditCard", {
+    const getListPostCash = async () => {      
+
+                                  
+        await fetch(endpoint + "?action=listPostCash", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },           
+        })
+            .then((res) => res.json())
+            .then(
+                (result) => {
+
+                    console.log(result);                   
+
+                })
+            .catch(function (error) {
+                console.log('erro => ' + error.message);
+            });    
+    }
+
+
+
+
+
+
+    const listPostCashByUser = async () => {      
+                               
+        await fetch(endpoint + "?action=listPostCashByUser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id
+                surchUser
             })
         })
             .then((res) => res.json())
             .then(
                 (result) => {
 
-                    console.log(result);
-                    setReportList(result);
+                    console.log(result);                   
 
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
-            });
+            });    
     }
+
+
+
+
+
+
+
+
+    const listUserCash = async () => {    
+          
+        console.log("listUserCash");   
+
+
+        /*
+      await fetch(endpoint + "?action=listUsers", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id
+          })
+       })
+              .then((res) => res.json())
+              .then(
+                  (result) => { 
+                    
+                      setUsersCC(result);
+                      console.log(result);                
+  
+                  })
+              .catch(function (error) {
+                  console.log('erro => ' + error.message);
+              });   
+      */ 
+      }
+
+
+
+
+
+
 
 
 
@@ -116,13 +224,16 @@ export default function SelectedCreditCard({ navigation }) {
 
     const safePost = async () => {
 
-        await fetch(endpointPhp + "?action=postCreditCard", {
+       console.log('safePost');
+
+       /*
+        await fetch(endpoint + "?action=postCash", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                postCreditCard
+                postCash
             })
         })
             .then((res) => res.json())
@@ -132,14 +243,17 @@ export default function SelectedCreditCard({ navigation }) {
                     console.log(' postCreditCard => ' + result);
                     cleanFields();
                     closeModal("post");
-                    getListPostByCreditCard(creditCardData.id);
+                   
 
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
             });
-
+        */   
     }
+
+
+
 
 
 
@@ -148,7 +262,7 @@ export default function SelectedCreditCard({ navigation }) {
 
     const getAmount = async () => {
   
-        await fetch(endpointPhp + "?action=amountCreditCard")
+        await fetch(endpoint + "?action=amountCash")
            .then((res) => res.json())
            .then(
               (result) => {
@@ -171,19 +285,22 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
+
+
     const cleanFields = () => {
 
-        setPostCreditCard(
+        setPostCash(
             {
-                ...postCreditCard, 'placeshop': "",
-                postCreditCard, 'date': "",
-                postCreditCard, 'user': "",
-                postCreditCard, 'parcel':"",
-                postCreditCard, 'value': 0,
-                postCreditCard, 'desc': "",
+                ...postCash, 'date': "",
+                postCash, 'user': "",                
+                postCash, 'placeshop': "",               
+                postCash, 'value': 0,
+                postCash, 'desc': "",
             }
         )
     }
+
+
 
 
 
@@ -198,6 +315,11 @@ export default function SelectedCreditCard({ navigation }) {
         });
         // checkImgStatus();
     };
+
+
+
+
+
 
 
 
@@ -482,180 +604,237 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-    return (
+return (
 
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+    /*     
+     <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+    */
 
-            <View style={{ marginTop: 100, flexDirection: 'column', alignItems: 'center', }}>
-                <Text>{` ID  ${creditCardData.id}`}</Text>
-                <Text>{` NUMBER  ${creditCardData.number}`}</Text>
-                <Text>{` TYPE  ${creditCardData.type}`}</Text>
-                <Text>{` EXPIRY  ${creditCardData.expiry}`}</Text>
-            </View>
 
-            <View style={styles.boxBtn}>
+  <View style={styles.main}>
 
-                <View style={styles.btn}>
-                    <Pressable
+      
+    <Header user="user name"/>                       
+                 
+
+
+    <View style={styles.containerBtn}>
+
+        
+        <Pressable style={styles.btn}
                         onPress={() => setModalPost(true)}
                     >
-                        <Text style={styles.textBtn}>Post Credit Card</Text>
-                    </Pressable>
-                </View>
+           <Text style={styles.textBtn}>Post</Text>
+        </Pressable>
+              
+        
 
-                <View style={styles.btn}>
-                    <Pressable
-                        onPress={() => navigation.navigate("Home")}
-                    >
-                        <Text style={styles.textBtn}>Home</Text>
-                    </Pressable>
-                </View>
 
-                <View style={styles.btn}>
-                    <Pressable
+        <Pressable style={styles.btn}
                         onPress={() => printReport()}
                     >
-                        <Text style={styles.textBtn}>Report</Text>
-                    </Pressable>
-                </View>
+            <Text style={styles.textBtn}>Report</Text>
+        </Pressable>                    
+       
+         
+
+
+        <Pressable style={styles.btn}
+                  onPress={() => navigation.navigate("Home")}
+               >
+            <Text style={styles.textBtn}>Home</Text>
+        </Pressable>
 
 
 
-                <View style={styles.btn}>
-                    <Pressable
-                        onPress={() => getAmount()}
-                    >
-                        <Text style={styles.textBtn}>Amount</Text>
-                    </Pressable>
-                </View>
-
-            </View>
+    </View>
 
 
 
 
 
 
-         <View style={styles.containerReport}>
+
+    <View style={styles.boxInfo}>
 
 
-         <View style={styles.boxInfo}><Text style={styles.textInfo}>{` Total R$ ${amount}`}</Text></View>
+    {/*
+
+        <SelectList data={usersCC} 
+
+          setSelected={
+           
+           setSurchUser(
+              {
+                ...surchUser.user
+              }
+            )
+
+          }        
+       /> 
+       
+
+    */}
 
 
-            <View style={styles.contentReport}>
+        <TextInput style={styles.input}
+            placeholderTextColor="#44E8C3"
+            placeholder="User"
+            type="text"
+            onChangeText={
+             (valor) => handleInputChangeUser('user', valor)
+            }
+            value={surchUser.user}
+        />
+
+
+        <Pressable style={styles.btn}
+            onPress={() => listUserCash()} >
+           <Text style={styles.textBtn}>User</Text>
+        </Pressable>
+
+
+        <Text style={styles.textInfo}>{` Total R$ ${amount}`}</Text>
+            
+    </View>
+
+
+
+
+
+
+
+
+
+
+    <View style={styles.containerReport}>
+
+
+        <View style={styles.headerReport}>
 
 
                 <View style={styles.contentTitle}>
-                     <Text style={styles.texTitle}>
+                     <Text style={styles.textTitle}>
                         {`Date`}
                      </Text>
                 </View>
 
 
                 <View style={styles.contentTitle}>
-                    <Text style={styles.texTitle}>
+                    <Text style={styles.textTitle}>
                         {`Shop`}
                     </Text>
                 </View>
 
 
                 <View style={styles.contentTitle}>
-                    <Text style={styles.texTitle}>
+                    <Text style={styles.textTitle}>
                         {`User`}
                     </Text>
                 </View>
 
 
                 <View style={styles.contentTitle}>
-                    <Text style={styles.texTitle}>
+                    <Text style={styles.textTitle}>
                         {`Parcel`}
                     </Text>
                 </View>
 
 
                 <View style={styles.contentTitle}>
-                    <Text style={styles.texTitle}>
+                    <Text style={styles.textTitle}>
                         {`Value`}
                     </Text>
                 </View>
 
 
                 <View style={styles.contentTitle}>
-                    <Text style={styles.texTitle}>
+                    <Text style={styles.textTitle}>
                         {`Desc`}
                     </Text>
                 </View> 
 
-            </View>            
+        </View>  
 
-             <FlatList
 
-                   // horizontal
-                    data={reportList}                   
-                    renderItem={({ item }) =>
 
-                     
 
-                     <View style={styles.containerList} >
+
+
+        <FlatList
+
+                // horizontal
+            data={reportList}                   
+            renderItem={({ item }) =>
+
+                    
+
+            <View style={styles.containerList} >
 
             
-                               <View style={styles.contentList} >   
-                                    <Text style={styles.textList}>
-                                       {item.date_pcc}
-                                    </Text>
-                               </View>
+                <View style={styles.contentList} >   
+                    <Text style={styles.textList}>
+                       {item.date_pcc}
+                    </Text>
+                </View>
 
 
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.shop_pcc}
-                                    </Text>                                   
-                                </View>
+                <View style={styles.contentList} >
+                    <Text style={styles.textList}>
+                        {item.shop_pcc}
+                    </Text>                                   
+                </View>
 
 
                                
-                                <View style={styles.contentList} >   
-                                    <Text style={styles.textList}>
-                                       {item.user_pcc}
-                                    </Text>
-                                </View>
+                <View style={styles.contentList} >   
+                    <Text style={styles.textList}>
+                       {item.user_pcc}
+                    </Text>
+                </View>
 
 
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                       {item.parcel_pcc}
-                                    </Text>
-                                </View> 
+                <View style={styles.contentList} >
+                    <Text style={styles.textList}>
+                       {item.parcel_pcc}
+                    </Text>
+                </View> 
 
 
 
-                                <View style={styles.contentList} >
-                                     <Text style={styles.textList}>
-                                      {item.value_pcc}
-                                    </Text>
-                                </View>
+                <View style={styles.contentList} >
+                     <Text style={styles.textList}>
+                      {item.value_pcc}
+                    </Text>
+                </View>
                                
 
-                                <View style={styles.contentList} >
-                                    <Text style={styles.textList}>
-                                        {item.desc_pcc}
-                                    </Text>                                  
-                                </View>  
+                <View style={styles.contentList} >
+                    <Text style={styles.textList}>
+                        {item.desc_pcc}
+                    </Text>                                  
+                </View>  
 
 
-                                </View>
+            </View>
 
-                    }
 
-                  //  showsHorizontalScrollIndicator={false}
+
+
+            }
+
+                //  showsHorizontalScrollIndicator={false}
        
-                >
+            >
 
-           </FlatList>
+       </FlatList>
 
-       </View>
+    </View>
+
+
+
 
 
 
@@ -734,108 +913,104 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-            <Modal
-                animationType='fade'
-                visible={modalPost}
-            >
-
-                <View style={styles.containerModal}>
-
-                    <View style={styles.titleModalUpdate} ><Text style={styles.textInfo}>{` Register MODAL`}</Text></View>
-
-                    <View style={styles.formModal}>
-
-                        <TextInput style={styles.input}
-                            placeholder="Placeshop"
-                            placeholderTextColor="#cc0000"
-                            type="text"
-                            onChangeText={
-                                (valor) => handleInputChange('placeshop', valor)
-                            }
-                            value={postCreditCard.placeshop}
-                        />
+    <Modal
+       animationType='fade'
+       visible={modalPost}
+    >
+      
+        <View style={styles.containerModal}>        
+        
+            <View style={styles.contentModal} >
+                 <Text style={styles.textInfo}>{` Register PostCash`}</Text>
+            </View>
+        
 
 
+            <View style={styles.formModal}>
 
-                        <TextInput style={styles.input}
+
+               <TextInput style={styles.input}
                             placeholder="Date"
-                            placeholderTextColor="#cc0000"
+                            placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
                                 (valor) => handleInputChange('date', valor)
                             }
-                            value={postCreditCard.date}
-                        />
+                            value={postCash.date}
+                />
 
 
 
-                        <TextInput style={styles.input}
+                    <TextInput style={styles.input}
                             placeholder="User"
-                            placeholderTextColor="#cc0000"
+                            placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
                                 (valor) => handleInputChange('user', valor)
                             }
-                            value={postCreditCard.user}
-                        />
+                            value={postCash.user}
+                   />
 
 
-                        <TextInput style={styles.input}
-                            placeholder="Parcel"
-                            placeholderTextColor="#cc0000"
+
+                <TextInput style={styles.input}
+                            placeholder="Placeshop"
+                            placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
-                                (valor) => handleInputChange('parcel', valor)
+                                (valor) => handleInputChange('placeshop', valor)
                             }
-                         value={postCreditCard.parcel}
-                        />
+                            value={postCash.placeshop}
+                />
 
 
-                        <TextInput style={styles.input}
+                <TextInput style={styles.input}
                             placeholder="Value"
-                            placeholderTextColor="#cc0000"
+                            placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
                                 (valor) => handleInputChange('value', valor)
                             }
-                         value={postCreditCard.value}
-                        />
+                         value={postCash.value}
+                />
 
-                        <TextInput style={styles.input}
+
+
+                <TextInput style={styles.input}
                             placeholder="Description"
-                            placeholderTextColor="#cc0000"
+                            placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
                                 (valor) => handleInputChange('desc', valor)
                             }
-                            value={postCreditCard.desc}
-                        />
+                            value={postCash.desc}
+                />
 
-                    </View>
-
-
-                    <View style={styles.boxBtn}>
-                        <View >
-                            <Pressable style={styles.btn}
-                                onPress={() => closeModal('post')}>
-                                <Text style={styles.textBtn}>Cancel</Text>
-                            </Pressable>
-                        </View>
-
-                        <View >
-                            <Pressable style={styles.btn}
-                                onPress={() => safePost()}
-                            >
-                                <Text style={styles.textBtn}>Safe</Text>
-                            </Pressable>
-                        </View>
-                    </View>
+            </View>
 
 
 
-                </View>
+            <View style={styles.containerBtn}>
 
-            </Modal>
+                    
+                    <Pressable style={styles.btn}
+                         onPress={() => closeModal('post')}>
+                        <Text style={styles.textBtn}>Cancel</Text>
+                    </Pressable>
+                       
+                    <Pressable style={styles.btn}
+                        onPress={() => safePost()}>
+                        <Text style={styles.textBtn}>Safe</Text>
+                     </Pressable>
+
+            </View>
+
+
+
+        </View>
+
+
+    </Modal>
 
 
 
@@ -949,10 +1124,18 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
+    </View>
 
-        </KeyboardAvoidingView>
 
 
-    )
+  )
 
 }
+
+
+
+
+
+       {/* 
+        </KeyboardAvoidingView>
+      */}

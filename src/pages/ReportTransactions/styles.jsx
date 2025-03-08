@@ -9,7 +9,8 @@ export default StyleSheet.create({
   main: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#2c4254'        
+    backgroundColor: '#2c4254'
+    //backgroundColor:'#000000',     
   },
 
 
@@ -58,60 +59,6 @@ export default StyleSheet.create({
 
 
 
-  containerProof: {
-    marginTop: 50,
-    padding:10,
-    width: 'auto',
-    height: 'auto',
-    backgroundColor:'white',
-    marginStart:5,
-    marginEnd:5,
-    borderRadius: 10,
-    marginBottom:'auto'
-   // alignItems: 'center',
-  },
-
-
-  titleProof: {
-    color: '#000000',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10
-  },
-
-
-
- 
-  textProof: {
-    color: '#000000',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10
-  },
-
-
-
-  containeEmpty: {
-    alignItems:'center',
-    marginTop: 50,
-    padding:10,
-    width: 'auto',
-    height: 200,
-    borderWidth: 1,
-    borderBottomColor: "#44E8C3", 
-    borderRadius: 10,   
-    backgroundColor:'#2c4254',
-    marginBottom:'auto'
-   // alignItems: 'center',
-  },
-
-
-
-
-
-
-
-/*
   boxInfo: {
     width: 'auto',
     height: 'auto',
@@ -127,14 +74,11 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3", 
     borderRadius: 10,
   },
-*/
 
 
 
 
 
-
- /*
   boxSurch: {
     flexDirection: 'column',
     width: 'auto',
@@ -149,7 +93,7 @@ export default StyleSheet.create({
     padding: 10
 
   },
- */
+
 
 
 
@@ -176,16 +120,21 @@ export default StyleSheet.create({
     marginTop:'auto',      
   },
 
+
   boxBtn: {
     borderRadius: 6,
     marginTop: 6
   },
+
+
 
   btn: {
     width: 'auto',
     height: 'auto',
     padding: 10,
   },
+
+
 
   textBtn: {
     color: '#44E8C3',
@@ -203,7 +152,7 @@ export default StyleSheet.create({
 
 
 
-/*
+
   containerReport: {
     flexDirection: 'column',
     backgroundColor: '#11132f',
@@ -212,37 +161,33 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3", 
     borderRadius: 10,    
   },
-*/
 
 
- /*
+
   headerReport: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginBottom: 10   
   },
- */
 
-  /*
+
   contentTitle: {
     width: 55,
     height: "auto",
     marginRight: 6
     // backgroundColor: 'rgba(215, 202, 165, 0.2)',     
   },
-  */
 
 
-  /*
   textTitle: {
     fontSize: 12,
     color: '#44E8C3',
     fontWeight: 'bold',
   },
- */
 
 
- /*
+
+
   containerList: {
     flexDirection: 'row',
     justifyContent: 'space-between',  
@@ -252,10 +197,10 @@ export default StyleSheet.create({
     padding: 2,
     marginTop: 2,    
   },
-  */
 
 
-  /*
+
+
   contentList: {
     width: 54,
     height: "auto",
@@ -264,16 +209,16 @@ export default StyleSheet.create({
     // backgroundColor: 'rgba(215, 202, 165, 0.2)',     
     padding: 2,
   },
- */
 
-  /*
+
+
   textList: {
     fontSize: 7,
     color: 'black',
     fontWeight: 'bold',
     flexWrap: 'wrap'    
   },
- */
+
 
 
 

@@ -14,7 +14,7 @@ import SelectedBank from './pages/SelectedBank';
 import SelectedAccount from './pages/SelectedAccount';
 import CreditCard from './pages/Creditcard';
 import SelectedCreditCard from './pages/SelectedCreditCard';
-import ReportCreditCard from './pages/reportCreditCard';
+import ReportCreditCard from './pages/ReportCreditCard';
 import Transactions from './pages/Transactions';
 import CashPayment from './pages/CashPayment';
 
