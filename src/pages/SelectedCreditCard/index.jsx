@@ -623,7 +623,7 @@ export default function SelectedCreditCard({ navigation }) {
                 <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
                         onPress={() => setModalPost(true)}>
-                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>{` Registrar Compras  `}</Text>
                     </Pressable>
                 </LinearGradient>
@@ -652,8 +652,8 @@ export default function SelectedCreditCard({ navigation }) {
 
                 <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
-                        onPress={() => setModalPost(true)}>
-                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                        onPress={() => setShowProof(false) & setModalPost(true)}>
+                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Post</Text>
                     </Pressable>
                 </LinearGradient>
@@ -662,7 +662,7 @@ export default function SelectedCreditCard({ navigation }) {
                 <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
                         onPress={() => navigation.navigate("ReportCreditCard")}>
-                        <FontAwesome name='wpforms' size={16} color={"#44E8C3"} />
+                        <FontAwesome name='list-alt' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Report</Text>
                     </Pressable>
                 </LinearGradient>

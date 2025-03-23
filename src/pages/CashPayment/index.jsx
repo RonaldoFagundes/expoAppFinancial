@@ -44,7 +44,9 @@ export default function CashPayment({ navigation }) {
 
 
 
-    useEffect(() => {      
+    useEffect(() => {   
+        
+        getAmount();
 
     }, []);
 
@@ -116,15 +118,7 @@ export default function CashPayment({ navigation }) {
 
     const [proof, setProof] = useState({});
 
-
-
-
-
-
-
-
-
-
+    const [amount, setAmount] = useState();
 
 
 
@@ -199,7 +193,37 @@ export default function CashPayment({ navigation }) {
                         )
                     }
 
-                    setShowProof(true);               
+                    setShowProof(true); 
+                    getAmount();              
+                   
+                })
+            .catch(function (error) {
+                console.log('erro => ' + error.message);
+            });
+
+    }
+
+
+
+
+
+
+
+    const getAmount = async () => {
+
+        await fetch(endpoint + "?action=cashAmount", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then((res) => res.json())
+            .then(
+                (result) => {
+
+                    console.log(result);
+                  
+                    setAmount(result); 
                    
                 })
             .catch(function (error) {
@@ -240,6 +264,12 @@ export default function CashPayment({ navigation }) {
 
 
 
+    const backHome = () => {
+
+        showProof ? setShowProof(false) : setShowProof(false);     
+        navigation.navigate("Home")
+        
+    }
 
 
 
@@ -271,7 +301,7 @@ export default function CashPayment({ navigation }) {
                     <Pressable style={styles.btn}
                               onPress={() => setShowAmount(false)}>
                              {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
-                             <Text style={styles.textDesc}>{` AMOUNT = `}</Text>
+                             <Text style={styles.textDesc}>{` AMOUNT R$ ${amount.toFixed(2)}`}</Text>
                     </Pressable>
                         
                            :
@@ -294,6 +324,10 @@ export default function CashPayment({ navigation }) {
                     <View style={styles.containerProof}>
 
                         <View>
+                          <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
+                        </View>
+
+                        <View>
                             <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
                         </View>
 
@@ -309,7 +343,7 @@ export default function CashPayment({ navigation }) {
 
                         <Text style={styles.textProof}>{`Desc : ${proof.desc}  `}</Text>
 
-                        <Text style={styles.textProof}>{`Value R$ : ${proof.value}  `}</Text>
+                        <Text style={styles.textProof}>{`Value : R$ ${proof.value}  `}</Text>
 
                     </View>
 
@@ -320,8 +354,8 @@ export default function CashPayment({ navigation }) {
 
                         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                             <Pressable style={styles.btn}
-                                onPress={() => setModalPost(true)}>
-                                <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                                onPress={() => setModalPost(true)}>                               
+                                <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
                                 <Text style={styles.textBtn}>{` Registrar Movimentação  `}</Text>
                             </Pressable>
 
@@ -344,17 +378,17 @@ export default function CashPayment({ navigation }) {
 
                 <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
-                        onPress={() => setModalPost(true)}>
-                        <FontAwesome name='drivers-license' size={16} color={"#44E8C3"} />
+                        onPress={() => setShowProof(false) & setModalPost(true)}>
+                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Post</Text>
                     </Pressable>
                 </LinearGradient>
 
-
+ 
 
                 <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("Home")}>
+                        onPress={() => backHome()}>
                         <FontAwesome name='home' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Home</Text>
                     </Pressable>

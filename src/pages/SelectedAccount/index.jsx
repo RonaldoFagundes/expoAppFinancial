@@ -470,16 +470,44 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-   const cleanFields = () => {
-
-   }
+   const cleanFields = () => {}
 
 
 
 
    const callInvest = () => {
-      console.log("criar sistema de investimentos")
+      console.log("abrir conta investimento")
    }
+
+
+
+
+
+   const investir = () => {
+      console.log("investir "+accountData.id)
+   }
+
+
+
+   const resgatar = () => {
+      console.log(" resgatar "+accountData.id)
+   }
+
+
+
+
+ const  callReport = () => {
+      console.log(" criar estrutura de relatório ")
+   }
+
+
+
+
+
+ const  callIndefined = () => {
+      console.log(" criar alguma estrutura ")
+  }
+
 
 
 
@@ -610,7 +638,7 @@ export default function SelectedAccount({ navigation }) {
                <Pressable style={styles.btn}
                   onPress={() => setShowAmount(false)}>
                  {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
-                 <Text style={styles.textInfo}>{` AMOUNT = ${amountAccount}`}</Text>
+                 <Text style={styles.textInfo}>{` AMOUNT R$ ${amountAccount}`}</Text>
                </Pressable>
 
                :
@@ -622,36 +650,46 @@ export default function SelectedAccount({ navigation }) {
 
          </View>
 
+        
 
+      <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerCarrousel}>
 
+         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
 
-
-
-
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerCarrousel}>
-
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-
-               <View style={styles.contentCarrousel}>
+           {
+            accountData.type == "Investimentos"
+            ?
+           
+            <View style={styles.contentCarrousel}>
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("Transactions")}>
-                        <FontAwesome name='barcode' size={30} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Transações</Text>
+                        onPress={() => navigation.navigate("Investments")}>
+                    {/*  <FontAwesome name='barcode' size={30} color={"#44E8C3"} /> */}
+                       <FontAwesome name='bitcoin' size={30} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>Investir</Text>
                      </Pressable>
                   </LinearGradient>
 
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("CreditCard")}>
+                        onPress={() => navigation.navigate("Investments")}>
                         <FontAwesome name='credit-card' size={30} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>credit-card</Text>
+                        <Text style={styles.textBtn}>Resgatar</Text>
                      </Pressable>
                   </LinearGradient>
 
 
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
+                     <Pressable style={styles.btn}
+                       onPress={() => callIndefined()}>
+                       <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
+                       <Text style={styles.textBtn}>Indefined</Text>
+                    </Pressable>
+                 </LinearGradient>
+
+                 {/* 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
                         onPress={() => callInvest()}>
@@ -664,18 +702,62 @@ export default function SelectedAccount({ navigation }) {
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
                         onPress={() => callInvest()}>
-                        <FontAwesome name='paste' size={30} color={"#44E8C3"} />
+                        <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Relatórios</Text>
                      </Pressable>
                   </LinearGradient>
+                */}
 
-               </View>
+            </View> 
+             
+
+              :
+
+            <View style={styles.contentCarrousel}>
+
+                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
+                  <Pressable style={styles.btn}
+                    onPress={() => navigation.navigate("Transactions")}>
+                   {/*  <FontAwesome name='barcode' size={30} color={"#44E8C3"} /> */}
+                    <FontAwesome name='exchange' size={30} color={"#44E8C3"} />
+                    <Text style={styles.textBtn}>Transações</Text>
+                  </Pressable>
+                 </LinearGradient>
 
 
-            </ScrollView>
-            
+                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
+                  <Pressable style={styles.btn}
+                    onPress={() => navigation.navigate("CreditCard")}>
+                    <FontAwesome name='credit-card' size={30} color={"#44E8C3"} />
+                    <Text style={styles.textBtn}>credit-card</Text>
+                 </Pressable>
+                </LinearGradient>
 
-         </LinearGradient>
+
+              <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
+                 <Pressable style={styles.btn}
+                    onPress={() => callInvest()}>
+                     <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
+                     <Text style={styles.textBtn}>Indefined</Text>
+                 </Pressable>
+              </LinearGradient>
+
+
+              <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
+                 <Pressable style={styles.btn}
+                    onPress={() => callReport()}>
+                    <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
+                    <Text style={styles.textBtn}>Relatórios</Text>
+                 </Pressable>
+              </LinearGradient>
+
+            </View>
+
+           }
+
+         </ScrollView>            
+
+      </LinearGradient>
 
 
 

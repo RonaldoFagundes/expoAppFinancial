@@ -33,7 +33,7 @@ import Header from '../../components/Header';
 
 
 
-export default function Transactions({ navigation }) {
+export default function Investments({ navigation }) {
 
 
    const {
@@ -92,6 +92,30 @@ export default function Transactions({ navigation }) {
    });
 
 
+
+
+
+   const [modalInvestments, setModalInvestments] = useState(false);
+
+   const [investments, setInvestments] = useState({
+      broker: "",
+      cat: "",
+      type: "",
+      open: "",
+      expery: "",
+      rateType: "",
+      rate: "",
+      amount:0,
+      desc: "",  
+      idac: accountData.id,      
+   });
+
+
+
+
+
+
+
    const [showAmount, setShowAmount] = useState(false);
 
    const [proof, setProof] = useState({});
@@ -103,11 +127,12 @@ export default function Transactions({ navigation }) {
   
 
 
-   const handleInputChangeCad = (atribute, value) => {
 
-      setTransaction(
+   const handleInputChange = (atribute, value) => {
+
+      setInvestments(
          {
-            ...transaction, [atribute]: value
+            ...investments, [atribute]: value
          }
       )
    }
@@ -132,11 +157,14 @@ export default function Transactions({ navigation }) {
   */
 
 
+
    const listIn = [      
       { key: '2', value: 'Pix Outros' },      
       { key: '4', value: 'Ted Outros' },      
       { key: '6', value: 'Deposito' },      
    ]
+
+
 
    const listOut = [
       { key: '1', value: 'Pix Pessoal' },
@@ -167,6 +195,8 @@ export default function Transactions({ navigation }) {
    const [account, setAccount] = useState([]);
 
    //const [selectedAccount, setSelectedAccount] = useState("");
+
+
 
 
    const accounts = [];
@@ -239,7 +269,7 @@ export default function Transactions({ navigation }) {
 
    const checkData = async () => {
 
-      console.log(transaction)
+      console.log(investments)
       /*
       if(transaction.move == "out"){ 
       
@@ -259,6 +289,8 @@ export default function Transactions({ navigation }) {
      */   
 
    }   
+
+
 
 
 
@@ -511,6 +543,8 @@ export default function Transactions({ navigation }) {
 
 
 
+
+
    return (
 
       <KeyboardAvoidingView
@@ -525,14 +559,17 @@ export default function Transactions({ navigation }) {
                <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
             </View>
 
+
             <View style={styles.contentHeaderTitle}>
                <Header user={`${user}`} />
             </View>
 
+
             <View style={styles.contentHeaderItem}>
                <Text style={styles.textDesc}>{`Conta ${accountData.type}  `}</Text>
                <Text style={styles.textDesc}>{`${accountData.number}`}</Text>
-            </View>       
+            </View> 
+
 
          </LinearGradient>
 
@@ -587,15 +624,17 @@ export default function Transactions({ navigation }) {
 
             <Text style={styles.textProof}>{`ID :  ${proof.id}  `}</Text>
 
-            <Text style={styles.textProof}>{`Date :  ${proof.date}  `}</Text>
+            <Text style={styles.textProof}>{`Name :  ${proof.date}  `}</Text>
 
-            <Text style={styles.textProof}>{`Origem :  ${proof.source}  `}</Text>
+            <Text style={styles.textProof}>{`Open :  ${proof.date}  `}</Text> 
 
-            <Text style={styles.textProof}>{`Tipo :  ${proof.type}  `}</Text>
+            <Text style={styles.textProof}>{`Expery :  ${proof.source}  `}</Text>
 
-            <Text style={styles.textProof}>{`Detalhes :  ${proof.desc}  `}</Text>
+            <Text style={styles.textProof}>{`Type :  ${proof.type}  `}</Text>
 
-            <Text style={styles.textProof}>{`Valor : R$ ${proof.value}  `}</Text>
+            <Text style={styles.textProof}>{`Rate :  ${proof.type}  `}</Text>            
+
+            <Text style={styles.textProof}>{`Amount : R$ ${proof.value}  `}</Text>
 
 
          </View>
@@ -609,7 +648,7 @@ export default function Transactions({ navigation }) {
                     <Pressable style={styles.btn}
                         onPress={() => setModalTransaction(true)}>
                         <FontAwesome name='barcode' size={18} color={"#44E8C3"} />                     
-                        <Text style={styles.textBtn}>{` Registrar movimentações `}</Text>                    
+                        <Text style={styles.textBtn}>{` Investir `}</Text>                    
                     </Pressable>
               </LinearGradient>
 
@@ -647,7 +686,7 @@ export default function Transactions({ navigation }) {
          
            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                   <Pressable style={styles.btn}
-                     onPress={() => setShowProof(false) & setModalTransaction(true)}>
+                     onPress={() => setShowProof(false) & setModalInvestments(true)}>
                      <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
                      <Text style={styles.textBtn}>Post</Text>
                   </Pressable>
@@ -705,7 +744,7 @@ export default function Transactions({ navigation }) {
 
 
             <View style={styles.infoModal} >
-                <Text style={styles.textInfo}>{` Register Post `}</Text>
+                <Text style={styles.textInfo}>{` Register Investment `}</Text>
             </View>
 
 
@@ -714,11 +753,12 @@ export default function Transactions({ navigation }) {
 
          <ScrollView style={styles.contentModal} >
 
+
+              {/* 
          
                <View style={styles.infoCheckBox} >
                          <Text style={styles.textInfo}>{` Mov Type `}</Text>
                </View>              
-
 
                <View style={styles.containerCheckBox}>                   
 
@@ -747,10 +787,10 @@ export default function Transactions({ navigation }) {
                                               <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
                                             </View> 
 
-                                         {/*   
-                                          <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
-                                          <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
-                                         */}
+                                        
+                                         // <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
+                                         // <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
+                                         
 
                                           </View>
 
@@ -780,8 +820,15 @@ export default function Transactions({ navigation }) {
 
                </View>
 
-              
+             */}
 
+
+
+
+
+
+              
+               {/* 
                <View style={styles.boxCard}>
 
                      <View>
@@ -795,34 +842,18 @@ export default function Transactions({ navigation }) {
 
                            setSelected={(val) =>
 
-                              {
-                                 val == "Saque" ?
 
                                  setTransaction(
                                     {
                                        ...transaction, 'type': val ,
                                           transaction, 'source': bankData.name
                                     }
-                                 )
-
-                                 :
-
-                                 setTransaction(
-                                    {
-                                       ...transaction, 'type': val , 
-                                          transaction, 'source': ""                                       
-                                    }
-                                 )
-                                  
-                              }                          
+                                 )            
                              
                            }                           
 
                            
                            
-
-                          /*  data={type} */
-
 
                           data={ transaction.move == 'in' ? listIn : listOut}
 
@@ -846,14 +877,9 @@ export default function Transactions({ navigation }) {
 
                      </View>
 
+                
 
-
-                     {
-                        // selectedType == "Pix Pessoal" || selectedType == "Ted Pessoal"
-
-                        transaction.type == "Pix Pessoal" || 
-                        transaction.type == "Ted Pessoal"
-                           ?
+                    
 
                            <View>
 
@@ -894,108 +920,117 @@ export default function Transactions({ navigation }) {
                                  dropdownTextStyles={{ color: '#44E8C3' }}
                               />
 
-                           </View>
+                           </View>                        
 
-                           :
+                      </View>
 
-                           <View></View>
-                     }
+                  */}
 
-               </View>
 
-                     
+
+
 
 
                <View style={styles.boxCard}>
 
                      <TextInput style={styles.input}
-                        placeholder="Date"
+                        placeholder="Broker"
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChangeCad('date', valor)
+                           (valor) => handleInputChange('broker', valor)
                         }
-                        value={transaction.date}
+                        value={investments.broker}
                      />
 
 
-                      {transaction.type == "Saque" || 
-                       transaction.type == "Pix Pessoal" ||
-                       transaction.type == "Ted Pessoal" 
-                        ?
-
-                        <TextInput style={styles.input}
-                         editable={false}
-                         placeholder={bankData.name}
-                         placeholderTextColor="#44E8C3"
-                         type="text"          
-                         value={bankData.name}
-                       />                
-                     
-                       :
-
                        <TextInput style={styles.input}
-                        placeholder="Origem"
+                        placeholder="Categoria"
                         placeholderTextColor="#44E8C3"
                         type="text"  
                         onChangeText={
-                           (valor) => handleInputChangeCad('source', valor)
+                           (valor) => handleInputChange('cat', valor)
                         }
-                        value={transaction.source}
+                        value={investments.cat}
                        />
 
-                      }
                    
-
-
-
-                    {/* 
+                 
                      <TextInput style={styles.input}
-                        placeholder="Origem"
+                        placeholder="Type"
                         placeholderTextColor="#44E8C3"
                         type="text"
                        
-
                         onChangeText={
-                           (valor) => handleInputChangeCad('source', valor)
+                           (valor) => handleInputChange('type', valor)
                         }
-
-                        value={transaction.source}
+                        value={investments.type}
                      />
 
-                   */}
-
-
-
-
+                  
                      <TextInput style={styles.input}
-                        placeholder="Tipo de Transação"
+                        placeholder="Open"
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChangeCad('form', valor)
+                           (valor) => handleInputChange('open', valor)
                         }
-                        value={transaction.form}
+                        value={investments.open}
                      />
 
+
+
                      <TextInput style={styles.input}
+                        placeholder="Expery"
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('expery', valor)
+                        }
+                        value={investments.expery}
+                     />
+
+
+                     <TextInput style={styles.input}
+                        placeholder="Rate Type"
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('rateType', valor)
+                        }
+                        value={investments.rateType}
+                     />
+
+
+                      <TextInput style={styles.input}
+                        placeholder="Rate"
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('rate', valor)
+                        }
+                        value={investments.rate}
+                     />
+
+
+                     <TextInput style={styles.input}
+                        placeholder="Amount"
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('amount', valor)
+                        }
+                        value={investments.amount}
+                     />
+
+                      <TextInput style={styles.input}
                         placeholder="Description"
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChangeCad('desc', valor)
+                           (valor) => handleInputChange('desc', valor)
                         }
-                        value={transaction.desc}
-                     />
-
-                     <TextInput style={styles.input}
-                        placeholder="Value"
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('value', valor)
-                        }
-                     //value={postTransaction.value}
+                        value={investments.desc}
                      />
                </View>
 

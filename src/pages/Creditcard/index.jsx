@@ -176,16 +176,14 @@ export default function CreditCard({ navigation }) {
 
                if (result != "not found") {
 
-                  setIsLoading(false); 
+                 // setIsLoading(false); 
                   setIsList(true);
                   setListCreditCard(result);
                   // console.log(" result getListCreditCardByAccount => " + result);
-
-               } else {
-
-                  console.log(" result getListCreditCardByAccount => " + result);
-
-               }
+               } 
+               
+                  setIsLoading(false);
+              
 
             })
          .catch(function (error) {

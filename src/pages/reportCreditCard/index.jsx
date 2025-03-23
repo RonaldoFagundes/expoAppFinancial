@@ -872,7 +872,7 @@ export default function SelectedCreditCard({ navigation }) {
                 <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
                         onPress={() => printReport()}>
-                        <FontAwesome name='wpforms' size={16} color={"#44E8C3"} />
+                        <FontAwesome name='list-alt' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Report</Text>
                     </Pressable>
                 </LinearGradient>
