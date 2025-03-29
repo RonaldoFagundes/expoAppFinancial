@@ -23,6 +23,7 @@ import { AuthContext } from '../../context/auth';
 
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SelectList } from 'react-native-dropdown-select-list'
 import { FontAwesome } from '@expo/vector-icons';
 import Header from '../../components/Header';
 
@@ -62,6 +63,11 @@ export default function SelectedBank({ navigation }) {
       // getListAccount();
       // console.log(' bankData.id ', bankData.id)
       getListAccountByBank(bankData.id);
+
+
+     // getAccountType();
+
+
    }, [load, navigation]);
 
 
@@ -231,6 +237,7 @@ export default function SelectedBank({ navigation }) {
 
       //console.log(" insertAccount  idBank " + account.fkbnk + " number " + account.number);
 
+     
       await fetch(endpoint + "?action=cadAccount", {
          method: 'POST',
          headers: {
@@ -254,13 +261,44 @@ export default function SelectedBank({ navigation }) {
          });
 
       closeModal('cad');
+     
    }
 
 
 
+ // const [accountType, setAccountType] = useState([]);
+
+  const type = [];
 
 
+   const getAccountType = async () => {
+   
+      await fetch(endpoint + "?action=listAccountType")
+         .then((res) => res.json())
+         .then(
 
+            (result) => {
+                             
+               var count = Object.keys(result).length;
+
+               for (var i = 0; i < count; i++) {
+
+                  type.push({
+                      value: result[i].type_bka,
+                  })
+
+              }
+
+            //  setAccountType(type);
+              
+            //  console.log(accountType);
+
+
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });
+   }
 
 
 
@@ -791,6 +829,9 @@ export default function SelectedBank({ navigation }) {
                      value={account.number}
                   />
 
+
+
+                    {/* 
                   <TextInput style={styles.input}
                      placeholder="type"
                      placeholderTextColor="#44E8C3"
@@ -800,6 +841,41 @@ export default function SelectedBank({ navigation }) {
                      }
                      value={account.type}
                   />
+                  */}
+
+                 <View style={styles.boxSurch}>
+                    
+                      <SelectList
+
+                        setSelected={(value) =>
+
+                           setAccount(
+                              {
+                                 ...account, 'type': value
+                              }
+                           )
+
+                        }
+                        
+                        data={type}
+
+                        placeholder='Select Type'
+
+                        onPress={getAccountType()}
+
+                       // onSelect={getAccountType()}
+
+                        boxStyles={{ backgroundColor: '#314452' }}
+
+                        inputStyles={{ color: '#44E8C3' }}
+                        dropdownTextStyles={{ color: '#44E8C3' }}
+
+                       />
+
+                 </View>
+
+
+
 
                   <TextInput style={styles.input}
                      placeholder="open date"

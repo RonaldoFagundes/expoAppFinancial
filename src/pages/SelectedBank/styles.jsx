@@ -210,6 +210,20 @@ export default StyleSheet.create({
   },
 
 
+  boxSurch: {
+    flexDirection: 'column',
+    width: 'auto',
+    height: 'auto',
+    backgroundColor: '#11132f',
+    alignItems: "center",
+    marginStart: 10,
+    marginEnd: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    padding: 10
+
+  },
 
   input: {
     width: '100%',

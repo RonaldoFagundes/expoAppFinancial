@@ -329,6 +329,9 @@ export default function SelectedCreditCard({ navigation }) {
                     }
 
                     setUsersCC(users);
+
+                    console.log(usersCC)
+
                     // console.log(" listUserCC "+result);            
 
                 })
@@ -965,7 +968,7 @@ export default function SelectedCreditCard({ navigation }) {
                                 )
                             }
 
-                            data={usersCC}
+                            data={usersCC}                          
                             save="value"
 
                             placeholder='Select User'
