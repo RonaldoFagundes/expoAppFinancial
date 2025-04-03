@@ -60,17 +60,17 @@ export default function Home({ navigation }) {
       var hours = dta.getHours();
       var dd = dta.getDate().toString().padStart(2, '0');
       var mm = (dta.getMonth() + 1).toString().padStart(2, '0');
-      var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');
-     
-     // var yyyy = dta.getFullYear();
+      var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');     
+      var yyyy = dta.getFullYear();
      // var today = dd + "/" + mm + "/" + yyyy;
 
      setInfoDate(
       {
          ...infoDate, 'day': dd,
-            infoDate, 'month': mm,
-            infoDate, 'month': mm,
-            infoDate, 'nextMonth': nxt,            
+            infoDate, 'month': mm,            
+            infoDate, 'nextMonth': nxt, 
+            infoDate, 'year': yyyy 
+
       }  
      )
   
@@ -469,7 +469,8 @@ export default function Home({ navigation }) {
       <View style={styles.main}>
 
          <StatusBar
-            backgroundColor={"#121212"}          
+           // backgroundColor={"#121212"}          
+            backgroundColor={"#02183a"}  
             barStyle={'light-content'}
             translucent={false}
          />
@@ -483,7 +484,8 @@ export default function Home({ navigation }) {
                zIndex: 99,
                width: '100%',
                padding: 10,              
-               backgroundColor: '#1C1B20',
+               //backgroundColor: '#1C1B20',
+               backgroundColor: '#06121c',
                alignItems: 'center',
                justifyContent: 'center',
                height: headerScrollHeight,
@@ -524,7 +526,8 @@ export default function Home({ navigation }) {
                             ]}                          
                            */
 
-                           colors={['#0a0439', '#170c7c']}
+                          // colors={['#0a0439', '#170c7c']}
+                           colors={['#02183a', '#021f4b']}
                            style={styles.contentList}>
 
                            <View>

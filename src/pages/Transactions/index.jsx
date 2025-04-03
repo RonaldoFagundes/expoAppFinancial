@@ -54,16 +54,10 @@ export default function Transactions({ navigation }) {
       navigation.addListener('focus', () => setLoad(!load));
       listAccounts(accountData.id);
       
-     /*
-      if( accountData.type == "Investimentos" ){
-         setTransaction(
-            {
-               ...transaction, 'type': 'Resgate'
-            }
-         )
-      }
-     */
 
+     if( accountData.type == "Investimentos" ){
+      checkInvest();
+      }
 
       //console.log(accountData.type)
 
@@ -197,8 +191,8 @@ export default function Transactions({ navigation }) {
                      {
                         value:
                            result[i].id_bka + " " +
-                           result[i].name_bnk + " " +
-                           result[i].type_bka + " " +
+                           result[i].name_bnk + ", " +
+                           result[i].type_bka + ", " +
                            result[i].number_bka,
                      }
 
@@ -235,11 +229,68 @@ export default function Transactions({ navigation }) {
     */
 
 
-   
 
-   const checkData = async () => {
 
+
+    const checkInvest = () => {  
+           
+         setTransaction(
+            {
+               ...transaction, 'move': 'out',
+                  transaction, 'moveway': 'in',
+                  transaction, 'source': accountData.type,
+                  transaction, 'type': 'Resgate',
+
+                  transaction, 'accountway': 'Digital',
+                  transaction, 'numberway': '83724-5',
+
+                  transaction, 'form': 'Digital'
+            }
+         )
+        
+   }
+
+
+
+
+   const selectedAccount = (val) => {
+
+      const accountSelected = val;
+      const accountSlice = accountSelected.split(", ");
+      
+        setTransaction(
+           {
+              ...transaction, 'idacf': val.substr(0, 2),
+                 transaction,  'moveway':'in',                                             
+                 transaction,  'source':accountData.type+" "+accountData.number,
+                 transaction, 'accountway':accountSlice[1],
+                 transaction, 'numberway':accountSlice[2],
+
+           }
+        )
+       
+
+
+   }
+
+
+
+
+
+   const checkData = () => {
+
+    
       console.log(transaction)
+
+     /*
+     
+      resgate será necessário :
+        - setar a conta digital como conta destino 
+        - out para conta origem
+        - in para conta destino
+     */
+
+
       /*
       if(transaction.move == "out"){ 
       
@@ -259,6 +310,12 @@ export default function Transactions({ navigation }) {
      */   
 
    }   
+
+
+
+
+
+
 
 
 
@@ -511,6 +568,9 @@ export default function Transactions({ navigation }) {
 
 
 
+   
+
+
    return (
 
       <KeyboardAvoidingView
@@ -519,7 +579,7 @@ export default function Transactions({ navigation }) {
 
 
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+         <View style={styles.containerHeader}>
 
             <View>
                <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
@@ -534,7 +594,7 @@ export default function Transactions({ navigation }) {
                <Text style={styles.textDesc}>{`${accountData.number}`}</Text>
             </View>       
 
-         </LinearGradient>
+         </View>
 
 
 
@@ -608,8 +668,17 @@ export default function Transactions({ navigation }) {
               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
                         onPress={() => setModalTransaction(true)}>
-                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} />                     
-                        <Text style={styles.textBtn}>{` Registrar movimentações `}</Text>                    
+                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} /> 
+
+                     { accountData.type == "Investimentos" ? 
+                        
+                        <Text style={styles.textBtn}>{` Registrar Resgate `}</Text>  
+
+                        :
+
+                        <Text style={styles.textBtn}>{` Registrar movimentações `}</Text>  
+                     }
+                     
                     </Pressable>
               </LinearGradient>
 
@@ -715,10 +784,24 @@ export default function Transactions({ navigation }) {
          <ScrollView style={styles.contentModal} >
 
          
-               <View style={styles.infoCheckBox} >
-                         <Text style={styles.textInfo}>{` Mov Type `}</Text>
-               </View>              
+                            
 
+            {
+
+             accountData.type == "Investimentos" ?
+
+
+             <View></View>
+              
+
+             :
+
+
+             <View>
+
+               <View style={styles.infoCheckBox} >
+                  <Text style={styles.textInfo}>{` Mov Type `}</Text>
+               </View>
 
                <View style={styles.containerCheckBox}>                   
 
@@ -866,16 +949,27 @@ export default function Transactions({ navigation }) {
 
 
                                  setSelected={(val) =>                                   
-                                  
+                                      
+                                    
+                                  selectedAccount(val)
+
+                                   /* 
                                     setTransaction(
                                        {
                                           ...transaction, 'idacf': val.substr(0, 2),
                                              transaction,  'moveway':'in',                                             
                                              transaction,  'source':accountData.type+" "+accountData.number,
+                                             transaction, 'accountway':val,
+                                             transaction, 'numberway':val
+
                                        }
                                     )
-                                    
+                                   */ 
+
+
                                  }
+                               
+
 
                                  data={account}
                                  save="value"
@@ -903,7 +997,11 @@ export default function Transactions({ navigation }) {
 
                </View>
 
-                     
+
+             </View>        
+
+         }
+
 
 
                <View style={styles.boxCard}>
@@ -919,7 +1017,38 @@ export default function Transactions({ navigation }) {
                      />
 
 
-                      {transaction.type == "Saque" || 
+
+                     {/* 
+                      {
+                       transaction.type == "Saque" || 
+                       transaction.type == "Pix Pessoal" ||
+                       transaction.type == "Ted Pessoal" 
+                        ?
+                        <TextInput style={styles.input}
+                         editable={false}
+                         placeholder={bankData.name}
+                         placeholderTextColor="#44E8C3"
+                         type="text"          
+                         value={bankData.name}
+                       />               
+                        :
+                       <TextInput style={styles.input}
+                        placeholder="Origem"
+                        placeholderTextColor="#44E8C3"
+                        type="text"  
+                        onChangeText={
+                           (valor) => handleInputChangeCad('source', valor)
+                        }
+                        value={transaction.source}
+                       />
+                      }                   
+                     */}
+
+
+
+
+                       {
+                       transaction.type == "Saque" || 
                        transaction.type == "Pix Pessoal" ||
                        transaction.type == "Ted Pessoal" 
                         ?
@@ -930,10 +1059,21 @@ export default function Transactions({ navigation }) {
                          placeholderTextColor="#44E8C3"
                          type="text"          
                          value={bankData.name}
-                       />                
-                     
+                       /> 
+                       
                        :
+                       
+                       accountData.type == "Investimentos"  ?
 
+                       <TextInput style={styles.input}
+                        editable={false}
+                        placeholder={accountData.number}
+                        placeholderTextColor="#44E8C3"
+                        type="text"          
+                        value={accountData.number}
+                     />                       
+
+                        :
                        <TextInput style={styles.input}
                         placeholder="Origem"
                         placeholderTextColor="#44E8C3"
@@ -943,9 +1083,10 @@ export default function Transactions({ navigation }) {
                         }
                         value={transaction.source}
                        />
+                      }  
 
-                      }
-                   
+
+
 
 
 
@@ -967,6 +1108,18 @@ export default function Transactions({ navigation }) {
 
 
 
+                   {
+                     accountData.type == "Investimentos"  ?
+
+                     <TextInput style={styles.input}
+                        editable={false}
+                        placeholder={"Resgate"}
+                        placeholderTextColor="#44E8C3"
+                        type="text"          
+                       // value={"Resgate"}
+                     />  
+
+                     :
 
                      <TextInput style={styles.input}
                         placeholder="Tipo de Transação"
@@ -977,6 +1130,10 @@ export default function Transactions({ navigation }) {
                         }
                         value={transaction.form}
                      />
+                    
+                    }
+
+
 
                      <TextInput style={styles.input}
                         placeholder="Description"
@@ -988,6 +1145,8 @@ export default function Transactions({ navigation }) {
                         value={transaction.desc}
                      />
 
+
+
                      <TextInput style={styles.input}
                         placeholder="Value"
                         placeholderTextColor="#44E8C3"
@@ -998,6 +1157,7 @@ export default function Transactions({ navigation }) {
                      //value={postTransaction.value}
                      />
                </View>
+
 
 
 

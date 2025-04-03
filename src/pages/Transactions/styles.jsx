@@ -8,7 +8,8 @@ export default StyleSheet.create({
   main: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#2c4254'
+    backgroundColor:'#0f2334' 
+    //backgroundColor: '#2c4254'
   },
 
 
@@ -18,7 +19,8 @@ export default StyleSheet.create({
     width: 'auto',
     padding: 10,
     paddingBottom:36,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor:'#0d172c'
   },
 
 
@@ -67,7 +69,7 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3",       
     */ 
     borderRadius: 10,
-    backgroundColor:'#2c4254'
+    backgroundColor:'#0f2334' 
   },
 
 
@@ -109,6 +111,8 @@ export default StyleSheet.create({
 
   containeEmpty: {
     alignItems:'center',
+    justifyContent:'center',
+    
     marginTop: 50,
     padding:10,
     width: 'auto',
@@ -116,7 +120,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderBottomColor: "#44E8C3", 
     borderRadius: 10,   
-    backgroundColor:'#2c4254',
+    backgroundColor:'#0f2334',
     marginBottom:'auto'
    // alignItems: 'center',
   },

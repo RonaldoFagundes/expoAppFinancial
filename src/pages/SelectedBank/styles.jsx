@@ -8,7 +8,7 @@ export default StyleSheet.create({
 
   containerLoading: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F5F5F5',    
     paddingBottom: 200,
     justifyContent: 'center',
     alignItems: 'center'
@@ -19,7 +19,8 @@ export default StyleSheet.create({
 
   main: {
     flex: 1,
-    backgroundColor: '#2c4254',
+   // backgroundColor: '#2c4254',
+    backgroundColor: '#06121c',
     //backgroundColor:'#121212'   
     height: '100%',
   },

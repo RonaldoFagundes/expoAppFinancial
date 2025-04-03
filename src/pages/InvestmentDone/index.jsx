@@ -93,12 +93,6 @@ export default function Investments({ navigation }) {
 
 
 
-  const [listInvestments, setListInvestments] = useState([]);
-
-  const [isList, setIsList] = useState(false);
-
-
-
 
 
    const [modalInvestments, setModalInvestments] = useState(false);
@@ -603,11 +597,18 @@ export default function Investments({ navigation }) {
 
 
 
+         {/* 
+            <Text style={styles.textInfo}>{` Banc = ${bankData.name}`}</Text>
+            <Text style={styles.textInfo}>{` ID = ${accountData.id}`}</Text>
+            <Text style={styles.textInfo}>{` NUMBER = ${accountData.number}`}</Text>
+            <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text>
+           */}
 
 
-{/* 
 
-           {
+
+
+         {
             showProof
                ?
 
@@ -650,164 +651,18 @@ export default function Investments({ navigation }) {
                         <Text style={styles.textBtn}>{` Investir `}</Text>
                      </Pressable>
                   </LinearGradient>
+
                </View>
+
          }
 
- */}
-
-
-
-        {
-         isList ?
-      
-
-
-
-         <View>
-
-            <FlatList
-               style={{ paddingTop: h_max_hight }}
-               showsVerticalScrollIndicator={false}
-               data={listInvestments}
-               renderItem={({ item }) =>
-
-
-                <View style={styles.containerList} >
-
-                   <LinearGradient
-
-                        colors={['#0a0439', '#170c7c']}
-                        style={styles.contentList}>
-
-
-                        <View style={styles.contentCardList}>
-
-                           <Text style={styles.textList}>
-                              {`ID  :  ${item.id_bnk}`}
-                           </Text>
-
-                           <Text style={styles.textList}>
-                              {`Nº :  ${item.number_bnk}`}
-                           </Text>
-
-                           <Text style={styles.textList}>
-                              {`Name :  ${item.name_bnk}`}
-                           </Text>
-
-                           <Text style={styles.textList}>
-                              {`Cnpj :  ${item.ein_bnk}`}
-                           </Text>
-
-                           <Text style={styles.textList}>
-                              {`Contact :  ${item.contact_bnk}`}
-                           </Text>
-
-                           <Text style={styles.textList}>
-                              {`Desk :  ${item.desc_bnk}`}
-                           </Text>
-
-                        </View>
-
-
-                        {/* 
-                                    <View style={styles.containerBtn}>
-         
-                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                          <Pressable style={styles.btn}
-                                             onPress={() => selectBanc(
-                                                item.id_bnk,
-                                                item.name_bnk,
-                                                item.img_bnk
-                                             )}
-                                          >
-                                             <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                             <Text style={styles.textBtn}>Select</Text>
-                                          </Pressable>
-                                       </LinearGradient> 
-
-
-         
-                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                          <Pressable style={styles.btn}
-                                             onPress={() => getListBankById(
-                                                item.id_bnk,
-                                                item.number_bnk,
-                                                item.name_bnk,
-                                                item.ein_bnk,
-                                                item.contact_bnk,
-                                                item.desc_bnk,
-                                                item.img_bnk
-                                             )}
-                                          >
-                                             <FontAwesome name='edit' size={16} color={"#44E8C3"} />
-                                             <Text style={styles.textBtn}>Edit</Text>
-                                          </Pressable>
-                                       </LinearGradient>
-
-         
-                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
-                                          <Pressable style={styles.btn}
-                                             onPress={() => deleteBank(
-                                                item.id_bnk
-                                             )}
-                                          >
-                                             <FontAwesome name='trash' size={16} color={"#44E8C3"} />
-                                             <Text style={styles.textBtn}>Delete</Text>
-                                          </Pressable>
-                                       </LinearGradient>
-
-         
-                                    </View>
-
- */}
-
-
-
-                   </LinearGradient>
-
-
-                 </View>
-
-               }>
-
-            </FlatList>
-
-
-
-         </View>
-
-
-  :
-
-
-  <View style={styles.containeEmpty}> 
-   
-   
-   <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-
-      <Pressable style={styles.btn}
-       onPress={() => setModalTransaction(true)}>
-       <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
-       <Text style={styles.textBtn}>{` Ainda não existe investimentos!!!  Investir ? `}</Text>
-     </Pressable>
-
-
-   </LinearGradient>
-  
-  
-  </View>
-
-
-}
 
 
 
 
 
 
-
-
-         <View style={styles.containerBtn}>
+         <View style={styles.containerBtn}>         
 
 
             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
@@ -851,7 +706,15 @@ export default function Investments({ navigation }) {
 
 
 
-       <Modal
+
+
+
+
+
+
+
+
+         <Modal
             animationType='fade'
             visible={modalTransaction}
          >
@@ -859,9 +722,14 @@ export default function Investments({ navigation }) {
 
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
+
+
                <View style={styles.infoModal} >
                   <Text style={styles.textInfo}>{` Register Investment `}</Text>
                </View>
+
+
+
 
 
                <ScrollView style={styles.contentModal} >
@@ -912,6 +780,7 @@ export default function Investments({ navigation }) {
                         }
                         value={investments.open}
                      />
+
 
 
                      <TextInput style={styles.input}

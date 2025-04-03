@@ -106,7 +106,7 @@ export default StyleSheet.create({
   },
 
 
-  
+
   containeEmpty: {
     alignItems:'center',
     marginTop: 50,

@@ -19,7 +19,9 @@ export default StyleSheet.create({
   main:{
     flex:1,
     height:'100%',
-    backgroundColor:'#2c4254' 
+    backgroundColor:'#0d172c'
+    //backgroundColor:'#fac00c' 
+   // backgroundColor: '#06121c'
    },
   
 
@@ -29,7 +31,8 @@ export default StyleSheet.create({
     height:"20%",
     alignItems:'flex-start',
     paddingTop:15,
-    paddingStart:15,    
+    paddingStart:15, 
+    backgroundColor:'#06121c'   
   },
 
   
@@ -54,7 +57,8 @@ export default StyleSheet.create({
     marginTop:-70,
     borderWidth: 1,
     borderBottomColor: "#44E8C3", 
-    borderRadius: 10,    
+    borderRadius: 10,  
+    backgroundColor:'#0e1c3b'  
   },
 
 
@@ -115,7 +119,8 @@ export default StyleSheet.create({
   width:"100%",
   padding:20,
   marginTop:'auto', 
-  paddingTop:50  
+  paddingTop:50 ,
+  borderRadius:10  
  },
 
 

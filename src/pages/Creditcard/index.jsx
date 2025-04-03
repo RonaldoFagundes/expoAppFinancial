@@ -559,7 +559,7 @@ export default function CreditCard({ navigation }) {
 
 
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+         <View style={styles.containerHeader}>
 
 
             <View>
@@ -577,7 +577,7 @@ export default function CreditCard({ navigation }) {
             </View>
 
 
-         </LinearGradient>
+         </View>
 
 
 

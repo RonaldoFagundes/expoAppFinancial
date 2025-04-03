@@ -16,7 +16,8 @@ export default StyleSheet.create({
  
   main: {
     flex: 1,
-    backgroundColor: '#1C1B20'
+    backgroundColor: '#06121c'
+    //backgroundColor: '#1C1B20'
   },
 
 

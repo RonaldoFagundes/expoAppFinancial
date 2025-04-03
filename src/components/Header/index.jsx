@@ -2,7 +2,7 @@ import {} from 'react';
 import {View, Text, StyleSheet, StatusBar, TouchableOpacity} from 'react-native';
 
 //import {Feather} from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+//import { LinearGradient } from 'expo-linear-gradient';
 
 const statusBarHeight = StatusBar.currentHeight ? StatusBar.currentHeight +22 : 64 ;
 
@@ -18,7 +18,7 @@ export default function Header({user , info}){
 
       <View style={styles.container}>
        
-         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.content}>
+         <View style={styles.content}>
 
               <Text style={styles.text}>{user}</Text>
               <Text style={styles.text}>{info}</Text>
@@ -29,8 +29,7 @@ export default function Header({user , info}){
               </TouchableOpacity>
              */}
               
-        </LinearGradient>
-
+        </View>
 
 
       </View>
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
 
      content:{
          borderRadius: 6,
-
+         backgroundColor:'#172b49',
          width:'auto',
          height:'auto',
         // flexDirection:'row',
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
          flexDirection:'row',
          alignItems:'center',
          justifyContent:'space-between',
-         backgroundColor:'#062531'
+         
          */
      },
 

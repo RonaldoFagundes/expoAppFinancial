@@ -629,7 +629,7 @@ export default function SelectedBank({ navigation }) {
                zIndex: 99,
                width: '100%',
                padding: 10,
-               backgroundColor: '#121212',
+               backgroundColor: '#06121c',
                alignItems: 'center',
                justifyContent: 'center',
                height: headerScrollHeight,

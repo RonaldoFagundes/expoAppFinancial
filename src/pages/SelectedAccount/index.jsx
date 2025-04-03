@@ -529,24 +529,24 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-      <KeyboardAvoidingView
+     <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : "height"}
          style={styles.main}
       >
 
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeaderOne}>
-
+        <View style={styles.containerHeaderOne}>
             <View>
                <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
             </View>
+        </View> 
 
-         </LinearGradient>
+        {/*  </LinearGradient> */}
 
 
 
 
-         <LinearGradient colors={['#2c4254', '#2c4254']} style={styles.containerHeaderTwo}>
+         <View style={styles.containerHeaderTwo}>
 
             {/*   <Image source={{ uri: bankData.img }} style={styles.resizeModel} /> */}
 
@@ -622,7 +622,7 @@ export default function SelectedAccount({ navigation }) {
 
             }
 
-         </LinearGradient>
+         </View>
 
 
 
@@ -652,7 +652,7 @@ export default function SelectedAccount({ navigation }) {
 
         
 
-      <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerCarrousel}>
+      <LinearGradient colors={['#0e1c3b', '#0d172c']} style={styles.containerCarrousel}>
 
          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
 
@@ -674,7 +674,7 @@ export default function SelectedAccount({ navigation }) {
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("Investments")}>
+                        onPress={() => navigation.navigate("Transactions")}>
                         <FontAwesome name='credit-card' size={30} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Resgatar</Text>
                      </Pressable>
@@ -787,7 +787,9 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-      </KeyboardAvoidingView>
+     
+
+    </KeyboardAvoidingView>
 
    )
 

@@ -17,8 +17,10 @@ export default StyleSheet.create({
  
   main: {
     flex: 1,
-    height: '100%',
-    backgroundColor: '#2c4254'
+    height: '100%',  
+    backgroundColor:'#0d172c'  
+    //backgroundColor:'#20394d'
+   // backgroundColor: '#2c4254'
   },
 
 
@@ -28,7 +30,8 @@ export default StyleSheet.create({
     height: "auto",
     width: 'auto',
     padding: 10,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor:'#0d172c'
   },
 
 

@@ -116,8 +116,23 @@ export default function SelectedCreditCard({ navigation }) {
       if ( bestDay > infoDate.day){
 
          setMonthPay(infoDate.month);
-      }else{        
+
+         setPostCreditCard(
+            {
+                ...postCreditCard, 'expery': `${creditCardData.due_day}/${infoDate.month}` 
+            }
+        )
+
+      }else{    
+
          setMonthPay(infoDate.nextMonth);
+
+         setPostCreditCard(
+            {
+                ...postCreditCard, 'expery': `${creditCardData.due_day}/${infoDate.nextMonth}` 
+            }
+        )
+
       }
 
     }
@@ -142,7 +157,7 @@ export default function SelectedCreditCard({ navigation }) {
 
     const [postCreditCard, setPostCreditCard] = useState({
         placeshop: "",
-        date: "",
+        date: `${infoDate.day}/${infoDate.month}/${infoDate.year}`,
         user: "",
         parcel: "",
         value: 0,
@@ -715,7 +730,7 @@ export default function SelectedCreditCard({ navigation }) {
                         />
 
                         <TextInput style={styles.input}
-                            placeholder="Date"
+                            placeholder={postCreditCard.date}
                             placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
@@ -766,7 +781,7 @@ export default function SelectedCreditCard({ navigation }) {
                         />
 
                         <TextInput style={styles.input}
-                            placeholder="Due Date"
+                            placeholder= {postCreditCard.expery}
                             placeholderTextColor="#44E8C3"
                             type="text"
                             onChangeText={
