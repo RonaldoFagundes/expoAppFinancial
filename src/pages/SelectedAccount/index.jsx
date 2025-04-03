@@ -52,6 +52,8 @@ export default function SelectedAccount({ navigation }) {
       setAccountData,
       setAmountAccount,
       amountAccount, 
+      setTransactionsType,
+     // transactionsType, 
    } = useContext(AuthContext);
 
 
@@ -510,6 +512,19 @@ export default function SelectedAccount({ navigation }) {
 
 
 
+  const  investiments = (type) => {
+
+    if(type == "Investir"){
+      setTransactionsType("Investir");
+    }else{
+      setTransactionsType("Resgate");
+    }
+ 
+  navigation.navigate("Transactions")
+
+  }
+
+
 
 
 
@@ -674,7 +689,7 @@ export default function SelectedAccount({ navigation }) {
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
-                        onPress={() => navigation.navigate("Transactions")}>
+                        onPress={() => investiments("Resgate")}>
                         <FontAwesome name='credit-card' size={30} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Resgatar</Text>
                      </Pressable>
@@ -717,7 +732,7 @@ export default function SelectedAccount({ navigation }) {
 
                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                   <Pressable style={styles.btn}
-                    onPress={() => navigation.navigate("Transactions")}>
+                    onPress={() => navigation.navigate("Transactions") }>
                    {/*  <FontAwesome name='barcode' size={30} color={"#44E8C3"} /> */}
                     <FontAwesome name='exchange' size={30} color={"#44E8C3"} />
                     <Text style={styles.textBtn}>Transações</Text>
@@ -736,9 +751,9 @@ export default function SelectedAccount({ navigation }) {
 
               <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                  <Pressable style={styles.btn}
-                    onPress={() => callInvest()}>
+                    onPress={() => investiments("Investir")}>
                      <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
-                     <Text style={styles.textBtn}>Indefined</Text>
+                     <Text style={styles.textBtn}>Investir</Text>
                  </Pressable>
               </LinearGradient>
 

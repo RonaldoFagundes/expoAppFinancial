@@ -32,6 +32,8 @@ function AuthProvider({children}){
 
   const [creditCardData, setCreditCardData] = useState([]);
 
+  const [transactionsType, setTransactionsType] = useState("");
+
 
   const [infoDate, setInfoDate] = useState({    
     hours:"",
@@ -60,6 +62,9 @@ function AuthProvider({children}){
 
               setEndpoint,
               endpoint, 
+
+              setInfoDate,
+              infoDate,
               
               setBankData,
               bankData, 
@@ -73,8 +78,8 @@ function AuthProvider({children}){
               setCreditCardData,
               creditCardData, 
 
-              setInfoDate,
-              infoDate,
+              setTransactionsType,
+              transactionsType,              
                                    
              }}>
           {children}

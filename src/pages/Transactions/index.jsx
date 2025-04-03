@@ -45,6 +45,7 @@ export default function Transactions({ navigation }) {
       bankData,
       setAmountAccount,
       amountAccount, 
+      transactionsType, 
    } = useContext(AuthContext);
 
 
@@ -670,10 +671,19 @@ export default function Transactions({ navigation }) {
                         onPress={() => setModalTransaction(true)}>
                         <FontAwesome name='barcode' size={18} color={"#44E8C3"} /> 
 
-                     { accountData.type == "Investimentos" ? 
-                        
-                        <Text style={styles.textBtn}>{` Registrar Resgate `}</Text>  
+                    {/*  { accountData.type == "Investimentos" ?  */}
 
+                    { transactionsType == "Investir" ?                    
+                        
+                      <Text style={styles.textBtn}>{` Registrar Investimento `}</Text>  
+
+                      :
+
+                      transactionsType == "Resgate" ?
+
+                        <Text style={styles.textBtn}>{` Registrar Resgate `}</Text> 
+                        
+                        
                         :
 
                         <Text style={styles.textBtn}>{` Registrar movimentações `}</Text>  
