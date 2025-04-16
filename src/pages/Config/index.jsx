@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext } from 'react';
 import {
    Pressable,   
    Text,
@@ -25,7 +25,11 @@ const {
 
 
 
+//const endpoint = "https://f0c7c439-762d-4af1-bb71-5d2b7d0c2347-00-1m7y8kps8u495.spock.replit.dev/";
 
+
+
+ 
 
 const handleInputChange = (value) => {
       setEndpoint(value)
@@ -38,7 +42,7 @@ const handleInputChange = (value) => {
 
 const conectEndPoint = async () => {
 
-    await fetch(endpoint + "?action=conect", {
+    await fetch(endpoint + "?action=conect", {    
         method: 'POST',
         headers: {
            'Content-Type': 'application/json'
@@ -47,15 +51,13 @@ const conectEndPoint = async () => {
         .then((res) => res.json())
         .then(
            (result) => {
-
-                console.log(result);
-
+  
                if(result === 200){
                   navigation.navigate("Login"); 
                }else{
                   console.log(' erro => '+result); 
                }
-                
+              
            })
         .catch(function (error) {
            console.log(' erro => wrong url ');

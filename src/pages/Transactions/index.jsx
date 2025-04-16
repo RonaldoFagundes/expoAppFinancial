@@ -279,36 +279,29 @@ export default function Transactions({ navigation }) {
 
 
    const checkData = () => {
-
     
-      console.log(transaction)
+     // console.log(transaction)
 
-     /*
-     
+     /*     
       resgate será necessário :
         - setar a conta digital como conta destino 
         - out para conta origem
         - in para conta destino
      */
 
-
-      /*
-      if(transaction.move == "out"){ 
+  
+   if(transaction.move == "out"){ 
       
-         if( parseFloat(amountAccount) >= parseFloat(transaction.value) ){  
-
+      if( parseFloat(amountAccount) >= parseFloat(transaction.value) ){  
              safePost();
-
          }else{  
             console.log(" transação "+transaction.value+" Saldo insuficiente "+amountAccount); 
-         }  
+         } 
 
-      }else{
-
-            safePost();
-
-      }  
-     */   
+   }else{
+          safePost();
+    }     
+   
 
    }   
 
@@ -321,7 +314,6 @@ export default function Transactions({ navigation }) {
 
 
    const safePost = async () => {
-
                      
       await fetch(endpoint + "?action=postTransaction", {
          method: 'POST',
@@ -336,16 +328,15 @@ export default function Transactions({ navigation }) {
          .then(
             (result) => {
 
-
                //console.log(result);
-               
+              
                setShowProof(true);               
                setResultPost(result);
                setModalTransaction(false);
                cleanFields();
                updateAmount(accountData.id);
                proofPost(accountData.id);
-              
+             
 
             })
          .catch(function (error) {

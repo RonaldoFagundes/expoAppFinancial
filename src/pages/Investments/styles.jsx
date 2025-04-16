@@ -21,8 +21,6 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
 
-
-
   resizeModel: {
     height: 50,
     width: 50,
@@ -31,12 +29,9 @@ export default StyleSheet.create({
     marginLeft: 10
   },
 
-
-
   contentHeaderTitle: {
     alignItems: 'flex-start'
   },
-
 
   contentHeaderItem: {
     flexDirection: 'row',
@@ -70,6 +65,13 @@ export default StyleSheet.create({
     backgroundColor:'#2c4254'
   },
 
+  textInfo: {
+    color: '#44E8C3',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10
+  },
+
 
 
 
@@ -87,7 +89,6 @@ export default StyleSheet.create({
    // alignItems: 'center',
   },
 
-
   titleProof: {
     color: '#000000',
     fontSize: 24,
@@ -95,15 +96,14 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
-
- 
   textProof: {
     color: '#000000',
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10
   },
+
+
 
 
   
@@ -126,19 +126,43 @@ export default StyleSheet.create({
 
 
 
+  containerList: {
+    height: '100%',
+    padding: 10,
+    marginTop: 6,    
+  },
 
+  contentList: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: 10,
+    width: "auto",
+    height: 'auto',
+    padding: 6,    
+  },
 
+  contentCardList: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: "100%",
+    height: "auto",
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10
+  },
 
-
-
-  textInfo: {
-    color: '#44E8C3',
-    fontSize: 14,
+  textList: {
+    fontSize: 16,
+    color: '#a2eaf1',
     fontWeight: 'bold',
-    marginTop: 10
+    marginBottom: 10
   },
 
 
+
+
+
+  
 
 
 
@@ -218,7 +242,7 @@ contentModal: {
 },
 
 
-
+/*
 infoCheckBox: {
   height: 'auto',
   width: '100%',
@@ -231,8 +255,9 @@ infoCheckBox: {
   borderBottomColor: "#44E8C3",
   borderRadius: 10,
 },
+*/
 
-
+/*
 containerCheckBox:{
   width:'100%',
   padding:10,
@@ -240,15 +265,17 @@ containerCheckBox:{
   borderRadius: 10,
   backgroundColor:'#0c1037',
 },
+*/
 
-
+/*
 contentCheckBox:{
   width:'auto',
   padding:10, 
   borderRadius: 10,  
 },
+*/
 
-
+/*
 checkBox: {
   width:50,
   height:'auto',
@@ -257,6 +284,7 @@ checkBox: {
   alignItems:'center', 
   backgroundColor:'#123a61',
 },
+*/
 
 
 boxCard: {
