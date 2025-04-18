@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useContext } from 'react';
 import {
+   ActivityIndicator,
    KeyboardAvoidingView,
    Platform,
    Image,
@@ -45,6 +46,7 @@ export default function Investments({ navigation }) {
       bankData,
       setAmountAccount,
       amountAccount,
+    //  transactionsType,
    } = useContext(AuthContext);
 
 
@@ -53,53 +55,30 @@ export default function Investments({ navigation }) {
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
      // listAccounts(accountData.id);
-
-      /*
-       if( accountData.type == "Investimentos" ){
-          setTransaction(
-             {
-                ...transaction, 'type': 'Resgate'
-             }
-          )
-       }
-      */
-
-
-      //console.log(accountData.type)
-
+    //console.log(accountData.type)
+       getListInvestmentsByAc(accountData.id)
    }, [load, navigation]);
 
 
 
-   //const [isList, setIsList] = useState(false);
-
-  // const [modalTransaction, setModalTransaction] = useState(false);
-
-   const [transaction, setTransaction] = useState({
-      move: "",
-      date: "",
-      type: "",
-      source: bankData.name,
-      form: "",
-      desc: "",
-      value: 0,
-      account: accountData.type,
-      number: accountData.number,
-      moveway: "",
-      accountway: "",
-      numberway: "",
-      idac: accountData.id,
-   });
-
-
+  
+   const [isLoading, setIsLoading] = useState(true);
 
    const [listInvestments, setListInvestments] = useState([]);
 
    const [isList, setIsList] = useState(false);
 
+
    const [modalInvestments, setModalInvestments] = useState(false);
 
+   const [modalRescue, setModalRescue] = useState(false);
+
+   
+
+
    const [investments, setInvestments] = useState({
+      trans:"",   
+      form:"Digital", 
       broker: "",
       cat: "",
       type: "",
@@ -107,12 +86,10 @@ export default function Investments({ navigation }) {
       expery: "",
       rateType: "",
       rate: "",
-      amount: 0,
+      valuei: 0,
       desc: "",
       idac: accountData.id,
    });
-
-
 
 
 
@@ -125,6 +102,8 @@ export default function Investments({ navigation }) {
    const [showProof, setShowProof] = useState(false);
 
    const [resultPost, setResultPost] = useState();
+
+
 
 
 
@@ -143,76 +122,35 @@ export default function Investments({ navigation }) {
 
 
 
+    const transaction =(type)=>{
 
-   // const [selectedType, setSelectedType] = useState("");
+      setInvestments(
+         {
+            ...investments, 'trans': type
+         }
+      )
 
-   /*
-    const type = [
-       { key: '1', value: 'Pix Pessoal' },
-       { key: '2', value: 'Pix Outros' },
-       { key: '3', value: 'Ted Pessoal' },
-       { key: '4', value: 'Ted Outros' },
-       { key: '5', value: 'Payment' },
-       { key: '6', value: 'Deposito' },
-       { key: '7', value: 'Saque' },
-    ]
-   */
+      if(type === "Invest"){
+         setModalInvestments(true);
+      }else{
+         setModalRescue(true);
+      }
 
-
-   /*
-   const listIn = [
-      { key: '2', value: 'Pix Outros' },
-      { key: '4', value: 'Ted Outros' },
-      { key: '6', value: 'Deposito' },
-   ]
-
-
-
-   const listOut = [
-      { key: '1', value: 'Pix Pessoal' },
-      { key: '2', value: 'Pix Outros' },
-      { key: '3', value: 'Ted Pessoal' },
-      { key: '4', value: 'Ted Outros' },
-      { key: '5', value: 'Payment' },
-      { key: '6', value: 'Deposito' },
-      { key: '7', value: 'Saque' },
-   ]
-   
-
-
-
-   const mov = [
-      { key: '1', value: 'out' },
-      { key: '2', value: 'in' },
-   ]
-
-
-   const [checkBox, setCheckBox] = useState([]);
-   const [randomCheckBox, setRandomCheckBox] = useState(null);
-   const [statusCheckBox, setStatusCheckBox] = useState(null);
- */
+      
+    }
 
 
 
 
-  // const [account, setAccount] = useState([]);
+    const getListInvestmentsByAc = async (idac) => {
 
-   //const [selectedAccount, setSelectedAccount] = useState("");
-
-
-
-   /*
-   const accounts = [];
-
-   const listAccounts = async (id) => {
-
-      await fetch(endpoint + "?action=listAccountById", {
+      await fetch(endpoint + "?action=listInvestmentsByAc", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
          },
          body: JSON.stringify({
-            id
+            idac
          })
       })
          .then((res) => res.json())
@@ -220,115 +158,32 @@ export default function Investments({ navigation }) {
 
             (result) => {
 
-               var count = Object.keys(result).length;
-               //  console.log(" count " + count);
+             if(result != "not found"){               
+              
+               setIsList(true);
+               setListInvestments(result);
 
-               for (var i = 0; i < count; i++) {
+             }else{
+               console.log(result);
+             }
+               
 
-                  accounts.push(
 
-                     {
-                        value:
-                           result[i].id_bka + " " +
-                           result[i].name_bnk + " " +
-                           result[i].type_bka + " " +
-                           result[i].number_bka,
-                     }
-
-                  )
-
-               }
-
-               setAccount(accounts);
-               // console.log(" listUserCC " + accounts);
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
 
+
+         setIsLoading(false);
    }
-  */
+   
 
 
 
 
 
-   const safePostTr = async () => {
-                     
-      await fetch(endpoint + "?action=postTransaction", {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({
-            transaction
-         })
-      })
-         .then((res) => res.json())
-         .then(
-            (result) => {
-
-               //console.log(result);
-              
-               /*
-               setShowProof(true);               
-               setResultPost(result);
-               setModalTransaction(false);
-               cleanFields();
-               updateAmount(accountData.id);
-               proofPost(accountData.id);
-               */
-
-            })
-         .catch(function (error) {
-            console.log('erro => ' + error.message);
-         });        
-       
-   }
-
-
-
-
-
-
-
-   /*
-   const [cashMov, setCashMov] = useState({
-          date: "",
-          type: "",
-          source: "",
-          desc: "",
-          value: 0,
-          fktrs: null,
-      });
-   */
-
-
-
-   /*
-   const checkData = async () => {
-
-      console.log(investments)
-    
-      if(transaction.move == "out"){ 
-      
-         if( parseFloat(amountAccount) >= parseFloat(transaction.value) ){  
-
-             safePost();
-
-         }else{  
-            console.log(" transação "+transaction.value+" Saldo insuficiente "+amountAccount); 
-         }  
-
-      }else{
-
-            safePost();
-
-      }  
-
-   }
-  */
 
 
 
@@ -349,15 +204,16 @@ export default function Investments({ navigation }) {
             (result) => {
 
                console.log(result);
-
-               /*
+              
+               setIsList(false);
                setShowProof(true);
                setResultPost(result);
-               setModalTransaction(false);
+               setModalInvestments(false);
+
                cleanFields();
                updateAmount(accountData.id);
                proofPost(accountData.id);
-               */
+             
 
             })
          .catch(function (error) {
@@ -373,7 +229,7 @@ export default function Investments({ navigation }) {
 
    const proofPost = async (fkac) => {
 
-      await fetch(endpoint + "?action=proofTransaction", {
+      await fetch(endpoint + "?action=proofInvestment", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
@@ -392,46 +248,26 @@ export default function Investments({ navigation }) {
                {
                   result.map((item) => {
 
-
                      setProof(
                         {
-                           ...proof, 'id': item.id_trs,
-                           proof, 'move': item.mov_trs,
-                           proof, 'date': item.date_trs,
-                           proof, 'type': item.type_trs,
-                           proof, 'source': item.source_trs,
-                           proof, 'form': item.form_trs,
-                           proof, 'desc': item.desc_trs,
-                           proof, 'value': item.value_trs,
+                           ...proof, 'id': item.id_ivt,
+                           proof, 'broker': item.broker_name_ivt,
+                           proof, 'cat': item.cat_ivt,
+                           proof, 'type': item.type_ivt,
+                           proof, 'open': item.open_ivt,
+                           proof, 'expery': item.expery_ivt,
+                           proof, 'rate_type': item.rate_type_ivt,
+                           proof, 'rate': item.rate_ivt,
+                           proof, 'value': item.value_ivt,
+                           proof, 'desc': item.desc_ivt,
+                           
                         }
                      )
 
-                     /*
-                    if(item.type_trs === "Saque"){                         
-  
-                       setCashMov(
-                          {
-                              ...cashMov, ['date']: item.date_trs,
-                              cashMov, ['type']: 'in',
-                              cashMov, ['source']: item.type_trs,
-                              cashMov, ['desc']: bankData.name+" "+accountData.type+" "+accountData.number,
-                              cashMov, ['value']: item.value_trs,
-                              cashMov, ['fktrs']: item.id_trs
-                          }
-                      )
-  
-                       safeCashMov();
-  
-                     }
-                    */
-
-
                   }
 
-                  )
-               }
-
-
+               )
+             }
 
             })
          .catch(function (error) {
@@ -444,35 +280,12 @@ export default function Investments({ navigation }) {
 
 
 
-   /*
-   const safeCashMov = async () => {
-      
-      await fetch(endpoint + "?action=postCashMov", {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              cashMov
-          })
-      })
-          .then((res) => res.json())
-          .then(
-              (result) => {
 
-                  console.log(result);                 
+   const postRescue = async () => {
 
-              })
-          .catch(function (error) {
-              console.log('erro => ' + error.message);
-          });     
+      console.log("resgatar");
 
-    }
-    */
-
-
-
-
+   }
 
 
 
@@ -508,59 +321,41 @@ export default function Investments({ navigation }) {
 
 
 
-   /*
+
+
+
+
+   
       const cleanFields = () => {
    
-         setTransaction(
+         setInvestments(
             {
-               ...transaction, 'move': "",
-               transaction, 'date': "",
-               transaction, 'type': "",
-               transaction, 'source': "",
-               transaction, 'form': "",
-               transaction, 'desc': "",
-               transaction, 'value': 0,
+               ...investments, 'broker': "",
+               investments, 'cat': "",
+               investments, 'type': "",
+               investments, 'open': "",
+               investments, 'expery': "",
+               investments, 'rateType': "",
+               investments, 'rate': "",
+               investments, 'value': 0,
+               investments, 'desc': "",
             }
          )
-   
-         setStatusCheckBox(null);
       }
-     */
+    
 
 
 
-   /*
-  const selectStatus = (index, item) => {
-
-     setStatusCheckBox(index);
-     if (statusCheckBox !== index && checkBox[index] !== undefined) {
-        checkBox[index] = undefined;
-     } else {
-        checkBox[index] = item;
-        setStatusCheckBox(index);
-     }
-     setRandomCheckBox(Math.random());
-
-     setTransaction(
-        {
-           ...transaction, 'move': item,
-           transaction, 'type': '',
-           transaction, 'moveway': '',
-           transaction, 'source': '',
-        }
-     )
-
-  }
- */
-
-
-
-   /*
+  
    const cancel = () => {
-      setModalTransaction(false);
+
+      modalRescue ?  setModalRescue(false) : 
+
+      modalInvestments? setModalInvestments(false):
+
       cleanFields();
    }
-  */
+  
 
 
 
@@ -572,6 +367,10 @@ export default function Investments({ navigation }) {
       showProof ? setShowProof(false) : setShowProof(false);
       navigation.navigate("SelectedAccount");
    }
+
+
+
+
 
 
 
@@ -588,6 +387,20 @@ export default function Investments({ navigation }) {
 
 
 
+
+
+
+
+
+
+   if (isLoading) {
+         return (
+           <View style={styles.containerLoading}>
+             <ActivityIndicator size="large" color="#0000ff" />
+             <Text>Loading...</Text>
+           </View>
+         )
+       }
 
 
 
@@ -642,65 +455,53 @@ export default function Investments({ navigation }) {
 
 
 
-         {/* 
 
-           {
-            showProof
-               ?
+  {
 
-               <View style={styles.containerProof}>
+     showProof?
+ 
 
-                  <View>
-                     <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
-                  </View>
+<View style={styles.containerProof}>
 
-                  <View>
-                     <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
-                  </View>
+<View>
+   <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
+</View>
 
-                  <Text style={styles.textProof}>{`ID :  ${proof.id}  `}</Text>
+<View>
+   <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
+</View>
 
-                  <Text style={styles.textProof}>{`Name :  ${proof.date}  `}</Text>
+<Text style={styles.textProof}>{`ID :  ${proof.id}  `}</Text>
 
-                  <Text style={styles.textProof}>{`Open :  ${proof.date}  `}</Text>
+<Text style={styles.textProof}>{`Broker :  ${proof.broker}  `}</Text>
 
-                  <Text style={styles.textProof}>{`Expery :  ${proof.source}  `}</Text>
+<Text style={styles.textProof}>{`Category :  ${proof.cat}  `}</Text>                  
 
-                  <Text style={styles.textProof}>{`Type :  ${proof.type}  `}</Text>
+<Text style={styles.textProof}>{`Type :  ${proof.type}  `}</Text>
 
-                  <Text style={styles.textProof}>{`Rate :  ${proof.type}  `}</Text>
+<Text style={styles.textProof}>{`Open Date :  ${proof.open}  `}</Text>
 
-                  <Text style={styles.textProof}>{`Amount : R$ ${proof.value}  `}</Text>
+<Text style={styles.textProof}>{`Expery :  ${proof.expery}  `}</Text>
 
+<Text style={styles.textProof}>{`Rate Type :  ${proof.rate_type}  `}</Text>
 
-               </View>
+<Text style={styles.textProof}>{`Rate :  ${proof.type}  `}</Text>
 
-               :
-
-
-               <View style={styles.containeEmpty}>
-
-                  <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                     <Pressable style={styles.btn}
-                        onPress={() => setModalTransaction(true)}>
-                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>{` Investir `}</Text>
-                     </Pressable>
-                  </LinearGradient>
-               </View>
-         }
-
-       */}
+<Text style={styles.textProof}>{`Value : R$ ${proof.value}  `}</Text>
 
 
-         {
-            isList ?
+</View>
+        
 
-               <View>
+: 
+
+    isList ?
+
+            <ScrollView>
 
                   <FlatList
-                     style={{ paddingTop: h_max_hight }}
-                     showsVerticalScrollIndicator={false}
+                    // style={{ paddingTop: h_max_hight }}
+                    // showsVerticalScrollIndicator={false}
                      data={listInvestments}
                      renderItem={({ item }) =>
 
@@ -716,27 +517,43 @@ export default function Investments({ navigation }) {
                               <View style={styles.contentCardList}>
 
                                  <Text style={styles.textList}>
-                                    {`ID  :  ${item.id_bnk}`}
+                                    {`ID  :  ${item.id_ivt}`}
                                  </Text>
 
                                  <Text style={styles.textList}>
-                                    {`Nº :  ${item.number_bnk}`}
+                                    {`Broker :  ${item.broker_name_ivt}`}
                                  </Text>
 
                                  <Text style={styles.textList}>
-                                    {`Name :  ${item.name_bnk}`}
+                                    {`Cat :  ${item.cat_ivt}`}
                                  </Text>
 
                                  <Text style={styles.textList}>
-                                    {`Cnpj :  ${item.ein_bnk}`}
+                                    {`Type :  ${item.type_ivt}`}
                                  </Text>
 
                                  <Text style={styles.textList}>
-                                    {`Contact :  ${item.contact_bnk}`}
+                                    {`Open :  ${item.open_ivt}`}
                                  </Text>
 
                                  <Text style={styles.textList}>
-                                    {`Desk :  ${item.desc_bnk}`}
+                                    {`Expery :  ${item.expery_ivt}`}
+                                 </Text>
+
+                                 <Text style={styles.textList}>
+                                    {`Rate Type :  ${item.rate_type_ivt}`}
+                                 </Text>
+
+                                 <Text style={styles.textList}>
+                                    {`Rate :  ${item.rate_ivt}`}
+                                 </Text>
+
+                                 <Text style={styles.textList}>
+                                    {`Amount :  ${item.value_ivt}`}
+                                 </Text>
+
+                                 <Text style={styles.textList}>
+                                    {`Desk :  ${item.desc_ivt}`}
                                  </Text>
 
 
@@ -744,7 +561,7 @@ export default function Investments({ navigation }) {
 
                                     <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                        <Pressable style={styles.btn}
-                                          onPress={() => selectBanc()}
+                                          onPress={() => transaction("Rescue")}
                                        >
                                           <FontAwesome name='eye' size={16} color={"#44E8C3"} />
                                           <Text style={styles.textBtn}>Resgate</Text>
@@ -770,62 +587,6 @@ export default function Investments({ navigation }) {
                               </View>
 
 
-
-
-                              {/* 
-                                    <View style={styles.containerBtn}>
-         
-                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                          <Pressable style={styles.btn}
-                                             onPress={() => selectBanc(
-                                                item.id_bnk,
-                                                item.name_bnk,
-                                                item.img_bnk
-                                             )}
-                                          >
-                                             <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                             <Text style={styles.textBtn}>Select</Text>
-                                          </Pressable>
-                                       </LinearGradient> 
-
-
-         
-                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                          <Pressable style={styles.btn}
-                                             onPress={() => getListBankById(
-                                                item.id_bnk,
-                                                item.number_bnk,
-                                                item.name_bnk,
-                                                item.ein_bnk,
-                                                item.contact_bnk,
-                                                item.desc_bnk,
-                                                item.img_bnk
-                                             )}
-                                          >
-                                             <FontAwesome name='edit' size={16} color={"#44E8C3"} />
-                                             <Text style={styles.textBtn}>Edit</Text>
-                                          </Pressable>
-                                       </LinearGradient>
-
-         
-                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
-                                          <Pressable style={styles.btn}
-                                             onPress={() => deleteBank(
-                                                item.id_bnk
-                                             )}
-                                          >
-                                             <FontAwesome name='trash' size={16} color={"#44E8C3"} />
-                                             <Text style={styles.textBtn}>Delete</Text>
-                                          </Pressable>
-                                       </LinearGradient>
-
-         
-                                    </View>
-
- */}
-
-
-
                            </LinearGradient>
 
 
@@ -835,47 +596,57 @@ export default function Investments({ navigation }) {
 
                   </FlatList>
 
+            </ScrollView>
 
 
-               </View>
+           :
+
+             
 
 
-               :
-
-
-               <View style={styles.containeEmpty}>
-
+            <View style={styles.containeEmpty}>
 
                   <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
 
                      <Pressable style={styles.btn}
-                        onPress={() => setModalInvestments(true)}>
-                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>{` Ainda não existe investimentos!!!  Investir ? `}</Text>
-                     </Pressable>
 
+                        onPress={() => transaction("Invest")}>
+
+                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
+
+                       <Text style={styles.textBtn}>{` Ainda não existe investimentos!!! Investir ? `}</Text>
+                 
+                     </Pressable>
 
                   </LinearGradient>
 
+            </View>
 
-               </View>
 
-
-         }
-
+       }
 
 
 
 
 
+           
 
 
-         <View style={styles.containerBtn}>
+            
 
+
+
+
+
+
+
+
+
+       <View style={styles.containerBtn}>
 
             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
-                  onPress={() => setShowProof(false) & setModalInvestments(true)}>
+                  onPress={() =>setModalInvestments(true)}>
                   <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
                   <Text style={styles.textBtn}>Post</Text>
                </Pressable>
@@ -1015,9 +786,9 @@ export default function Investments({ navigation }) {
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChange('amount', valor)
+                           (valor) => handleInputChange('valuei', valor)
                         }
-                        value={investments.amount}
+                        value={investments.valuei}
                      />
 
                      <TextInput style={styles.input}
@@ -1065,12 +836,197 @@ export default function Investments({ navigation }) {
 
 
 
+
+
+
+
+         <Modal
+            animationType='fade'
+            visible={modalRescue}
+         >
+
+
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+
+               <View style={styles.infoModal} >
+                  <Text style={styles.textInfo}>{` Register Rescue `}</Text>
+               </View>
+
+
+               <ScrollView style={styles.contentModal} >
+
+
+
+                <View style={styles.boxCard}>
+
+
+                 <View>
+
+                   <FlatList 
+                     data={listInvestments}
+                     renderItem={({ item }) =>
+
+
+                     <View style={styles.containerList} >
+
+                      <LinearGradient
+                       colors={['#0a0439', '#170c7c']}
+                       style={styles.contentList}>
+
+
+                       <View style={styles.contentCardList}>
+
+                        <Text style={styles.textList}>
+                          {`ID  :  ${item.id_ivt}`}
+                         </Text>
+
+                        <Text style={styles.textList}>
+                          {`Broker :  ${item.broker_name_ivt}`}
+                        </Text>
+
+                     </View>
+                  
+                   </LinearGradient>
+
+                    </View>
+
+                   }> 
+                   </FlatList>
+
+
+                  </View>  
+
+                    
+
+
+
+                     <TextInput style={styles.input}
+                        placeholder="Amount"
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('valuei', valor)
+                        }
+                        value={investments.valuei}
+                     />
+
+                    
+                  </View>
+
+
+
+
+
+                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+
+                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btn} onPress={() => postRescue()}>
+                           <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>Safe</Text>
+                        </Pressable>
+                     </LinearGradient>
+
+
+                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btn} onPress={() => cancel()}                  >
+                           <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>Cancel</Text>
+                        </Pressable>
+                     </LinearGradient>
+
+
+                  </LinearGradient>
+
+
+
+
+
+               </ScrollView>
+
+
+            </LinearGradient>
+
+
+         </Modal> 
+
+
+
+
+
+
+
+
+
+
+
       </KeyboardAvoidingView>
 
 
 
    )
 }
+
+
+
+
+
+ {/* 
+                                    <View style={styles.containerBtn}>
+         
+                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                                          <Pressable style={styles.btn}
+                                             onPress={() => selectBanc(
+                                                item.id_bnk,
+                                                item.name_bnk,
+                                                item.img_bnk
+                                             )}
+                                          >
+                                             <FontAwesome name='eye' size={16} color={"#44E8C3"} />
+                                             <Text style={styles.textBtn}>Select</Text>
+                                          </Pressable>
+                                       </LinearGradient> 
+
+
+         
+                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+                                          <Pressable style={styles.btn}
+                                             onPress={() => getListBankById(
+                                                item.id_bnk,
+                                                item.number_bnk,
+                                                item.name_bnk,
+                                                item.ein_bnk,
+                                                item.contact_bnk,
+                                                item.desc_bnk,
+                                                item.img_bnk
+                                             )}
+                                          >
+                                             <FontAwesome name='edit' size={16} color={"#44E8C3"} />
+                                             <Text style={styles.textBtn}>Edit</Text>
+                                          </Pressable>
+                                       </LinearGradient>
+
+         
+                                       <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
+                                          <Pressable style={styles.btn}
+                                             onPress={() => deleteBank(
+                                                item.id_bnk
+                                             )}
+                                          >
+                                             <FontAwesome name='trash' size={16} color={"#44E8C3"} />
+                                             <Text style={styles.textBtn}>Delete</Text>
+                                          </Pressable>
+                                       </LinearGradient>
+
+         
+                                    </View>
+
+ */}
+
+
+
+
+
+
 
 
 
@@ -1595,3 +1551,268 @@ export default function Investments({ navigation }) {
 
        </View>
        */}
+
+
+
+
+
+         // const [selectedType, setSelectedType] = useState("");
+
+   /*
+    const type = [
+       { key: '1', value: 'Pix Pessoal' },
+       { key: '2', value: 'Pix Outros' },
+       { key: '3', value: 'Ted Pessoal' },
+       { key: '4', value: 'Ted Outros' },
+       { key: '5', value: 'Payment' },
+       { key: '6', value: 'Deposito' },
+       { key: '7', value: 'Saque' },
+    ]
+   */
+
+
+   /*
+   const listIn = [
+      { key: '2', value: 'Pix Outros' },
+      { key: '4', value: 'Ted Outros' },
+      { key: '6', value: 'Deposito' },
+   ]
+
+
+
+   const listOut = [
+      { key: '1', value: 'Pix Pessoal' },
+      { key: '2', value: 'Pix Outros' },
+      { key: '3', value: 'Ted Pessoal' },
+      { key: '4', value: 'Ted Outros' },
+      { key: '5', value: 'Payment' },
+      { key: '6', value: 'Deposito' },
+      { key: '7', value: 'Saque' },
+   ]
+   
+
+
+
+   const mov = [
+      { key: '1', value: 'out' },
+      { key: '2', value: 'in' },
+   ]
+
+
+   const [checkBox, setCheckBox] = useState([]);
+   const [randomCheckBox, setRandomCheckBox] = useState(null);
+   const [statusCheckBox, setStatusCheckBox] = useState(null);
+ */
+
+
+
+
+  // const [account, setAccount] = useState([]);
+
+   //const [selectedAccount, setSelectedAccount] = useState("");
+
+
+
+   /*
+   const accounts = [];
+
+   const listAccounts = async (id) => {
+
+      await fetch(endpoint + "?action=listAccountById", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            id
+         })
+      })
+         .then((res) => res.json())
+         .then(
+
+            (result) => {
+
+               var count = Object.keys(result).length;
+               //  console.log(" count " + count);
+
+               for (var i = 0; i < count; i++) {
+
+                  accounts.push(
+
+                     {
+                        value:
+                           result[i].id_bka + " " +
+                           result[i].name_bnk + " " +
+                           result[i].type_bka + " " +
+                           result[i].number_bka,
+                     }
+
+                  )
+
+               }
+
+               setAccount(accounts);
+               // console.log(" listUserCC " + accounts);
+
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });
+
+   }
+  */
+
+
+
+
+   /*
+   const safePostTr = async () => {
+                     
+      await fetch(endpoint + "?action=postTransaction", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            transaction
+         })
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {
+
+               //console.log(result);
+              
+               /
+               setShowProof(true);               
+               setResultPost(result);
+               setModalTransaction(false);
+               cleanFields();
+               updateAmount(accountData.id);
+               proofPost(accountData.id);
+               /
+
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });        
+       
+   }
+   */
+
+
+
+
+
+
+   /*
+   const [cashMov, setCashMov] = useState({
+          date: "",
+          type: "",
+          source: "",
+          desc: "",
+          value: 0,
+          fktrs: null,
+      });
+   */
+
+
+
+   /*
+   const checkData = async () => {
+
+      console.log(investments)
+    
+      if(transaction.move == "out"){ 
+      
+         if( parseFloat(amountAccount) >= parseFloat(transaction.value) ){  
+
+             safePost();
+
+         }else{  
+            console.log(" transação "+transaction.value+" Saldo insuficiente "+amountAccount); 
+         }  
+
+      }else{
+
+            safePost();
+
+      }  
+
+   }
+  */
+
+
+     //const [isList, setIsList] = useState(false);
+
+  // const [modalTransaction, setModalTransaction] = useState(false);
+
+   /*
+   const [transaction, setTransaction] = useState({
+      move: "",
+      date: "",
+      type: "",
+      source: bankData.name,
+      form: "",
+      desc: "",
+      value: 0,
+      account: accountData.type,
+      number: accountData.number,
+      moveway: "",
+      accountway: "",
+      numberway: "",
+      idac: accountData.id,
+   });
+  */
+
+
+   /*
+   const safeCashMov = async () => {
+      
+      await fetch(endpoint + "?action=postCashMov", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              cashMov
+          })
+      })
+          .then((res) => res.json())
+          .then(
+              (result) => {
+
+                  console.log(result);                 
+
+              })
+          .catch(function (error) {
+              console.log('erro => ' + error.message);
+          });     
+
+    }
+    */
+
+
+     /*
+  const selectStatus = (index, item) => {
+
+     setStatusCheckBox(index);
+     if (statusCheckBox !== index && checkBox[index] !== undefined) {
+        checkBox[index] = undefined;
+     } else {
+        checkBox[index] = item;
+        setStatusCheckBox(index);
+     }
+     setRandomCheckBox(Math.random());
+
+     setTransaction(
+        {
+           ...transaction, 'move': item,
+           transaction, 'type': '',
+           transaction, 'moveway': '',
+           transaction, 'source': '',
+        }
+     )
+
+  }
+ */

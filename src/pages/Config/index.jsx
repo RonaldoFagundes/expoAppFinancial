@@ -23,12 +23,6 @@ const {
 } = useContext(AuthContext);
 
 
-
-
-//const endpoint = "https://f0c7c439-762d-4af1-bb71-5d2b7d0c2347-00-1m7y8kps8u495.spock.replit.dev/";
-
-
-
  
 
 const handleInputChange = (value) => {

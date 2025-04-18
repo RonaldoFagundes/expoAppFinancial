@@ -5,6 +5,16 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 
 
+  containerLoading: {
+    flex: 1,
+    backgroundColor: '#F5F5F5',
+    paddingBottom: 200,
+    justifyContent: 'center',
+    alignItems: 'center'
+ },
+
+ 
+
   main: {
     flex: 1,
     height: '100%',
@@ -52,7 +62,7 @@ export default StyleSheet.create({
 
 
   containerInfo:{ 
-    height:70,    
+    height:80,    
     alignItems:'center',    
     marginStart:10,
     marginEnd:10,
@@ -63,6 +73,8 @@ export default StyleSheet.create({
     */ 
     borderRadius: 10,
     backgroundColor:'#2c4254'
+
+    
   },
 
   textInfo: {
@@ -117,7 +129,8 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3", 
     borderRadius: 10,   
     backgroundColor:'#2c4254',
-    marginBottom:'auto'
+    
+    //marginBottom:'auto'
    // alignItems: 'center',
   },
 
@@ -181,6 +194,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
+    marginTop:'auto',  
   },
 
   boxBtn: {

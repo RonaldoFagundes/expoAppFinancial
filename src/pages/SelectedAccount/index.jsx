@@ -52,7 +52,7 @@ export default function SelectedAccount({ navigation }) {
       setAccountData,
       setAmountAccount,
       amountAccount, 
-      setTransactionsType,
+     // setTransactionsType,
      // transactionsType, 
    } = useContext(AuthContext);
 
@@ -512,15 +512,16 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-  const  investiments = (type) => {
+  const  investiments = () => {
 
+   /*  
     if(type == "Investir"){
       setTransactionsType("Investir");
     }else{
-      setTransactionsType("Resgate");
+      setTransactionsType("Resgatar");
     }
- 
-  navigation.navigate("Transactions")
+   */
+    navigation.navigate("Transactions")
 
   }
 
@@ -689,7 +690,7 @@ export default function SelectedAccount({ navigation }) {
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                      <Pressable style={styles.btn}
-                        onPress={() => investiments("Resgate")}>
+                        onPress={() => navigation.navigate("Transactions")}>
                         <FontAwesome name='credit-card' size={30} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>Resgatar</Text>
                      </Pressable>
@@ -751,7 +752,7 @@ export default function SelectedAccount({ navigation }) {
 
               <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                  <Pressable style={styles.btn}
-                    onPress={() => investiments("Investir")}>
+                    onPress={() => navigation.navigate("Transactions")}>
                      <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
                      <Text style={styles.textBtn}>Investir</Text>
                  </Pressable>

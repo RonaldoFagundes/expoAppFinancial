@@ -55,10 +55,12 @@ export default function Transactions({ navigation }) {
       navigation.addListener('focus', () => setLoad(!load));
       listAccounts(accountData.id);
       
-
+     /*
      if( accountData.type == "Investimentos" ){
       checkInvest();
       }
+     */
+
 
       //console.log(accountData.type)
 
@@ -77,7 +79,7 @@ export default function Transactions({ navigation }) {
       source: "",
       form: "",
       desc: "",
-      value: 0,
+      valuet: 0,
       account: accountData.type,
       number: accountData.number,
       moveway:"",
@@ -232,7 +234,7 @@ export default function Transactions({ navigation }) {
 
 
 
-
+    /*
     const checkInvest = () => {  
            
          setTransaction(
@@ -250,7 +252,7 @@ export default function Transactions({ navigation }) {
          )
         
    }
-
+  */
 
 
 
@@ -498,7 +500,7 @@ export default function Transactions({ navigation }) {
             transaction, 'source': "",
             transaction, 'form': "",
             transaction, 'desc': "",
-            transaction, 'value': 0,
+            transaction, 'valuet': 0,
          }
       )
 
@@ -1153,9 +1155,9 @@ export default function Transactions({ navigation }) {
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChangeCad('value', valor)
+                           (valor) => handleInputChangeCad('valuet', valor)
                         }
-                     //value={postTransaction.value}
+                      value={transaction.valuet}
                      />
                </View>
 
