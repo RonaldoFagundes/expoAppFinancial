@@ -12,6 +12,7 @@ import {
    View,
    Modal,
    ScrollView,
+   TurboModuleRegistry,
 } from 'react-native';
 
 
@@ -46,19 +47,18 @@ export default function Investments({ navigation }) {
       bankData,
       setAmountAccount,
       amountAccount,
-    //  transactionsType,
+      infoDate    
    } = useContext(AuthContext);
 
 
-
+   const today = infoDate.day+"/"+infoDate.month+"/"+infoDate.year;
 
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
      // listAccounts(accountData.id);
     //console.log(accountData.type)
-       getListInvestmentsByAc(accountData.id)
+       getListInvestmentsByAc(accountData.id);
    }, [load, navigation]);
-
 
 
   
@@ -68,29 +68,49 @@ export default function Investments({ navigation }) {
 
    const [isList, setIsList] = useState(false);
 
-
    const [modalInvestments, setModalInvestments] = useState(false);
 
    const [modalRescue, setModalRescue] = useState(false);
+ 
 
+
+   const [indicators, setIndicators] = useState({
+       ir_0_180_d : 0.225,
+       ir_181_360_d : 0.20,
+       ir_361_720_d : 0.175,
+       ir_720_d : 0.15,
+       selic:  0.135,
+       ipca :  0.065      
+   });
+
+
+   const [profitability, setProfitability] = useState([]);
+
+   const [isProfit, setIsProfit] = useState(false);
    
-
+   const [amountProfitability, setAmountProfitability] = useState(0);
 
    const [investments, setInvestments] = useState({
-      trans:"",   
+      id:0,
+      move:"",  
+      trans:"", 
       form:"Digital", 
       broker: "",
       cat: "",
       type: "",
       open: "",
       expery: "",
-      rateType: "",
+      date: today,
+      rate_type: "",
       rate: "",
+      rate_value:0,
       valuei: 0,
+      valuet: 0,
+      amount:0,
       desc: "",
+      status:"",
       idac: accountData.id,
    });
-
 
 
 
@@ -102,9 +122,6 @@ export default function Investments({ navigation }) {
    const [showProof, setShowProof] = useState(false);
 
    const [resultPost, setResultPost] = useState();
-
-
-
 
 
 
@@ -122,23 +139,8 @@ export default function Investments({ navigation }) {
 
 
 
-    const transaction =(type)=>{
 
-      setInvestments(
-         {
-            ...investments, 'trans': type
-         }
-      )
-
-      if(type === "Invest"){
-         setModalInvestments(true);
-      }else{
-         setModalRescue(true);
-      }
-
-      
-    }
-
+   
 
 
 
@@ -159,36 +161,125 @@ export default function Investments({ navigation }) {
             (result) => {
 
              if(result != "not found"){               
-              
+            
                setIsList(true);
                setListInvestments(result);
 
+            if(infoDate.day == "30"){
+
+               console.log(" today is "+today+" dia de lançar os rendimentos "); 
+               
+               if(!isProfit){               
+                  loadValues(result); 
+               }else{
+                   console.log(" já lançado!!");
+               }
+
+            }else{
+               console.log(" today is "+today);
+            }                
+                          
              }else{
                console.log(result);
-             }
+            }
                
+         })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+      });
+
+     setIsLoading(false);
+   }
+   
+
+   
+   
+
+   const values_invest = [];
+
+   const loadValues =  (result) => {
+             
+       var count = Object.keys(result).length;
+         
+       for (var i = 0; i < count; i++) {
+
+         let calc_values = (result[i].rate_ivt / 100 ) * result[i].value_ivt ;
+         
+         let format_values = (calc_values / 12).toFixed(2);
+
+         values_invest.push(         
+           {
+              id:result[i].id_ivt,          
+              value:format_values,
+              date : infoDate.day+"/"+infoDate.month+"/"+infoDate.year                                                
+           }
+         )         
+         
+       }
+
+         setProfitability(values_invest);
+       
+      }
 
 
+
+     
+
+
+   const safeIncome = async () => {
+
+      await fetch(endpoint + "?action=postRendimentos", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({    
+            profitability
+         })
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {
+
+              console.log(result); 
+              
+              setIsProfit(true);
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
-
-         setIsLoading(false);
+    
    }
+
+
+
+
+
    
 
+   const postInvestment =(type)=>{
+
+      setInvestments(
+         {
+            ...investments, 'move': type,
+               investments, 'trans': 'Investment' ,
+               investments, 'status': 'Active'
+         }
+      )
+    
+      setModalInvestments(true);    
+      
+    }
 
 
 
 
 
+   const safePostInvestment = async () => {
 
-
-
-   const safePost = async () => {
+      cleanFields();
+      setModalInvestments(false);
 
       await fetch(endpoint + "?action=postInvestments", {
          method: 'POST',
@@ -202,18 +293,12 @@ export default function Investments({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
-               console.log(result);
-              
+             
                setIsList(false);
                setShowProof(true);
-               setResultPost(result);
-               setModalInvestments(false);
-
-               cleanFields();
+               setResultPost(result);  
                updateAmount(accountData.id);
-               proofPost(accountData.id);
-             
+               proofPost(accountData.id);           
 
             })
          .catch(function (error) {
@@ -221,8 +306,6 @@ export default function Investments({ navigation }) {
          });
 
    }
-
-
 
 
 
@@ -241,10 +324,7 @@ export default function Investments({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
-
-               console.log(result);
-
+             
                {
                   result.map((item) => {
 
@@ -273,7 +353,93 @@ export default function Investments({ navigation }) {
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
+   }
 
+
+
+   const getAmountProfitability = async (id) => {
+
+      await fetch(endpoint + "?action=amountProfitability", {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id
+         })
+      })
+          .then((res) => res.json())
+          .then(
+              (result) => {
+
+                  console.log(result);
+                  setAmountProfitability(result);
+
+              })
+          .catch(function (error) {
+              console.log('erro => ' + error.message);
+          });
+
+  }
+
+
+
+  
+   const postRescue = async (id, type , source, amount, open) => {
+
+      getAmountProfitability(id);
+                
+      setInvestments(
+         {
+            ...investments, 'id': id,
+               investments, 'move': type,
+               investments, 'trans': 'Rescue',
+               investments, 'broker': source,
+               investments, 'amount': amount,
+               investments, 'open': open,
+         }
+      )
+
+      setModalRescue(true);
+   }
+
+
+
+ 
+
+
+   const validationRescue= (value)=>{
+    
+      
+      const percent = value / investments.amount;       
+          
+      const ref_value = amountProfitability * percent ;
+
+      const ir = ref_value * indicators.ir_720_d;
+
+
+      const value_t = value - ir;
+
+         
+      setInvestments(
+         {
+            ...investments, 'valuei': value,
+               investments, 'valuet': value_t.toFixed(2),
+               investments, 'rate_value': ir.toFixed(2)
+         }
+      )
+
+
+      if(investments.amount === value){
+        
+         setInvestments(
+             {
+                ...investments, 'status': 'inactive',
+             }
+          )
+          // console.log(investments.amount," === ",investments.valuei) 
+       }
+   
    }
 
 
@@ -281,12 +447,112 @@ export default function Investments({ navigation }) {
 
 
 
-   const postRescue = async () => {
 
-      console.log("resgatar");
+   const safePostRescue = async () => {
 
+      cleanFields();
+      setModalRescue(false);
+           
+      await fetch(endpoint + "?action=postRescue", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            investments
+         })
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {  
+               
+               console.log(result);
+             
+             ///  setIsList(false);
+
+              // setShowProof(true);
+              // setResultPost(result);             
+              
+             ///  updateAmount(accountData.id);
+
+             //  proofPost(accountData.id);
+
+            ///  proofPostRescue(investments.id);   
+
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });
+       
    }
 
+
+
+
+
+
+
+   const proofPostRescue = async (id) => {
+
+      await fetch(endpoint + "?action=proofRescue", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            id
+         })
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {
+             
+             /*
+               {
+                  result.map((item) => {
+
+                     setProof(
+                        {
+                           ...proof, 'id': item.id_ivt,
+                           proof, 'broker': item.broker_name_ivt,
+                           proof, 'cat': item.cat_ivt,
+                           proof, 'type': item.type_ivt,
+                           proof, 'open': item.open_ivt,
+                           proof, 'expery': item.expery_ivt,
+                           proof, 'rate_type': item.rate_type_ivt,
+                           proof, 'rate': item.rate_ivt,
+                           proof, 'value': item.value_ivt,
+                           proof, 'desc': item.desc_ivt,
+                           
+                        }
+                     )
+
+                  }
+
+               )
+             }
+            */
+
+
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });
+   }
+
+
+
+
+
+
+  
+   const closeProof = () => {
+
+     setShowProof(false);
+
+     getListInvestmentsByAc(accountData.id);
+
+   }
 
 
 
@@ -319,26 +585,24 @@ export default function Investments({ navigation }) {
 
 
 
-
-
-
-
-
-
    
       const cleanFields = () => {
    
          setInvestments(
             {
                ...investments, 'broker': "",
+               investments, 'mov': "",
+               investments, 'trans': "",
                investments, 'cat': "",
                investments, 'type': "",
                investments, 'open': "",
                investments, 'expery': "",
                investments, 'rateType': "",
                investments, 'rate': "",
-               investments, 'value': 0,
+               investments, 'valuei': 0,
+               investments, 'amount': 0,
                investments, 'desc': "",
+               investments, 'status': "",
             }
          )
       }
@@ -373,8 +637,6 @@ export default function Investments({ navigation }) {
 
 
 
-
-
    const getReport = () => {
       console.log("gerar relatorio/extrato")
    }
@@ -384,10 +646,6 @@ export default function Investments({ navigation }) {
    const selectBanc = () => {
       console.log("resgate/details")
    }
-
-
-
-
 
 
 
@@ -457,8 +715,7 @@ export default function Investments({ navigation }) {
 
 
   {
-
-     showProof?
+   showProof?
  
 
 <View style={styles.containerProof}>
@@ -490,12 +747,23 @@ export default function Investments({ navigation }) {
 <Text style={styles.textProof}>{`Value : R$ ${proof.value}  `}</Text>
 
 
+
+<Pressable style={styles.btn}
+
+   onPress={() => closeProof()}>
+
+  <Text style={styles.textBtn}>{` ok `}</Text>
+
+</Pressable>
+
+
 </View>
         
 
 : 
 
-    isList ?
+
+
 
             <ScrollView>
 
@@ -561,10 +829,17 @@ export default function Investments({ navigation }) {
 
                                     <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                        <Pressable style={styles.btn}
-                                          onPress={() => transaction("Rescue")}
+
+                                          onPress={() => 
+
+                                           //  getAmountProfitability(item.id_ivt) &
+                                             postRescue(item.id_ivt, 'in' , item.broker_name_ivt , item.value_ivt, item.open_ivt ) 
+                                             
+                                          }
+
                                        >
                                           <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                          <Text style={styles.textBtn}>Resgate</Text>
+                                          <Text style={styles.textBtn}>Resgatar</Text>
                                        </Pressable>
                                     </LinearGradient>
 
@@ -598,12 +873,11 @@ export default function Investments({ navigation }) {
 
             </ScrollView>
 
-
-           :
-
+        
              
 
 
+/* 
             <View style={styles.containeEmpty}>
 
                   <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
@@ -622,8 +896,10 @@ export default function Investments({ navigation }) {
 
             </View>
 
+       */
 
-       }
+      }
+
 
 
 
@@ -646,16 +922,20 @@ export default function Investments({ navigation }) {
 
             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
-                  onPress={() =>setModalInvestments(true)}>
+                  onPress={() =>postInvestment("out")}>
                   <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Post</Text>
+                  <Text style={styles.textBtn}>Investir</Text>
                </Pressable>
             </LinearGradient>
 
 
             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
-                  onPress={() => getReport()}>
+               <Pressable style={styles.btn}                
+                   onPress={() =>safeIncome()}>
+
+           {/*     onPress={() => getReport()}> */}
+
+
                   <FontAwesome name='list-alt' size={16} color={"#44E8C3"} />
                   <Text style={styles.textBtn}>Extrato</Text>
                </Pressable>
@@ -764,9 +1044,9 @@ export default function Investments({ navigation }) {
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChange('rateType', valor)
+                           (valor) => handleInputChange('rate_type', valor)
                         }
-                        value={investments.rateType}
+                        value={investments.rate_type}
                      />
 
 
@@ -788,7 +1068,7 @@ export default function Investments({ navigation }) {
                         onChangeText={
                            (valor) => handleInputChange('valuei', valor)
                         }
-                        value={investments.valuei}
+                       // value={investments.valuei}
                      />
 
                      <TextInput style={styles.input}
@@ -808,7 +1088,7 @@ export default function Investments({ navigation }) {
                   <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                        <Pressable style={styles.btn} onPress={() => safePost()}>
+                        <Pressable style={styles.btn} onPress={() => safePostInvestment()}>
                            <FontAwesome name='save' size={16} color={"#44E8C3"} />
                            <Text style={styles.textBtn}>Safe</Text>
                         </Pressable>
@@ -853,65 +1133,75 @@ export default function Investments({ navigation }) {
                </View>
 
 
-               <ScrollView style={styles.contentModal} >
+               <View style={styles.boxCard}>
 
 
-
-                <View style={styles.boxCard}>
-
-
-                 <View>
-
-                   <FlatList 
-                     data={listInvestments}
-                     renderItem={({ item }) =>
-
-
-                     <View style={styles.containerList} >
-
-                      <LinearGradient
-                       colors={['#0a0439', '#170c7c']}
-                       style={styles.contentList}>
+                       <TextInput style={styles.input}
+                         placeholder={investments.id}
+                         editable={false}
+                         placeholderTextColor="#44E8C3"
+                         type="text"
+                         onChangeText={
+                           (valor) => handleInputChange('id', valor)
+                         }
+                       //  value={investments.i}
+                      />
 
 
-                       <View style={styles.contentCardList}>
+                       <TextInput style={styles.input}
+                         placeholder={investments.broker}
+                         editable={false}
+                         placeholderTextColor="#44E8C3"
+                         type="text"
+                         onChangeText={
+                           (valor) => handleInputChange('broker', valor)
+                         }
+                        // value={investments.valuei}
+                      />
 
-                        <Text style={styles.textList}>
-                          {`ID  :  ${item.id_ivt}`}
-                         </Text>
-
-                        <Text style={styles.textList}>
-                          {`Broker :  ${item.broker_name_ivt}`}
-                        </Text>
-
-                     </View>
-                  
-                   </LinearGradient>
-
-                    </View>
-
-                   }> 
-                   </FlatList>
+                      <Text style={styles.input}>{`Amount R$ ${investments.amount}`}</Text>
 
 
-                  </View>  
-
-                    
+                      <TextInput style={styles.input}
+                         placeholder="Rescue value"
+                         placeholderTextColor="#44E8C3"
+                         type="text"
+                       
+                         onChangeText={
+                          // (valor) => handleInputChange('valuei', valor)
+                           (valor) => validationRescue(valor)
+                         }                              
+                        // value={investments.valuei}
+                      />
 
 
 
                      <TextInput style={styles.input}
-                        placeholder="Amount"
+                        placeholder={investments.date}
+                        placeholderTextColor="#44E8C3"
+                        type="text"
+                        
+                        onChangeText={     
+                           (valor) => handleInputChange('date', valor) 
+                        }
+                        value={investments.date}
+                     />
+
+
+
+                     <TextInput style={styles.input}
+                        placeholder="Desc"
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChange('valuei', valor)
+                           (valor) => handleInputChange('desc', valor)
                         }
-                        value={investments.valuei}
+                        value={investments.desc}
                      />
 
                     
-                  </View>
+                   
+               </View>
 
 
 
@@ -920,7 +1210,7 @@ export default function Investments({ navigation }) {
                   <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                        <Pressable style={styles.btn} onPress={() => postRescue()}>
+                        <Pressable style={styles.btn} onPress={() => safePostRescue()}>
                            <FontAwesome name='save' size={16} color={"#44E8C3"} />
                            <Text style={styles.textBtn}>Safe</Text>
                         </Pressable>
@@ -939,9 +1229,6 @@ export default function Investments({ navigation }) {
 
 
 
-
-
-               </ScrollView>
 
 
             </LinearGradient>
