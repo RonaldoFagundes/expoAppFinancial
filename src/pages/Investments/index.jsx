@@ -13,6 +13,7 @@ import {
    Modal,
    ScrollView,
    TurboModuleRegistry,
+   Alert,
 } from 'react-native';
 
 
@@ -38,6 +39,7 @@ import Header from '../../components/Header';
 export default function Investments({ navigation }) {
 
 
+
    const {
       setLoad,
       load,
@@ -51,7 +53,10 @@ export default function Investments({ navigation }) {
    } = useContext(AuthContext);
 
 
+
    const today = infoDate.day+"/"+infoDate.month+"/"+infoDate.year;
+
+
 
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
@@ -59,6 +64,8 @@ export default function Investments({ navigation }) {
     //console.log(accountData.type)
        getListInvestmentsByAc(accountData.id);
    }, [load, navigation]);
+
+
 
 
   
@@ -74,6 +81,8 @@ export default function Investments({ navigation }) {
  
 
 
+
+
    const [indicators, setIndicators] = useState({
        ir_0_180_d : 0.225,
        ir_181_360_d : 0.20,
@@ -84,11 +93,17 @@ export default function Investments({ navigation }) {
    });
 
 
+
+
    const [profitability, setProfitability] = useState([]);
 
    const [isProfit, setIsProfit] = useState(false);
    
    const [amountProfitability, setAmountProfitability] = useState(0);
+
+
+   const [typeInvestments, setTypeInvestments] = useState("");
+     
 
    const [investments, setInvestments] = useState({
       id:0,
@@ -111,6 +126,7 @@ export default function Investments({ navigation }) {
       status:"",
       idac: accountData.id,
    });
+
 
 
 
@@ -158,31 +174,47 @@ export default function Investments({ navigation }) {
          .then((res) => res.json())
          .then(
 
-            (result) => {
+         (result) => {
 
-             if(result != "not found"){               
+
+           // console.log(result);
+
+        
+         if(result != "not found"){               
             
                setIsList(true);
                setListInvestments(result);
 
-            if(infoDate.day == "30"){
 
-               console.log(" today is "+today+" dia de lançar os rendimentos "); 
+            if(infoDate.day == "26"){
+              
+
+              console.log(" today is "+today+" dia de lançar os rendimentos "); 
+             // selectTypeInvestiment();
+              loadValues(result);
                
-               if(!isProfit){               
+              /*
+               if(!isProfit){   
+
                   loadValues(result); 
+
                }else{
-                   console.log(" já lançado!!");
+
+                  console.log(" já lançado!!");
                }
+               */
 
             }else{
                console.log(" today is "+today);
-            }                
+            }            
+            
                           
-             }else{
-               console.log(result);
-            }
-               
+         }else{
+             console.log(result);
+         }
+
+       
+         
          })
          .catch(function (error) {
             console.log('erro => ' + error.message);
@@ -192,38 +224,189 @@ export default function Investments({ navigation }) {
    }
    
 
+
+
    
-   
+  
+
+
 
    const values_invest = [];
 
+
    const loadValues =  (result) => {
-             
+
+    //  console.log(result);
+         
+       var amount;
+
        var count = Object.keys(result).length;
          
+
        for (var i = 0; i < count; i++) {
 
-         let calc_values = (result[i].rate_ivt / 100 ) * result[i].value_ivt ;
-         
-         let format_values = (calc_values / 12).toFixed(2);
+         let rate_type = result[i].rate_type_ivt;
+         let value = result[i].value_ivt ;
+         let rate = (result[i].rate_ivt / 100 );
 
+        // console.log(" rate type "+rate_type+" rate "+rate+" value "+value);
+
+
+         let calc_value_aa = value * rate ;
+         //console.log(" calc_value_aa "+calc_value_aa); 
+
+            
+         let calc_value_am = calc_value_aa / 12 ;
+        // console.log(" calc_value_am "+calc_value_am); 
+
+
+        // selectTypeInvestiment(rate_type);
+        setTypeInvestments(rate_type);
+
+        // console.log(typeInvestments);
+
+
+
+         if(rate_type == "Pré fixado"){
+
+           console.log("Pré fixado");
+
+           // amount = (calc_value_am).toFixed(2);
+
+         }else if (typeInvestments == "Selic"){
+
+            console.log("Selic");
+
+           // amount = (indicators.selic * calc_value_am).toFixed(2);
+
+         }else if (typeInvestments == "IPCA"){
+
+            console.log("IPCA");
+
+           // let fix_money = indicators.ipva * calc_value_am ;
+
+           // amount = (calc_value_am + fix_money).toFixed(2);
+         } 
+
+
+        // console.log(" amount "+amount);
+
+         /*
          values_invest.push(         
            {
               id:result[i].id_ivt,          
-              value:format_values,
+              value:amount,
               date : infoDate.day+"/"+infoDate.month+"/"+infoDate.year                                                
            }
          )         
+         */
+       
+
+
+
+        /*
+         if(rate_type == "Pré fixado"){
          
+            //let calc_values = (result[i].rate_ivt / 100 ) * result[i].value_ivt ;
+            
+            console.log("pré")
+
+         }else if(rate_type == "Selic"){
+
+           // let calc_values = ( (result[i].rate_ivt / 100 ) * (indicators.selic/100) * result[i].value_ivt ) / 12 ;
+
+           console.log("selic")
+
+         }else if(rate_type == "Ipca"){
+
+            console.log("ipca")
+         }
+        */
+
+         //let format_values = (calc_values / 12).toFixed(2);
+
        }
 
-         setProfitability(values_invest);
+
+
+       //  setProfitability(values_invest);  
        
+       
+         
       }
 
 
 
+
+
+
+
+
+
+
+
+   
+   const selectTypeInvestiment = (type) => {
+
+      Alert.alert(
+         "Select an option",
+         "Choose from the following:",
+         [
+
+           {
+             text: type,
+             onPress: () => handleSelection(type),
+           },
+
+            /*
+           {
+             text: "Selic",
+             onPress: () =>  handleSelection("selic"),
+           },
+
+           {
+            text: "Ipca +",
+            onPress: () =>  handleSelection("ipca"),
+          },
+           */
+
+
+           {
+             text: "Cancel",
+             onPress: () => console.log("Cancel Pressed"),
+             style: "cancel",
+           },
+
+         ],
+         { cancelable: false }
+       );
+
+   }
+
+   
+   const handleSelection = (option) => {
+
+      setTypeInvestments(option);
+     // Alert.alert(`You selected: ${option}`);
+    };
+
+   
+
+
+
+ 
+
+    const selectTypeInvestiment2 = (type) => {
+
+
+
+    }
+
+
+
      
+
+
 
 
    const safeIncome = async () => {
@@ -241,9 +424,11 @@ export default function Investments({ navigation }) {
          .then(
             (result) => {
 
+
               console.log(result); 
               
               setIsProfit(true);
+
 
             })
          .catch(function (error) {
@@ -251,6 +436,10 @@ export default function Investments({ navigation }) {
          });
     
    }
+
+
+
+
 
 
 
@@ -271,6 +460,8 @@ export default function Investments({ navigation }) {
       setModalInvestments(true);    
       
     }
+
+
 
 
 
@@ -931,7 +1122,7 @@ export default function Investments({ navigation }) {
 
             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                <Pressable style={styles.btn}                
-                   onPress={() =>safeIncome()}>
+                   onPress={() =>showAlert()}>
 
            {/*     onPress={() => getReport()}> */}
 
