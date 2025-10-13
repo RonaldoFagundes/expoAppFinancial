@@ -11,30 +11,39 @@ export default StyleSheet.create({
     paddingBottom: 200,
     justifyContent: 'center',
     alignItems: 'center'
- },
+  },
 
-
- 
   main: {
     flex: 1,
-    height: '100%',  
-    backgroundColor:'#0d172c'  
-    //backgroundColor:'#20394d'
-   // backgroundColor: '#2c4254'
+    height: '100%',
+    backgroundColor: '#fffdf5ff'
   },
-
-
-
 
   containerHeader: {
-    height: "auto",
+    height: "20%",
     width: 'auto',
     padding: 10,
-    flexDirection: 'column',
-    backgroundColor:'#0d172c'
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderBottomStartRadius: 40,
+    borderBottomEndRadius: 40
   },
-
-
+  
+   containerInfo: {
+    height: 'auto',
+    width: '80%',
+    alignItems: 'center',
+    marginStart: 10,
+    marginEnd: 10,
+    marginTop: -24,
+    marginStart: 30,
+    marginEnd: 30,
+    padding:10,    
+    borderWidth: 1,
+    borderBottomColor: "#44E8C3",
+    borderRadius: 10,    
+    backgroundColor: '#ecf4f5ff',
+  },
 
   resizeModel: {
     height: 50,
@@ -44,12 +53,9 @@ export default StyleSheet.create({
     marginLeft: 10
   },
 
-
-
   contentHeaderTitle: {
     alignItems: 'flex-start'
   },
-
 
   contentHeaderItem: {
     flexDirection: 'row',
@@ -57,63 +63,48 @@ export default StyleSheet.create({
     padding: 10
   },
 
-
-
   textDesc: {
     color: '#44E8C3',
     fontSize: 14,
     fontWeight: 'bold',
   },
 
-
-
   textInfo: {
-    color: '#44E8C3',
+    color: '#060324ff',
     fontSize: 14,
     fontWeight: 'bold',
     marginTop: 10
   },
 
-
-
-
-  containerBtn: {
+containerBtn: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-    flexWrap: 'wrap',
     width: '100%',
     height: 'auto',
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
+    marginTop: 'auto',
   },
-
 
   boxBtn: {
+    height: 40,
     borderRadius: 10,
-  },
-
-
+  }, 
 
   btn: {
+    flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    padding: 12,
-
+    padding: 10,
   },
-
-
-
 
   textBtn: {
     color: '#44E8C3',
     fontSize: 14,
     fontWeight: 'bold',
   },
-
-
 
   containerNoList: {
     marginTop: 100,
@@ -122,17 +113,10 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
 
-
-
-
   scrollView: {
     width: '100%',
     padding: 10
   },
-
-
-
-
 
   containerCard: {
     alignItems: 'center',
@@ -146,10 +130,6 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-
-
-
-
   contentCard: {
     width: 'auto',
     height: 'auto',
@@ -160,16 +140,12 @@ export default StyleSheet.create({
     backgroundColor: '#0b1936',
   },
 
-
-
   dataCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 8,
     marginBottom: 8,
   },
-
-
 
   textCard: {
     fontSize: 16,
@@ -178,37 +154,10 @@ export default StyleSheet.create({
     marginTop: 7
   },
 
-
-
-
-
-
-
-  containerFooter: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
-    flexWrap: 'wrap',
-    width: '100%',
-    height: 'auto',
-    borderWidth: 1,
-    borderBottomColor: "#44E8C3",
-    borderRadius: 10,
-    marginTop: 'auto'
-  },
-
-
-
-
-
   containerList: {
     height: "100%",
     marginBottom: 10
   },
-
-
-
 
   contentList: {
     flexDirection: 'column',
@@ -220,16 +169,12 @@ export default StyleSheet.create({
     marginTop: 12,
   },
 
-
-
-
   containerModal: {
     flex: 1,
     padding: 10,
     height: '100%',
     paddingBottom: '50%'
   },
-
 
   contentModal: {
     height: 'auto',
@@ -242,8 +187,6 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
   },
-
-
 
   boxCard: {
     width: '100%',
@@ -259,7 +202,6 @@ export default StyleSheet.create({
     marginBottom: 20
   },
 
-
   input: {
     width: '100%',
     height: 50,
@@ -272,8 +214,6 @@ export default StyleSheet.create({
     backgroundColor: '#062531',
     fontSize: 16
   },
-
-
 
 
 });

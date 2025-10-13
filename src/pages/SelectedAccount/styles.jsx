@@ -12,189 +12,179 @@ export default StyleSheet.create({
     paddingBottom: 200,
     justifyContent: 'center',
     alignItems: 'center'
- },
-
-
- 
-  main:{
-    flex:1,
-    height:'100%',
-    backgroundColor:'#0d172c'
-    //backgroundColor:'#fac00c' 
-   // backgroundColor: '#06121c'
-   },
-  
-
-
-  
-  containerHeaderOne:{
-    height:"20%",
-    alignItems:'flex-start',
-    paddingTop:15,
-    paddingStart:15, 
-    backgroundColor:'#06121c'   
   },
 
-  
+
+  main: {
+    flex: 1,
+    height: '100%',   
+    backgroundColor: '#fffdf5ff'   
+  },
+
+
+
+
+  containerHeaderOne: {
+    height: "20%",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',   
+    paddingTop: 15,
+    paddingStart: 15,
+    backgroundColor: '#06121c',
+    borderBottomStartRadius: 40,
+    borderBottomEndRadius: 40
+  },
 
   resizeModel: {
     height: 50,
-    width: 50,   
-    resizeMode:'contain',
-    borderRadius:6
-    },
+    width: 50,
+    resizeMode: 'contain',
+    borderRadius: 6
+  },
 
-
-
-
-
- 
-  containerHeaderTwo:{
-    flexDirection:'column',
-    padding:10,    
-    marginStart:10,
-    marginEnd:10,
-    marginTop:-70,
+  containerHeaderTwo: {
+    width: '80%',
+    flexDirection: 'column',
+    padding: 10,
+    marginStart: 30,
+    marginEnd: 30,
+    marginTop: -50,
     borderWidth: 1,
-    borderBottomColor: "#44E8C3", 
-    borderRadius: 10,  
-    backgroundColor:'#0e1c3b'  
+    borderBottomColor: "#44E8C3",
+    borderRadius: 10,       
+    backgroundColor: '#ecf4f5ff',
   },
 
 
-  contentHeaderBox:{
-    flexDirection:'row',
-    justifyContent:'space-around',
-    alignItems:'center',
-    padding:5,   
-   },
-
-  
-  contentHeaderTwo:{
-    height:100,
-    width:"auto", 
-    padding:10, 
-    borderRadius:6, 
-    alignItems:"flex-end"    
- },
-
- contentList:{
-   height: 40,
-   width:'auto',
-   flexDirection:'row',
-   justifyContent:'space-around',
-   padding:5,
-   borderWidth: 1,
-   borderColor: "#44E8C3",
-   borderRadius:10,
-   marginBottom:5
- },
- 
- textList:{
-  fontSize: 12,
-  color: '#a2eaf1',
-  fontWeight: 'bold',
-   marginBottom:10
- },
+  contentHeaderBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 5,
+  },
 
 
+  contentHeaderTwo: {
+    height: 100,
+    width: "auto",
+    padding: 10,
+    borderRadius: 6,
+    alignItems: "flex-end"
+  },
+
+  contentList: {
+    height: 40,
+    width: 'auto',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 5,
+    borderWidth: 1,
+    borderColor: "#060630ff",
+    borderRadius: 10,
+    marginBottom: 5
+  },
+
+  textList: {
+    fontSize: 12,    
+    color: '#060630ff',
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
 
 
+  containerInfo: {
+    height: 'auto',
+    padding: 10,
+    alignItems: 'center',
+    marginTop: 10
+  },
 
 
- containerInfo:{
-  height:'auto',
-  padding:10,
-  alignItems:'center',  
-  marginTop:10
-},
+  containerCarrousel: {
+    height: 140,
+    width: "100%",
+    padding: 20,    
+    marginTop: 20,
+    paddingTop: 10,
+    borderRadius: 10
+  },
 
 
+  contentCarrousel: {
+    height: 80,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+
+  boxBtnCarrousel: {
+    height: 80,
+    borderRadius: 10,
+    marginTop: 10,
+    marginLeft: 20
+  },
+
+  textInfo: {
+    color: '#060630ff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10
+  },
+
+  textTitle: {
+    color: '#44E8C3',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10
+  },
+
+  textHidden: {
+    color: '#032d3dff',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 10
+  },
 
 
-
-
- containerCarrousel:{
-  height:'34%',
-  width:"100%",
-  padding:20,
-  marginTop:'auto', 
-  paddingTop:50 ,
-  borderRadius:10  
- },
-
-
- contentCarrousel:{
-  height:'auto',
-  flexDirection:'row', 
-  justifyContent:'space-between',  
-  padding:10,  
- },
-
-
-
- boxBtnCarrousel: {
-  height:80,
-  borderRadius: 10,
-  marginTop:10,
-  marginLeft:20
-},
- 
-  
-textInfo:{
-  color: '#44E8C3',
-  fontSize: 14,
-  fontWeight: 'bold', 
-  marginTop:10   
-},
-
-
-
-
-
-
-    containerBtn: {  
-      flexDirection:'row',
-      justifyContent:'space-between', 
-      padding: 10,  
-      flexWrap:'wrap',  
-      width: '100%',
-      height: 'auto',
-      borderWidth: 1,
-      borderBottomColor: "#44E8C3", 
-      borderRadius: 10,
-      marginTop:'auto',      
-    },
+  containerBtn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    flexWrap: 'wrap',
+    width: '100%',
+    height: 'auto',
+    borderWidth: 1,
+    borderBottomColor: "#44E8C3",
+    borderRadius: 10,
+    marginTop: 'auto',
+  },
 
 
   boxBtn: {
+    height: 40,
     borderRadius: 10,
-    marginTop:10
   },
-
 
   btn: {
     width: 'auto',
     height: 'auto',
-    padding: 14,  
+    padding: 14,
+  },
+
+  btnMenu: {
+    flexDirection: 'row',
+    width: 'auto',
+    height: 'auto',
+    padding: 14,
+  },
+
+  textBtn: {
+    color: '#44E8C3',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 
 
-textBtn: {
-  color: '#44E8C3',
-  fontSize: 14,
-  fontWeight: 'bold',
-},
 
-
-
-
-    
-
-
-
-
-
- 
 });
 

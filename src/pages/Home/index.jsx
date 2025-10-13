@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
    const {
       setLoad,
       load,
-      user,      
+      user,
       endpoint,
       setBankData,
       bankData,
@@ -49,9 +49,9 @@ export default function Home({ navigation }) {
       getListBank();
    }, [load, navigation]);
 
-   
 
-   
+
+
 
 
    const getTime = () => {
@@ -60,30 +60,30 @@ export default function Home({ navigation }) {
       var hours = dta.getHours();
       var dd = dta.getDate().toString().padStart(2, '0');
       var mm = (dta.getMonth() + 1).toString().padStart(2, '0');
-      var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');     
+      var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');
       var yyyy = dta.getFullYear();
-     // var today = dd + "/" + mm + "/" + yyyy;
+      // var today = dd + "/" + mm + "/" + yyyy;
 
-     setInfoDate(
-      {
-         ...infoDate, 'day': dd,
-            infoDate, 'month': mm,            
-            infoDate, 'nextMonth': nxt, 
-            infoDate, 'year': yyyy 
+      setInfoDate(
+         {
+            ...infoDate, 'day': dd,
+            infoDate, 'month': mm,
+            infoDate, 'nextMonth': nxt,
+            infoDate, 'year': yyyy
 
-      }  
-     )
-  
+         }
+      )
+
 
       if (hours > 0 && hours < 12) {
-        setWelcome("Bom dia")
+         setWelcome("Bom dia")
       } else if (hours >= 12 && hours < 18) {
-        setWelcome("Boa tarde")
+         setWelcome("Boa tarde")
       } else {
-        setWelcome("Boa noite")
+         setWelcome("Boa noite")
       }
-    }
-  
+   }
+
 
 
 
@@ -223,7 +223,7 @@ export default function Home({ navigation }) {
          .then((res) => res.json())
          .then(
 
-            (result) => {                    
+            (result) => {
 
                //alert(result + " on api ");
                console.log(' insertBank => ' + result);
@@ -261,21 +261,24 @@ export default function Home({ navigation }) {
    */
 
 
-
+   let responseClone;
    const getListBank = async () => {
 
-     // console.log(" tela home getListBank ");
+      // console.log(" tela home getListBank ");
 
       await fetch(endpoint + "?action=listBank")
-         .then((res) => res.json())
+         .then(res => {
+            responseClone = res.clone();
+            return res.json();
+         })
          .then(
-            (result) => {
-          
+            result => {
+
                if (result !== "not found") {
 
                   setIsLoading(false);
                   setIsList(true);
-                  setListBank(result);              
+                  setListBank(result);
 
                } else {
 
@@ -284,8 +287,12 @@ export default function Home({ navigation }) {
                }
 
             })
-         .catch(function (error) {
+         .catch(error => {
             console.log('erro => ' + error.message);
+            /* 
+           responseClone.text()
+           .then(text=>console.log('erro => ', text))
+           */
          });
    }
 
@@ -296,7 +303,7 @@ export default function Home({ navigation }) {
 
    const getListBankById = async (id, number, name, ein, contact, desc, img) => {
 
-     // console.log("function getListBankById nº " + id);
+      // console.log("function getListBankById nº " + id);
 
       //  cleanFields();
 
@@ -345,7 +352,7 @@ export default function Home({ navigation }) {
 
    const updateBank = async () => {
 
-     // console.log("function updateBank " + bank.id + "  " + bank.name + "  " + bank.contact);
+      // console.log("function updateBank " + bank.id + "  " + bank.name + "  " + bank.contact);
 
       await fetch(endpoint + "?action=updateBank", {
          method: 'POST',
@@ -359,8 +366,8 @@ export default function Home({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-           
-                  console.log(result);              
+
+               console.log(result);
 
             })
          .catch(function (error) {
@@ -375,7 +382,7 @@ export default function Home({ navigation }) {
 
    const deleteBank = async (id) => {
 
-     // console.log("function deletebank id nº ", id);
+      // console.log("function deletebank id nº ", id);
 
       await fetch(endpoint + "?action=deleteBank", {
          method: 'POST',
@@ -393,7 +400,7 @@ export default function Home({ navigation }) {
                if (result != "error") {
 
                   getListBank();
-                 // console.log(result);
+                  // console.log(result);
                   // alert(result);
                } else {
                   console.log(result);
@@ -454,14 +461,14 @@ export default function Home({ navigation }) {
 
    if (isLoading) {
       return (
-        <View style={styles.containerLoading}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Text>Loading...</Text>
-        </View>
+         <View style={styles.containerLoading}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text>Loading...</Text>
+         </View>
       )
-    }
-  
-   
+   }
+
+
 
 
    return (
@@ -469,8 +476,9 @@ export default function Home({ navigation }) {
       <View style={styles.main}>
 
          <StatusBar
-           // backgroundColor={"#121212"}          
-            backgroundColor={"#02183a"}  
+            // backgroundColor={"#121212"}          
+            //  backgroundColor={"#02183a"}  
+            // backgroundColor={"#e0edffff"} 
             barStyle={'light-content'}
             translucent={false}
          />
@@ -483,9 +491,12 @@ export default function Home({ navigation }) {
                right: 0,
                zIndex: 99,
                width: '100%',
-               padding: 10,              
+               paddingTop: 40,
+               paddingBottom: 40,
+               //padding: 40,                             
                //backgroundColor: '#1C1B20',
-               backgroundColor: '#06121c',
+               // backgroundColor: '#06121c',
+               backgroundColor: '#97a1a1ff',
                alignItems: 'center',
                justifyContent: 'center',
                height: headerScrollHeight,
@@ -497,13 +508,14 @@ export default function Home({ navigation }) {
                source={require('../logo_rfideia.png')}
                style={{
                   padding: imageScaleHeight,
-                  width: 80,
-                  height: imageScaleHeight
+                  width: 60,
+                  height: imageScaleHeight,
+                  borderRadius: 8
                }}
                resizeModel='contain'
             />
-            <Header user= {`${welcome} ${user}`} />
-            <Header info="App Banc"/>
+            <Header user={`${welcome} ${user}`} />
+            <Header info="App Banc" />
 
          </Animated.View>
 
@@ -518,7 +530,6 @@ export default function Home({ navigation }) {
                      <View style={styles.containerList} >
 
                         <LinearGradient
-
                            /* 
                             colors={[
                                'rgba(255, 249, 145, 0.07)',
@@ -526,7 +537,7 @@ export default function Home({ navigation }) {
                             ]}                          
                            */
 
-                          // colors={['#0a0439', '#170c7c']}
+                           // colors={['#0a0439', '#170c7c']}
                            colors={['#02183a', '#021f4b']}
                            style={styles.contentList}>
 
@@ -567,7 +578,7 @@ export default function Home({ navigation }) {
                            <View style={styles.containerBtn}>
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btn}
+                                 <Pressable style={styles.btnMenu}
                                     onPress={() => selectBanc(
                                        item.id_bnk,
                                        item.name_bnk,
@@ -575,12 +586,12 @@ export default function Home({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Select</Text>
+                                    <Text style={styles.textBtn}>{`  Select`}</Text>
                                  </Pressable>
-                              </LinearGradient>                             
+                              </LinearGradient>
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btn}
+                                 <Pressable style={styles.btnMenu}
                                     onPress={() => getListBankById(
                                        item.id_bnk,
                                        item.number_bnk,
@@ -592,18 +603,18 @@ export default function Home({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='edit' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Edit</Text>
+                                    <Text style={styles.textBtn}>{`  Edit`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
-                                 <Pressable style={styles.btn}
+                                 <Pressable style={styles.btnMenu}
                                     onPress={() => deleteBank(
                                        item.id_bnk
                                     )}
                                  >
                                     <FontAwesome name='trash' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Delete</Text>
+                                    <Text style={styles.textBtn}>{`  Delete`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -639,7 +650,7 @@ export default function Home({ navigation }) {
                   paddingTop: h_max_hight
                }}>
 
-                  <Pressable style={styles.btn}
+                  <Pressable style={styles.btnMenu}
                      onPress={() => setModalCadBank(true)}
                   >
                      <Text style={styles.textBtn}>Insert 1º Banc</Text>
@@ -675,24 +686,24 @@ export default function Home({ navigation }) {
       */}
 
 
-        
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>  
+
+         <LinearGradient colors={['#97a1a1ff', '#97a1a1ff']} style={styles.containerBtn}>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
+               <Pressable style={styles.btnMenu}
                   onPress={() => setModalCadBank(true)}
                >
                   <FontAwesome name='plus' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Add Banc</Text>                 
+                  <Text style={styles.textBtn}>{`  Add Banc`}</Text>
                </Pressable>
             </LinearGradient>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
+               <Pressable style={styles.btnMenu}
                   onPress={() => navigation.navigate("CashPayment")}>
                   <FontAwesome name='money' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Cash Payment</Text>
+                  <Text style={styles.textBtn}>{`  Cash Payment`}</Text>
                </Pressable>
             </LinearGradient>
 
@@ -700,13 +711,14 @@ export default function Home({ navigation }) {
 
 
 
-         
-            <Modal
-               animationType='fade'
-               visible={modalCadBank}
-            >              
 
-              <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+         <Modal
+            animationType='fade'
+            visible={modalCadBank}
+         >
+            <ScrollView>
+
+               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
                   <View style={styles.contentModal} >
                      <Text style={styles.textInfo}>{` Register Bank`}</Text>
@@ -714,18 +726,14 @@ export default function Home({ navigation }) {
 
                   {
                      bank.img === null ?
-
                         <View style={styles.boxImg}>
                            <Pressable onPress={() => pickImage()}>
                               <FontAwesome name='image' size={40} color={"#44E8C3"} />
                            </Pressable>
                            <Text style={styles.textInfo}>Add Image</Text>
                         </View>
-
                         :
-
                         bank.img &&
-
                         <View style={styles.boxImg}>
                            <Image source={{ uri: bank.img }} style={styles.resizeModel} />
 
@@ -733,12 +741,10 @@ export default function Home({ navigation }) {
                               <FontAwesome name='trash' size={20} color={"#B8AAA7"} />
                            </Pressable>
                         </View>
-
                   }
 
 
                   <View style={styles.formModal}>
-
                      <TextInput style={styles.input}
                         placeholder="Bank Nº "
                         placeholderTextColor="#44E8C3"
@@ -788,26 +794,21 @@ export default function Home({ navigation }) {
                         }
                         value={bank.desc}
                      />
-
-
                   </View>
 
-
-                
-
-                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>  
+                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                        <Pressable onPress={() => insertBank()} style={styles.btn}>
+                        <Pressable onPress={() => insertBank()} style={styles.btnMenu}>
                            <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                           <Text style={styles.textBtn}>Safe</Text>
+                           <Text style={styles.textBtn}>{`  Safe`}</Text>
                         </Pressable>
                      </LinearGradient>
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                        <Pressable onPress={() => closeModal('cad')} style={styles.btn}>
+                        <Pressable onPress={() => closeModal('cad')} style={styles.btnMenu}>
                            <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                           <Text style={styles.textBtn}>Cancel</Text>
+                           <Text style={styles.textBtn}>{`  Cancel`}</Text>
                         </Pressable>
                      </LinearGradient>
 
@@ -815,55 +816,57 @@ export default function Home({ navigation }) {
 
                </LinearGradient>
 
-            </Modal>
+            </ScrollView>
 
-         
-
-
+         </Modal>
 
 
 
-         
-            <Modal animationType='fade'
-               visible={modalUpdateBank}
-            >
-         
-             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+
+
+
+
+
+         <Modal animationType='fade'
+            visible={modalUpdateBank}
+         >
+            <ScrollView>
+
+               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
                   <View style={styles.contentModal} >
                      <Text style={styles.textInfo}>{` UPDATE BANK `}</Text>
                   </View>
 
                   <View style={styles.containerList}>
-                   
-                        {
-                           bank.base64 === null ?
-                              <View style={styles.boxImg}>
-                                 <Pressable onPress={() => pickImage()}>
-                                    <FontAwesome name='image' size={40} color={"#fff"} />
-                                 </Pressable>
-                                 <Text style={styles.textInfo}>Chosse Image</Text>
-                              </View>
-                              :
-                              <View style={styles.boxImg}>
-                                 {/* 
+
+                     {
+                        bank.base64 === null ?
+                           <View style={styles.boxImg}>
+                              <Pressable onPress={() => pickImage()}>
+                                 <FontAwesome name='image' size={40} color={"#fff"} />
+                              </Pressable>
+                              <Text style={styles.textInfo}>Chosse Image</Text>
+                           </View>
+                           :
+                           <View style={styles.boxImg}>
+                              {/* 
                                  <Image source={{ uri: bank.img }} style={styles.resizeModel} />  
                                 */}
-                                 <Pressable onPress={() => pickImage()}>
-                                    <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
-                                       style={styles.resizeModel}
-                                    />
-                                 </Pressable>
+                              <Pressable onPress={() => pickImage()}>
+                                 <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
+                                    style={styles.resizeModel}
+                                 />
+                              </Pressable>
 
-                                 <Pressable onPress={() => removeImage('base64')}>
-                                    <FontAwesome name='trash' size={20} color={"#B8AAA7"} />
-                                 </Pressable>
-                              </View>
-                        }
+                              <Pressable onPress={() => removeImage('base64')}>
+                                 <FontAwesome name='trash' size={20} color={"#B8AAA7"} />
+                              </Pressable>
+                           </View>
+                     }
 
 
                      <View style={styles.formModal}>
-
                         <TextInput style={styles.input}
                            placeholder={` ${bank.number}`}
                            placeholderTextColor="#cc0000"
@@ -913,30 +916,27 @@ export default function Home({ navigation }) {
                            }
                            value={bank.desc}
                         />
-
                      </View>
 
-                      
+                     <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
-                       <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>  
+                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => updateBank()}>
+                              <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                              <Text style={styles.textBtn}>{`  Safe`}</Text>
+                           </Pressable>
+                        </LinearGradient>
 
-                          <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                              <Pressable style={styles.btn}
-                                 onPress={() => updateBank()}>
-                                 <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                                 <Text style={styles.textBtn}>Safe</Text>
-                              </Pressable>
-                           </LinearGradient>
+                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => closeModal('update')}>
+                              <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                              <Text style={styles.textBtn}>{`  Cancel`}</Text>
+                           </Pressable>
+                        </LinearGradient>
 
-                           <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                              <Pressable style={styles.btn}
-                                 onPress={() => closeModal('update')}>
-                                 <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                                 <Text style={styles.textBtn}>Cancel</Text>
-                              </Pressable>
-                           </LinearGradient>
-
-                        </LinearGradient>                  
+                     </LinearGradient>
 
                   </View>
 
@@ -1057,14 +1057,11 @@ export default function Home({ navigation }) {
 
                </LinearGradient>
 
-            </Modal>
+            </ScrollView>
 
-
-
-        
+         </Modal>
 
       </View>
-
 
    )
 

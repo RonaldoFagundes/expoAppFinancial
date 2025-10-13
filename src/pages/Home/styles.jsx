@@ -11,12 +11,17 @@ export default StyleSheet.create({
     paddingBottom: 200,
     justifyContent: 'center',
     alignItems: 'center'
- },
+  },
 
- 
+
   main: {
     flex: 1,
-    backgroundColor: '#06121c'
+    flexDirection: "column",
+    alignItems: 'center',
+    backgroundColor: '#97a1a1ff',
+
+
+    //backgroundColor: '#06121c'
     //backgroundColor: '#1C1B20'
   },
 
@@ -35,16 +40,19 @@ export default StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     flexWrap: 'wrap',
-    width: '100%',
+    width: '96%',
     height: 'auto',
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 10
   },
 
 
   boxBtn: {
-    borderRadius: 6,
+    height: 40,
+    borderRadius: 10,
   },
 
 
@@ -54,7 +62,12 @@ export default StyleSheet.create({
     padding: 12,
   },
 
-
+  btnMenu: {
+    flexDirection: 'row',
+    width: 'auto',
+    height: 'auto',
+    padding: 14,
+  },
 
   textBtn: {
     color: '#44E8C3',
@@ -71,6 +84,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     width: "auto",
     height: 'auto',
+    marginBottom: 10
   },
 
 

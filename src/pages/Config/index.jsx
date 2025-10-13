@@ -34,6 +34,7 @@ const handleInputChange = (value) => {
 
 
 
+
 const conectEndPoint = async () => {
 
     await fetch(endpoint + "?action=conect", {    
@@ -46,15 +47,17 @@ const conectEndPoint = async () => {
         .then(
            (result) => {
   
+              
                if(result === 200){
                   navigation.navigate("Login"); 
                }else{
                   console.log(' erro => '+result); 
                }
-              
+               
+              console.log(result);
            })
         .catch(function (error) {
-           console.log(' erro => wrong url ');
+           console.log(' erro => wrong url ',error);
         });
 }
 
@@ -70,8 +73,9 @@ return(
 
    <View style={styles.main}>
 
+    
       <View style={styles.container}>
-
+       
          <TextInput  style={styles.input}
             placeholder={"End Point"}
             placeholderTextColor="#44E8C3"
@@ -79,6 +83,7 @@ return(
             onChangeText={(valor) =>
                handleInputChange(valor)
          }/>           
+     
 
          <View >
             <Pressable style={styles.btn}
@@ -88,6 +93,7 @@ return(
          </View>
 
       </View>
+    
 
    </View>
 

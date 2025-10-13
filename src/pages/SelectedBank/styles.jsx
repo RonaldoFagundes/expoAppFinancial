@@ -8,18 +8,18 @@ export default StyleSheet.create({
 
   containerLoading: {
     flex: 1,
-    backgroundColor: '#F5F5F5',    
+    backgroundColor: '#F5F5F5',
     paddingBottom: 200,
     justifyContent: 'center',
     alignItems: 'center'
- },
+  },
 
 
- 
+
 
   main: {
     flex: 1,
-   // backgroundColor: '#2c4254',
+    // backgroundColor: '#2c4254',
     backgroundColor: '#06121c',
     //backgroundColor:'#121212'   
     height: '100%',
@@ -30,14 +30,14 @@ export default StyleSheet.create({
 
 
 
-  
+
 
 
 
   containerList: {
     height: '100%',
     padding: 10,
-    marginTop: 6,    
+    marginTop: 6,
   },
 
 
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     width: "auto",
     height: 'auto',
-    padding: 6,    
+    padding: 6,
   },
 
 
@@ -143,6 +143,7 @@ export default StyleSheet.create({
 
 
   boxBtn: {
+    height:40,
     borderRadius: 8,
   },
 
@@ -152,6 +153,14 @@ export default StyleSheet.create({
     height: 'auto',
     padding: 12,
   },
+
+  btnMenu: {
+    flexDirection: 'row',
+    width: 'auto',
+    height: 'auto',
+    padding: 14,
+  },
+
 
 
 

@@ -35,37 +35,32 @@ import Header from '../../components/Header';
 
 export default function Transactions({ navigation }) {
 
-
    const {
       setLoad,
       load,
       endpoint,
-      user,     
+      user,
       accountData,
       bankData,
       setAmountAccount,
-      amountAccount, 
-      transactionsType, 
+      amountAccount,
+      transactionsType,
    } = useContext(AuthContext);
-
-
 
 
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
       listAccounts(accountData.id);
-      
-     /*
-     if( accountData.type == "Investimentos" ){
-      checkInvest();
-      }
-     */
 
+      /*
+      if( accountData.type == "Investimentos" ){
+       checkInvest();
+       }
+      */
 
       //console.log(accountData.type)
 
    }, [load, navigation]);
-
 
 
    //const [isList, setIsList] = useState(false);
@@ -82,10 +77,10 @@ export default function Transactions({ navigation }) {
       valuet: 0,
       account: accountData.type,
       number: accountData.number,
-      moveway:"",
+      moveway: "",
       accountway: "",
       numberway: "",
-      idac: accountData.id,      
+      idac: accountData.id,
    });
 
 
@@ -96,8 +91,6 @@ export default function Transactions({ navigation }) {
    const [showProof, setShowProof] = useState(false);
 
    const [resultPost, setResultPost] = useState();
-
-  
 
 
    const handleInputChangeCad = (atribute, value) => {
@@ -111,28 +104,25 @@ export default function Transactions({ navigation }) {
 
 
 
+   // const [selectedType, setSelectedType] = useState("");
+
+   /*
+    const type = [
+       { key: '1', value: 'Pix Pessoal' },
+       { key: '2', value: 'Pix Outros' },
+       { key: '3', value: 'Ted Pessoal' },
+       { key: '4', value: 'Ted Outros' },
+       { key: '5', value: 'Payment' },
+       { key: '6', value: 'Deposito' },
+       { key: '7', value: 'Saque' },
+    ]
+   */
 
 
-
-  // const [selectedType, setSelectedType] = useState("");
-
-  /*
-   const type = [
-      { key: '1', value: 'Pix Pessoal' },
+   const listIn = [
       { key: '2', value: 'Pix Outros' },
-      { key: '3', value: 'Ted Pessoal' },
       { key: '4', value: 'Ted Outros' },
-      { key: '5', value: 'Payment' },
       { key: '6', value: 'Deposito' },
-      { key: '7', value: 'Saque' },
-   ]
-  */
-
-
-   const listIn = [      
-      { key: '2', value: 'Pix Outros' },      
-      { key: '4', value: 'Ted Outros' },      
-      { key: '6', value: 'Deposito' },      
    ]
 
    const listOut = [
@@ -145,26 +135,19 @@ export default function Transactions({ navigation }) {
       { key: '7', value: 'Saque' },
    ]
 
-  
-
 
    const mov = [
       { key: '1', value: 'out' },
       { key: '2', value: 'in' },
    ]
 
-
    const [checkBox, setCheckBox] = useState([]);
    const [randomCheckBox, setRandomCheckBox] = useState(null);
    const [statusCheckBox, setStatusCheckBox] = useState(null);
 
-
-
-
    const [account, setAccount] = useState([]);
 
    //const [selectedAccount, setSelectedAccount] = useState("");
-
 
    const accounts = [];
 
@@ -185,7 +168,7 @@ export default function Transactions({ navigation }) {
             (result) => {
 
                var count = Object.keys(result).length;
-             //  console.log(" count " + count);
+               //  console.log(" count " + count);
 
                for (var i = 0; i < count; i++) {
 
@@ -204,7 +187,7 @@ export default function Transactions({ navigation }) {
                }
 
                setAccount(accounts);
-              // console.log(" listUserCC " + accounts);
+               // console.log(" listUserCC " + accounts);
 
             })
          .catch(function (error) {
@@ -215,44 +198,37 @@ export default function Transactions({ navigation }) {
 
 
 
+   /*
+   const [cashMov, setCashMov] = useState({
+          date: "",
+          type: "",
+          source: "",
+          desc: "",
+          value: 0,
+          fktrs: null,
+      });
+   */
 
 
+   /*
+   const checkInvest = () => {  
+          
+        setTransaction(
+           {
+              ...transaction, 'move': 'out',
+                 transaction, 'moveway': 'in',
+                 transaction, 'source': accountData.type,
+                 transaction, 'type': 'Resgate',
 
+                 transaction, 'accountway': 'Digital',
+                 transaction, 'numberway': '83724-5',
 
-
-    /*
-    const [cashMov, setCashMov] = useState({
-           date: "",
-           type: "",
-           source: "",
-           desc: "",
-           value: 0,
-           fktrs: null,
-       });
-    */
-
-
-
-
-    /*
-    const checkInvest = () => {  
-           
-         setTransaction(
-            {
-               ...transaction, 'move': 'out',
-                  transaction, 'moveway': 'in',
-                  transaction, 'source': accountData.type,
-                  transaction, 'type': 'Resgate',
-
-                  transaction, 'accountway': 'Digital',
-                  transaction, 'numberway': '83724-5',
-
-                  transaction, 'form': 'Digital'
-            }
-         )
-        
-   }
-  */
+                 transaction, 'form': 'Digital'
+           }
+        )
+       
+  }
+ */
 
 
 
@@ -260,18 +236,45 @@ export default function Transactions({ navigation }) {
 
       const accountSelected = val;
       const accountSlice = accountSelected.split(", ");
-      
-        setTransaction(
-           {
-              ...transaction, 'idacf': val.substr(0, 2),
-                 transaction,  'moveway':'in',                                             
-                 transaction,  'source':accountData.type+" "+accountData.number,
-                 transaction, 'accountway':accountSlice[1],
-                 transaction, 'numberway':accountSlice[2],
 
-           }
-        )
-       
+      setTransaction(
+         {
+            ...transaction, 'idacf': val.substr(0, 2),
+            transaction, 'moveway': 'in',
+            transaction, 'source': accountData.type + " " + accountData.number,
+            transaction, 'accountway': accountSlice[1],
+            transaction, 'numberway': accountSlice[2],
+
+         }
+      )
+
+   }
+
+
+
+   const checkData = () => {
+
+      // console.log(transaction)
+
+      /*     
+       resgate será necessário :
+         - setar a conta digital como conta destino 
+         - out para conta origem
+         - in para conta destino
+      */
+
+
+      if (transaction.move == "out") {
+
+         if (parseFloat(amountAccount) >= parseFloat(transaction.value)) {
+            safePost();
+         } else {
+            console.log(" transação " + transaction.value + " Saldo insuficiente " + amountAccount);
+         }
+
+      } else {
+         safePost();
+      }
 
 
    }
@@ -280,43 +283,8 @@ export default function Transactions({ navigation }) {
 
 
 
-   const checkData = () => {
-    
-     // console.log(transaction)
-
-     /*     
-      resgate será necessário :
-        - setar a conta digital como conta destino 
-        - out para conta origem
-        - in para conta destino
-     */
-
-  
-   if(transaction.move == "out"){ 
-      
-      if( parseFloat(amountAccount) >= parseFloat(transaction.value) ){  
-             safePost();
-         }else{  
-            console.log(" transação "+transaction.value+" Saldo insuficiente "+amountAccount); 
-         } 
-
-   }else{
-          safePost();
-    }     
-   
-
-   }   
-
-
-
-
-
-
-
-
-
    const safePost = async () => {
-                     
+
       await fetch(endpoint + "?action=postTransaction", {
          method: 'POST',
          headers: {
@@ -331,97 +299,90 @@ export default function Transactions({ navigation }) {
             (result) => {
 
                //console.log(result);
-              
-               setShowProof(true);               
+
+               setShowProof(true);
                setResultPost(result);
                setModalTransaction(false);
                cleanFields();
                updateAmount(accountData.id);
                proofPost(accountData.id);
-             
+
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
-         });        
-       
+         });
+
    }
 
 
 
 
+   const proofPost = async (fkac) => {
 
-
-   const proofPost = async (fkac) => {    
-            
       await fetch(endpoint + "?action=proofTransaction", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
-         }, 
+         },
          body: JSON.stringify({
             fkac
-         })        
+         })
       })
          .then((res) => res.json())
          .then(
             (result) => {
-         
 
-              console.log(result);   
-               
-              { result.map((item)=>
+               console.log(result);
 
-                  {
-                     
-                     
+               {
+                  result.map((item) => {
+
                      setProof(
                         {
-                           ...proof,'id':item.id_trs, 
-                              proof,'move':item.mov_trs, 
-                              proof,'date':item.date_trs,
-                              proof,'type':item.type_trs,
-                              proof,'source':item.source_trs,
-                              proof,'form':item.form_trs,
-                              proof,'desc':item.desc_trs,
-                              proof,'value':item.value_trs,
+                           ...proof, 'id': item.id_trs,
+                           proof, 'move': item.mov_trs,
+                           proof, 'date': item.date_trs,
+                           proof, 'type': item.type_trs,
+                           proof, 'source': item.source_trs,
+                           proof, 'form': item.form_trs,
+                           proof, 'desc': item.desc_trs,
+                           proof, 'value': item.value_trs,
                         }
                      )
-                  
-                   /*
-                  if(item.type_trs === "Saque"){                         
 
-                     setCashMov(
-                        {
-                            ...cashMov, ['date']: item.date_trs,
-                            cashMov, ['type']: 'in',
-                            cashMov, ['source']: item.type_trs,
-                            cashMov, ['desc']: bankData.name+" "+accountData.type+" "+accountData.number,
-                            cashMov, ['value']: item.value_trs,
-                            cashMov, ['fktrs']: item.id_trs
-                        }
-                    )
+                     /*
+                    if(item.type_trs === "Saque"){                         
+  
+                       setCashMov(
+                          {
+                              ...cashMov, ['date']: item.date_trs,
+                              cashMov, ['type']: 'in',
+                              cashMov, ['source']: item.type_trs,
+                              cashMov, ['desc']: bankData.name+" "+accountData.type+" "+accountData.number,
+                              cashMov, ['value']: item.value_trs,
+                              cashMov, ['fktrs']: item.id_trs
+                          }
+                      )
+  
+                       safeCashMov();
+  
+                     }
+                    */
 
-                     safeCashMov();
+                  }
 
-                   }
-                  */
-                   
-
-                 }
-
-               )}
-
-             
+                  )
+               }
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
-         });     
-       
+         });
+
    }
- 
-   
+
+
 
 
 
@@ -455,35 +416,30 @@ export default function Transactions({ navigation }) {
 
 
 
+   const updateAmount = async (id) => {
 
+      await fetch(endpoint + "?action=amountAccountById", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            id
+         })
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {
 
+               console.log(result);
+               setAmountAccount(result)
 
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });
 
-
-   const updateAmount = async (id) => {    
-            
-        await fetch(endpoint + "?action=amountAccountById", {
-           method: 'POST',
-           headers: {
-              'Content-Type': 'application/json'
-           },
-           body: JSON.stringify({
-              id
-           })
-        })
-           .then((res) => res.json())
-           .then(
-              (result) => {
-  
-                 console.log(result); 
-                 setAmountAccount(result)
-  
-              })
-           .catch(function (error) {
-              console.log('erro => ' + error.message);
-           });     
-         
-     }
+   }
 
 
 
@@ -525,243 +481,178 @@ export default function Transactions({ navigation }) {
       setTransaction(
          {
             ...transaction, 'move': item,
-               transaction, 'type':'',                                             
-               transaction, 'moveway':'',
-               transaction, 'source':'',
+            transaction, 'type': '',
+            transaction, 'moveway': '',
+            transaction, 'source': '',
          }
       )
-      
+
    }
 
 
 
 
- 
+
    const cancel = () => {
       setModalTransaction(false);
       cleanFields();
    }
 
 
-  
-  
+
+
 
    const back = () => {
-
-      showProof ? setShowProof(false) : setShowProof(false);    
+      showProof ? setShowProof(false) : setShowProof(false);
       navigation.navigate("SelectedAccount");
-    }
-   
+   }
 
 
 
-    const getReport = ()=>{
+
+   const getReport = () => {
       console.log("gerar relatorio/extrato")
    }
 
 
 
 
-   
+
 
 
    return (
 
       <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : "height"}
-         style={styles.main} >
+         style={styles.main}>
 
-
-
-         <View style={styles.containerHeader}>
-
+         <View style={styles.containerHeaderOne}>
             <View>
                <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
             </View>
-
-            <View style={styles.contentHeaderTitle}>
-               <Header user={`${user}`} />
-            </View>
-
-            <View style={styles.contentHeaderItem}>
-               <Text style={styles.textDesc}>{`Conta ${accountData.type}  `}</Text>
-               <Text style={styles.textDesc}>{`${accountData.number}`}</Text>
-            </View>       
-
+            <Text style={styles.textTitle}>{user}</Text>
          </View>
 
+         <View style={styles.containerHeaderTwo}>
+            <Text style={styles.textDesc}>{`Conta ${accountData.type}  `}</Text>
+            <Text style={styles.textDesc}>{`${accountData.number}`}</Text>
+         </View>
 
-
-         <View style={styles.containerInfo}>          
-
-            {showAmount ?
-            
+         <View style={styles.containerInfo}>
+            {showAmount 
+               ?
                <Pressable style={styles.btn}
                   onPress={() => setShowAmount(false)}>
-                 {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
-                 <Text style={styles.textDesc}>{` AMOUNT R$ ${amountAccount}`}</Text>
+                  {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
+                  <Text style={styles.textDesc}>{` AMOUNT R$ ${amountAccount}`}</Text>
                </Pressable>
-            
                :
                <Pressable style={styles.btn}
                   onPress={() => setShowAmount(true)}>
-                  <FontAwesome name='eye' size={30} color={"#44E8C3"} />
+                  <FontAwesome name='eye' size={30} color={"#060630ff"} />
                </Pressable>
             }
-
          </View>
 
-            
-
-
-           {/* 
+         {/* 
             <Text style={styles.textInfo}>{` Banc = ${bankData.name}`}</Text>
             <Text style={styles.textInfo}>{` ID = ${accountData.id}`}</Text>
             <Text style={styles.textInfo}>{` NUMBER = ${accountData.number}`}</Text>
             <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text>
-           */}
+         */}
 
-
-
-
-
-        {
-         showProof
-         ?       
-
-         <View style={styles.containerProof}>
-
-            <View>
-               <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
-            </View>
-                 
-            <View>
-              <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
-            </View>    
-
-            <Text style={styles.textProof}>{`ID :  ${proof.id}  `}</Text>
-
-            <Text style={styles.textProof}>{`Date :  ${proof.date}  `}</Text>
-
-            <Text style={styles.textProof}>{`Origem :  ${proof.source}  `}</Text>
-
-            <Text style={styles.textProof}>{`Tipo :  ${proof.type}  `}</Text>
-
-            <Text style={styles.textProof}>{`Detalhes :  ${proof.desc}  `}</Text>
-
-            <Text style={styles.textProof}>{`Valor : R$ ${proof.value}  `}</Text>
-
-
-         </View>
-
-          :
-
-
-          <View style={styles.containeEmpty}>              
-
-              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
+         {
+            showProof
+               ?
+               <View style={styles.containerProof}>
+                  <View>
+                     <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
+                  </View>
+                  <View>
+                     <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
+                  </View>
+                  <Text style={styles.textProof}>{`ID :  ${proof.id}  `}</Text>
+                  <Text style={styles.textProof}>{`Date :  ${proof.date}  `}</Text>
+                  <Text style={styles.textProof}>{`Origem :  ${proof.source}  `}</Text>
+                  <Text style={styles.textProof}>{`Tipo :  ${proof.type}  `}</Text>
+                  <Text style={styles.textProof}>{`Detalhes :  ${proof.desc}  `}</Text>
+                  <Text style={styles.textProof}>{`Valor : R$ ${proof.value}  `}</Text>
+               </View>
+               :
+               <View style={styles.containeEmpty}>
+                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                     <Pressable style={styles.btn}
                         onPress={() => setModalTransaction(true)}>
-                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} /> 
+                        <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
 
-                    {/*  { accountData.type == "Investimentos" ?  */}
+                        {/* { accountData.type == "Investimentos" ?  */}
 
-                    { transactionsType == "Investir" ?                    
-                        
-                      <Text style={styles.textBtn}>{` Registrar Investimento `}</Text>  
-
-                      :
-
-                      transactionsType == "Resgate" ?
-
-                        <Text style={styles.textBtn}>{` Registrar Resgate `}</Text> 
-                        
-                        
-                        :
-
-                        <Text style={styles.textBtn}>{` Registrar movimentações `}</Text>  
-                     }
-                     
-                    </Pressable>
-              </LinearGradient>
-
-          </View>
-
-        }
+                        {transactionsType == "Investir" 
+                           ?
+                           <Text style={styles.textBtn}>{`  Registrar Investimento`}</Text>
+                           :
+                           transactionsType == "Resgate"
+                           ?
+                           <Text style={styles.textBtn}>{`  Registrar Resgate`}</Text>
+                           :
+                           <Text style={styles.textBtn}>{`  Registrar movimentações`}</Text>
+                        }
+                     </Pressable>
+                  </LinearGradient>
+               </View>
+         }
 
 
-
-
-
-
-
-         <View style={styles.containerBtn}>
-            
-          {/*      
+          <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+            {/*      
             <Pressable style={styles.btn}
                onPress={() => checkType()}>
                <Text style={styles.textBtn}>checkType</Text>
             </Pressable>
-
 
             <Pressable style={styles.btn}
                onPress={() => checkAccount()}>
                <Text style={styles.textBtn}>checkAccount</Text>
             </Pressable>
 
-
             <Pressable style={styles.btn}
                onPress={() => checkMov()}>
                <Text style={styles.textBtn}>checkMov</Text>
             </Pressable>
-         */}
+           */}
 
-         
-           <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                  <Pressable style={styles.btn}
-                     onPress={() => setShowProof(false) & setModalTransaction(true)}>
-                     <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
-                     <Text style={styles.textBtn}>Post</Text>
-                  </Pressable>
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => setShowProof(false) & setModalTransaction(true)}>
+                  <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>{`  Post`}</Text>
+               </Pressable>
             </LinearGradient>
-           
 
-            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
                   onPress={() => getReport()}>
                   <FontAwesome name='list-alt' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Extrato</Text>
+                  <Text style={styles.textBtn}>{`  Extrato`}</Text>
                </Pressable>
             </LinearGradient>
 
-
-            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
                   onPress={() => back()}>
                   <FontAwesome name='backward' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Voltar</Text>
+                  <Text style={styles.textBtn}>{`  Voltar`}</Text>
                </Pressable>
             </LinearGradient>
 
-            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                  <Pressable style={styles.btn}
-                     onPress={() => navigation.navigate("Home")}>
-                     <FontAwesome name='home' size={16} color={"#44E8C3"} />
-                      <Text style={styles.textBtn}>Home</Text>
-                  </Pressable>
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => navigation.navigate("Home")}>
+                  <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>{`  Home`}</Text>
+               </Pressable>
             </LinearGradient>
-
-
-         </View>
-
-
-
-
-
-
-
-
-
+         </LinearGradient>
 
 
 
@@ -770,256 +661,189 @@ export default function Transactions({ navigation }) {
             animationType='fade'
             visible={modalTransaction}
          >
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
-
-          <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}> 
-
-
-
-            <View style={styles.infoModal} >
-                <Text style={styles.textInfo}>{` Register Post `}</Text>
-            </View>
-
-
-
-
-
-         <ScrollView style={styles.contentModal} >
-
-         
-                            
-
-            {
-
-             accountData.type == "Investimentos" ?
-
-
-             <View></View>
-              
-
-             :
-
-
-             <View>
-
-               <View style={styles.infoCheckBox} >
-                  <Text style={styles.textInfo}>{` Mov Type `}</Text>
+               <View style={styles.infoModal} >
+                  <Text style={styles.textInfo}>{` Register Post `}</Text>
                </View>
 
-               <View style={styles.containerCheckBox}>                   
+               <ScrollView style={styles.contentModal}>
+                  {
+                     accountData.type == "Investimentos"
+                      ?
+                        <View></View>
+                      :
+                        <View>
+                           <View style={styles.infoCheckBox} >
+                              <Text style={styles.textInfo}>{` Mov Type `}</Text>
+                           </View>
+                           <View style={styles.containerCheckBox}>
 
-                        <FlatList
-                           horizontal={true}                           
-                           data={mov}
-                           renderItem={({ item, index }) =>
+                              <FlatList
+                                 horizontal={true}
+                                 data={mov}
+                                 renderItem={({ item, index }) =>
 
-                           <View style={styles.contentCheckBox}>
+                                    <View style={styles.contentCheckBox}>
 
-                              <Pressable onPress={() => selectStatus(index, item.value)}>
+                                       <Pressable onPress={() => selectStatus(index, item.value)}>
+                                          {
+                                             statusCheckBox !== index 
+                                             ?
+                                                // checkBox[index] === undefined ?
 
-                                    {
+                                                <View style={styles.checkBox}>
 
-                                       statusCheckBox !== index ?
+                                                   <View>
+                                                      <Text style={styles.textInfo}>{item.value}</Text>
+                                                   </View>
 
-                                          // checkBox[index] === undefined ?
+                                                   <View>
+                                                      <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
+                                                   </View>
 
-                                          <View style={styles.checkBox}>
+                                             {/*   
+                                              <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
+                                              <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
+                                             */}
 
-                                            <View>
-                                              <Text style={styles.textInfo}>{item.value}</Text>
-                                            </View>
+                                                </View>
+                                                :
+                                                <View style={styles.checkBox}>
+                                                   <View>
+                                                      <Text style={styles.textInfo}>{item.value}</Text>
+                                                   </View>
+                                                   <View>
+                                                      <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
+                                                   </View>
+                                                </View>
+                                          }
 
-                                            <View>
-                                              <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
-                                            </View> 
+                                       </Pressable>
 
-                                         {/*   
-                                          <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
-                                          <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
-                                         */}
-
-                                          </View>
-
-                                          :
-
-                                          <View style={styles.checkBox}>
-
-                                             <View>
-                                               <Text style={styles.textInfo}>{item.value}</Text>
-                                             </View>
-
-                                             <View>
-                                               <MaterialCommunityIcons name="checkbox-intermediate" size={24} color="white" />
-                                             </View>  
-
-                                          </View>
-                                    }
-
-
-                                 </Pressable>
-
-                              </View>
-
-                           }
-                        >
-                        </FlatList>
-
-               </View>
-
-              
-
-               <View style={styles.boxCard}>
-
-                     <View>
-
-                        <SelectList
-
-                           // setSelected={(val) => setTest(val)} 
-                           // setSelected={(val) => setSelected(val.replace(/[^0-9]/g, ''))}
-
-                           // setSelected={(val) => setSelectedType(val)}
-
-                           setSelected={(val) =>
-
-                              {
-                                 val == "Saque" ?
-
-                                 setTransaction(
-                                    {
-                                       ...transaction, 'type': val ,
-                                          transaction, 'source': bankData.name
-                                    }
-                                 )
-
-                                 :
-
-                                 setTransaction(
-                                    {
-                                       ...transaction, 'type': val , 
-                                          transaction, 'source': ""                                       
-                                    }
-                                 )
-                                  
-                              }                          
-                             
-                           }                           
-
-                           
-                           
-
-                          /*  data={type} */
-
-
-                          data={ transaction.move == 'in' ? listIn : listOut}
-
-
-                           save="value"
-
-                           placeholder='Select Type'
-
-                           // placeholderTextColor='#44E8C3'
-                           // boxStyles={{color:'#44E8C3'}}        
-                           //  dropdownItemStyles={{color:'#44E8C3'}}
-                           boxStyles={{
-                              backgroundColor: '#314452',
-                              width: 'auto',
-                              marginBottom: 10
-                           }}
-
-                           inputStyles={{ color: '#44E8C3' }}
-                           dropdownTextStyles={{ color: '#44E8C3' }}
-                        />
-
-                     </View>
-
-
-
-                     {
-                        // selectedType == "Pix Pessoal" || selectedType == "Ted Pessoal"
-
-                        transaction.type == "Pix Pessoal" || 
-                        transaction.type == "Ted Pessoal"
-                           ?
-
-                           <View>
-
-                              <SelectList
-
-                                 // setSelected={(val) => setTest(val)} 
-                                 // setSelected={(val) => setSelected(val.replace(/[^0-9]/g, ''))} 
-
-                                 //setSelected={ (key) => setSelectedAccount(key.substr(0, 2))}
-
-
-                                 setSelected={(val) =>                                   
-                                      
-                                    
-                                  selectedAccount(val)
-
-                                   /* 
-                                    setTransaction(
-                                       {
-                                          ...transaction, 'idacf': val.substr(0, 2),
-                                             transaction,  'moveway':'in',                                             
-                                             transaction,  'source':accountData.type+" "+accountData.number,
-                                             transaction, 'accountway':val,
-                                             transaction, 'numberway':val
-
-                                       }
-                                    )
-                                   */ 
-
+                                    </View>
 
                                  }
-                               
-
-
-                                 data={account}
-                                 save="value"
-
-                                 placeholder='Select Account'
-
-                                 // placeholderTextColor='#44E8C3'
-                                 //  boxStyles={{color:'#44E8C3'}}        
-                                 //  dropdownItemStyles={{color:'#44E8C3'}}
-                                 boxStyles={{
-                                    backgroundColor: '#314452',
-                                    width: 'auto'
-                                 }}
-
-                                 inputStyles={{ color: '#44E8C3' }}
-                                 dropdownTextStyles={{ color: '#44E8C3' }}
-                              />
+                              >
+                              </FlatList>
 
                            </View>
 
-                           :
+                           <View style={styles.boxCard}>
 
-                           <View></View>
-                     }
+                              <View>
+                                 <SelectList
+                                    // setSelected={(val) => setTest(val)} 
+                                    // setSelected={(val) => setSelected(val.replace(/[^0-9]/g, ''))}
 
-               </View>
+                                    // setSelected={(val) => setSelectedType(val)}
 
+                                    setSelected={(val) => {
+                                       val == "Saque" 
+                                       ?
+                                          setTransaction(
+                                             {
+                                                ...transaction, 'type': val,
+                                                transaction, 'source': bankData.name
+                                             }
+                                          )
+                                       :
+                                          setTransaction(
+                                             {
+                                                ...transaction, 'type': val,
+                                                transaction, 'source': ""
+                                             }
+                                          )
 
-             </View>        
+                                    }
+                                 }
+                                    /*  data={type} */
+                                    data={transaction.move == 'in' ? listIn : listOut}
+                                    save="value"
+                                    placeholder='Select Type'
 
-         }
+                                    // placeholderTextColor='#44E8C3'
+                                    // boxStyles={{color:'#44E8C3'}}        
+                                    //  dropdownItemStyles={{color:'#44E8C3'}}
+                                    boxStyles={{
+                                       backgroundColor: '#314452',
+                                       width: 'auto',
+                                       marginBottom: 10
+                                    }}
 
+                                    inputStyles={{ color: '#44E8C3' }}
+                                    dropdownTextStyles={{ color: '#44E8C3' }}
+                                 />
 
+                              </View>
+                              {
+                                 // selectedType == "Pix Pessoal" || selectedType == "Ted Pessoal"
 
-               <View style={styles.boxCard}>
+                                 transaction.type == "Pix Pessoal" ||
+                                 transaction.type == "Ted Pessoal"
+                                    ?
+                                    <View>
+                                       <SelectList
+
+                                          // setSelected={(val) => setTest(val)} 
+                                          // setSelected={(val) => setSelected(val.replace(/[^0-9]/g, ''))} 
+
+                                          //setSelected={ (key) => setSelectedAccount(key.substr(0, 2))}
+
+                                          setSelected={(val) =>
+
+                                             selectedAccount(val)
+
+                                             /* 
+                                              setTransaction(
+                                                 {
+                                                    ...transaction, 'idacf': val.substr(0, 2),
+                                                       transaction,  'moveway':'in',                                             
+                                                       transaction,  'source':accountData.type+" "+accountData.number,
+                                                       transaction, 'accountway':val,
+                                                       transaction, 'numberway':val
+          
+                                                 }
+                                              )
+                                             */
+                                          }
+
+                                          data={account}
+                                          save="value"
+                                          placeholder='Select Account'
+
+                                          // placeholderTextColor='#44E8C3'
+                                          //  boxStyles={{color:'#44E8C3'}}        
+                                          //  dropdownItemStyles={{color:'#44E8C3'}}
+                                          boxStyles={{
+                                             backgroundColor: '#314452',
+                                             width: 'auto'
+                                          }}
+
+                                          inputStyles={{ color: '#44E8C3' }}
+                                          dropdownTextStyles={{ color: '#44E8C3' }}
+                                       />
+
+                                    </View>
+                                    :
+                                    <View></View>
+                              }
+
+                           </View>
+                        </View>
+                  }
+
+                  <View style={styles.boxCard}>
 
                      <TextInput style={styles.input}
                         placeholder="Date"
                         placeholderTextColor="#44E8C3"
                         type="text"
                         onChangeText={
-                           (valor) => handleInputChangeCad('date', valor)
+                        (valor) => handleInputChangeCad('date', valor)
                         }
                         value={transaction.date}
                      />
-
-
 
                      {/* 
                       {
@@ -1047,58 +871,45 @@ export default function Transactions({ navigation }) {
                       }                   
                      */}
 
+                     {
+                        transaction.type == "Saque" ||
+                        transaction.type == "Pix Pessoal" ||
+                        transaction.type == "Ted Pessoal"
+                           ?
+                           <TextInput style={styles.input}
+                              editable={false}
+                              placeholder={bankData.name}
+                              placeholderTextColor="#44E8C3"
+                              type="text"
+                              value={bankData.name}
+                           />
+                           :
+                           accountData.type == "Investimentos"
+                           ?
+                              <TextInput style={styles.input}
+                                 editable={false}
+                                 placeholder={accountData.number}
+                                 placeholderTextColor="#44E8C3"
+                                 type="text"
+                                 value={accountData.number}
+                              />
+                           :
+                              <TextInput style={styles.input}
+                                 placeholder="Origem"
+                                 placeholderTextColor="#44E8C3"
+                                 type="text"
+                                 onChangeText={
+                                 (valor) => handleInputChangeCad('source', valor)
+                                 }
+                                 value={transaction.source}
+                              />
+                     }
 
-
-
-                       {
-                       transaction.type == "Saque" || 
-                       transaction.type == "Pix Pessoal" ||
-                       transaction.type == "Ted Pessoal" 
-                        ?
-
-                        <TextInput style={styles.input}
-                         editable={false}
-                         placeholder={bankData.name}
-                         placeholderTextColor="#44E8C3"
-                         type="text"          
-                         value={bankData.name}
-                       /> 
-                       
-                       :
-                       
-                       accountData.type == "Investimentos"  ?
-
-                       <TextInput style={styles.input}
-                        editable={false}
-                        placeholder={accountData.number}
-                        placeholderTextColor="#44E8C3"
-                        type="text"          
-                        value={accountData.number}
-                     />                       
-
-                        :
-                       <TextInput style={styles.input}
-                        placeholder="Origem"
-                        placeholderTextColor="#44E8C3"
-                        type="text"  
-                        onChangeText={
-                           (valor) => handleInputChangeCad('source', valor)
-                        }
-                        value={transaction.source}
-                       />
-                      }  
-
-
-
-
-
-
-                    {/* 
+                     {/* 
                      <TextInput style={styles.input}
                         placeholder="Origem"
                         placeholderTextColor="#44E8C3"
-                        type="text"
-                       
+                        type="text"                      
 
                         onChangeText={
                            (valor) => handleInputChangeCad('source', valor)
@@ -1106,37 +917,29 @@ export default function Transactions({ navigation }) {
 
                         value={transaction.source}
                      />
-
                    */}
 
-
-
-                   {
-                     accountData.type == "Investimentos"  ?
-
-                     <TextInput style={styles.input}
-                        editable={false}
-                        placeholder={"Resgate"}
-                        placeholderTextColor="#44E8C3"
-                        type="text"          
-                       // value={"Resgate"}
-                     />  
-
-                     :
-
-                     <TextInput style={styles.input}
-                        placeholder="Tipo de Transação"
-                        placeholderTextColor="#44E8C3"
-                        type="text"
-                        onChangeText={
-                           (valor) => handleInputChangeCad('form', valor)
-                        }
-                        value={transaction.form}
-                     />
-                    
-                    }
-
-
+                     {
+                        accountData.type == "Investimentos"
+                           ?
+                           <TextInput style={styles.input}
+                              editable={false}
+                              placeholder={"Resgate"}
+                              placeholderTextColor="#44E8C3"
+                              type="text"
+                           // value={"Resgate"}
+                           />
+                           :
+                           <TextInput style={styles.input}
+                              placeholder="Tipo de Transação"
+                              placeholderTextColor="#44E8C3"
+                              type="text"
+                              onChangeText={
+                              (valor) => handleInputChangeCad('form', valor)
+                              }
+                              value={transaction.form}
+                           />
+                     }
 
                      <TextInput style={styles.input}
                         placeholder="Description"
@@ -1148,8 +951,6 @@ export default function Transactions({ navigation }) {
                         value={transaction.desc}
                      />
 
-
-
                      <TextInput style={styles.input}
                         placeholder="Value"
                         placeholderTextColor="#44E8C3"
@@ -1157,54 +958,35 @@ export default function Transactions({ navigation }) {
                         onChangeText={
                            (valor) => handleInputChangeCad('valuet', valor)
                         }
-                      value={transaction.valuet}
+                        value={transaction.valuet}
                      />
-               </View>
+                  </View>
 
-
-
-
-
-               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
-               
-                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                     <Pressable style={styles.btn} onPress={() => checkData()}>
-                        <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Safe</Text>
-                     </Pressable>
+                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btn} onPress={() => checkData()}>
+                           <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>{`  Safe`}</Text>
+                        </Pressable>
+                     </LinearGradient>
+                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btn} onPress={() => cancel()}                  >
+                           <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>{`  Cancel`}</Text>
+                        </Pressable>
+                     </LinearGradient>
                   </LinearGradient>
-               
-                  <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                     <Pressable style={styles.btn} onPress={() => cancel()}                  >
-                        <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Cancel</Text>
-                     </Pressable>
-                  </LinearGradient>
-               
-               </LinearGradient>
 
+               </ScrollView>
 
+            </LinearGradient>
 
-            </ScrollView>
+         </Modal>
 
-
-
-         </LinearGradient>
-           
-
-      </Modal>
-
-
-
-   </KeyboardAvoidingView>
-
-
+      </KeyboardAvoidingView>
 
    )
 }
-
-
-
 
 
 
@@ -1359,17 +1141,6 @@ export default function Transactions({ navigation }) {
        </View>
 
    */}
-
-
-
-
-
-
-
-
-
-
-
 
 
 

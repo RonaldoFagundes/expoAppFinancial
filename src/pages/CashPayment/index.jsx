@@ -44,8 +44,8 @@ export default function CashPayment({ navigation }) {
 
 
 
-    useEffect(() => {   
-        
+    useEffect(() => {
+
         getAmount();
 
     }, []);
@@ -60,7 +60,7 @@ export default function CashPayment({ navigation }) {
     const [cashMov, setCashMov] = useState({
         date: "",
         type: "",
-        category:"",
+        category: "",
         source: "",
         desc: "",
         value: 0,
@@ -127,32 +127,32 @@ export default function CashPayment({ navigation }) {
 
     const safeCashMov = async () => {
 
-      
-      await fetch(endpoint + "?action=postCashMov", {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              cashMov
-          })
-      })
-          .then((res) => res.json())
-          .then(
-              (result) => {
 
-                  console.log(result);
-                  setResultPost(result);
-                  cleanFields();
-                  setModalPost(false);
-                  proofPost();
+        await fetch(endpoint + "?action=postCashMov", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cashMov
+            })
+        })
+            .then((res) => res.json())
+            .then(
+                (result) => {
+
+                    console.log(result);
+                    setResultPost(result);
+                    cleanFields();
+                    setModalPost(false);
+                    proofPost();
 
 
-              })
-          .catch(function (error) {
-              console.log('erro => ' + error.message);
-          });
-      
+                })
+            .catch(function (error) {
+                console.log('erro => ' + error.message);
+            });
+
 
     }
 
@@ -193,9 +193,9 @@ export default function CashPayment({ navigation }) {
                         )
                     }
 
-                    setShowProof(true); 
-                    getAmount();              
-                   
+                    setShowProof(true);
+                    getAmount();
+
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
@@ -222,9 +222,9 @@ export default function CashPayment({ navigation }) {
                 (result) => {
 
                     console.log(result);
-                  
-                    setAmount(result); 
-                   
+
+                    setAmount(result);
+
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
@@ -266,9 +266,9 @@ export default function CashPayment({ navigation }) {
 
     const backHome = () => {
 
-        showProof ? setShowProof(false) : setShowProof(false);     
+        showProof ? setShowProof(false) : setShowProof(false);
         navigation.navigate("Home")
-        
+
     }
 
 
@@ -281,135 +281,82 @@ export default function CashPayment({ navigation }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.main}>
 
-
-
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
-
                 <View style={styles.contentHeaderTitle}>
                     <Header user={`${user}`} />
                 </View>
-
             </LinearGradient>
 
 
-
-
-            <View style={styles.containerInfo}>          
-            
+            <View style={styles.containerInfo}>
                 {showAmount ?
-                        
                     <Pressable style={styles.btn}
-                              onPress={() => setShowAmount(false)}>
-                             {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
-                             <Text style={styles.textDesc}>{` AMOUNT R$ ${amount.toFixed(2)}`}</Text>
+                        onPress={() => setShowAmount(false)}>
+                        {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
+                        <Text style={styles.textDesc}>{` AMOUNT R$ ${amount.toFixed(2)}`}</Text>
                     </Pressable>
-                        
-                           :
-                           <Pressable style={styles.btn}
-                              onPress={() => setShowAmount(true)}>
-                              <FontAwesome name='eye' size={30} color={"#44E8C3"} />
-                           </Pressable>
-                        }
-            
-                     </View>
-
-
-
-
-
-               {
-                showProof
-                    ?
-
-                    <View style={styles.containerProof}>
-
-                        <View>
-                          <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
-                        </View>
-
-                        <View>
-                            <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
-                        </View>
-
-                        <Text style={styles.textProof}>{`ID : ${proof.id}  `}</Text>
-
-                        <Text style={styles.textProof}>{`Date : ${proof.date}  `}</Text>
-
-                        <Text style={styles.textProof}>{`Type : ${proof.type}  `}</Text>
-
-                        <Text style={styles.textProof}>{`Category : ${proof.category}  `}</Text>
-
-                        <Text style={styles.textProof}>{`Source : ${proof.source}  `}</Text>
-
-                        <Text style={styles.textProof}>{`Desc : ${proof.desc}  `}</Text>
-
-                        <Text style={styles.textProof}>{`Value : R$ ${proof.value}  `}</Text>
-
-                    </View>
-
-
                     :
-
-                    <View style={styles.containeEmpty}>
-
-                        <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                            <Pressable style={styles.btn}
-                                onPress={() => setModalPost(true)}>                               
-                                <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
-                                <Text style={styles.textBtn}>{` Registrar Movimentação  `}</Text>
-                            </Pressable>
-
-                        </LinearGradient>
-
-                    </View>
-
-
-
-            }
-
-
-
-
-
-
-
-            <View style={styles.containerBtn}>
-
-
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                     <Pressable style={styles.btn}
-                        onPress={() => setShowProof(false) & setModalPost(true)}>
-                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Post</Text>
+                        onPress={() => setShowAmount(true)}>
+                        <FontAwesome name='eye' size={30} color={"#060324ff"} />
                     </Pressable>
-                </LinearGradient>
-
- 
-
-                <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                    <Pressable style={styles.btn}
-                        onPress={() => backHome()}>
-                        <FontAwesome name='home' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Home</Text>
-                    </Pressable>
-                </LinearGradient>
-
+                }
             </View>
 
 
+            {
+                showProof
+                    ?
+                    <View style={styles.containerProof}>
+                        <View>
+                            <FontAwesome name='check-circle-o' size={30} color={"#09e33b"} />
+                        </View>
+                        <View>
+                            <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
+                        </View>
+                        <Text style={styles.textProof}>{`ID : ${proof.id}  `}</Text>
+                        <Text style={styles.textProof}>{`Date : ${proof.date}  `}</Text>
+                        <Text style={styles.textProof}>{`Type : ${proof.type}  `}</Text>
+                        <Text style={styles.textProof}>{`Category : ${proof.category}  `}</Text>
+                        <Text style={styles.textProof}>{`Source : ${proof.source}  `}</Text>
+                        <Text style={styles.textProof}>{`Desc : ${proof.desc}  `}</Text>
+                        <Text style={styles.textProof}>{`Value : R$ ${proof.value}  `}</Text>
+                    </View>
+                    :
+                    <View style={styles.containeEmpty}>
+                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                            <Pressable style={styles.btnMenu}
+                                onPress={() => setModalPost(true)}>
+                                <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
+                                <Text style={styles.textBtn}>{`  Registrar Movimentação`}</Text>
+                            </Pressable>
+                        </LinearGradient>
+                    </View>
+            }          
 
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                    <Pressable style={styles.btnMenu}
+                        onPress={() => setShowProof(false) & setModalPost(true)}>
+                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>{`  Post`}</Text>
+                    </Pressable>
+                </LinearGradient>
 
+                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                    <Pressable style={styles.btnMenu}
+                        onPress={() => backHome()}>
+                        <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>{`  Home`}</Text>
+                    </Pressable>
+                </LinearGradient>
+            </LinearGradient>    
 
-
-
-
+           
             <Modal
                 animationType='fade'
                 visible={modalPost}
             >
-
-
-
 
                 <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
@@ -417,30 +364,24 @@ export default function CashPayment({ navigation }) {
                         <Text style={styles.textInfo}>{` Register PostCashMov `}</Text>
                     </View>
 
-
                     <ScrollView style={styles.contentModal} >
-
 
                         <View style={styles.infoCheckBox} >
                             <Text style={styles.textInfo}>{` Mov Type `}</Text>
                         </View>
 
-
                         <View style={styles.containerCheckBox}>
-
 
                             <FlatList
                                 horizontal={true}
                                 data={mov}
                                 renderItem={({ item, index }) =>
 
-
                                     <View style={styles.contentCheckBox}>
 
                                         <Pressable onPress={() => selectStatus(index, item.value)}>
 
                                             {
-
                                                 statusCheckBox !== index ?
 
                                                     // checkBox[index] === undefined ?
@@ -455,7 +396,7 @@ export default function CashPayment({ navigation }) {
                                                             <MaterialCommunityIcons name="checkbox-blank-outline" size={24} color="white" />
                                                         </View>
 
-                                                        {/*   
+                         {/*   
                            <Text style={styles.textInfo}>{` index : ${index} -key  ${item.key}`}</Text>
                            <Text style={styles.textInfo}>{` index : ${index} -value  ${item.value}`}</Text>
                          */}
@@ -477,11 +418,9 @@ export default function CashPayment({ navigation }) {
                                                     </View>
                                             }
 
-
                                         </Pressable>
 
                                     </View>
-
                                 }
                             >
                             </FlatList>
@@ -489,11 +428,7 @@ export default function CashPayment({ navigation }) {
                         </View>
 
 
-
-
                         <View style={styles.boxCard}>
-
-
 
                             <TextInput style={styles.input}
                                 placeholder="Date"
@@ -504,7 +439,6 @@ export default function CashPayment({ navigation }) {
                                 }
                                 value={cashMov.date}
                             />
-                            
 
                             <TextInput style={styles.input}
                                 placeholder="Category"
@@ -516,7 +450,6 @@ export default function CashPayment({ navigation }) {
                                 value={cashMov.category}
                             />
 
-
                             <TextInput style={styles.input}
                                 placeholder="Source"
                                 placeholderTextColor="#44E8C3"
@@ -526,7 +459,6 @@ export default function CashPayment({ navigation }) {
                                 }
                                 value={cashMov.source}
                             />
-
 
                             <TextInput style={styles.input}
                                 placeholder="Description"
@@ -550,40 +482,34 @@ export default function CashPayment({ navigation }) {
 
                         </View>
 
-
-
                         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
-                            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                <Pressable style={styles.btn}
+                            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                                <Pressable style={styles.btnMenu}
                                     onPress={() => safeCashMov()}>
                                     <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Safe</Text>
+                                    <Text style={styles.textBtn}>{`  Safe`}</Text>
                                 </Pressable>
                             </LinearGradient>
 
-                            <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                <Pressable style={styles.btn}
+                            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                                <Pressable style={styles.btnMenu}
                                     onPress={() => setModalPost(false)}>
                                     <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Cancel</Text>
+                                    <Text style={styles.textBtn}>{`  Cancel`}</Text>
                                 </Pressable>
                             </LinearGradient>
 
                         </LinearGradient>
 
-
                     </ScrollView>
-
-
-
 
                 </LinearGradient>
 
-
-
-
             </Modal>
+
+
+
 
 
 

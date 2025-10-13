@@ -47,12 +47,11 @@ const styles = StyleSheet.create({
       
          width:'auto',
          height:'auto',
-        // alignItems:'center',
-        
+        // alignItems:'center',        
       
          padding:10,
-         marginTop:5,
-         marginBottom:10, 
+        // marginTop:5,
+        // marginBottom:5, 
          
         // borderRadius: 6,
       /*

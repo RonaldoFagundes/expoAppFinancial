@@ -4,23 +4,37 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-
-
   main: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#2c4254'        
-  },
-
+    backgroundColor: '#fffdf5ff'
+  },  
 
   containerHeader: {
-    height: "auto",
+    height: "20%",
     width: 'auto',
     padding: 10,
-    flexDirection: 'column'
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderBottomStartRadius: 40,
+    borderBottomEndRadius: 40
   },
-
-
+  
+   containerInfo: {
+    height: 'auto',
+    width: '80%',
+    alignItems: 'center',
+    marginStart: 10,
+    marginEnd: 10,
+    marginTop: -24,
+    marginStart: 30,
+    marginEnd: 30,
+    padding:10,    
+    borderWidth: 1,
+    borderBottomColor: "#44E8C3",
+    borderRadius: 10,    
+    backgroundColor: '#ecf4f5ff',
+  },
 
   resizeModel: {
     height: 50,
@@ -30,16 +44,9 @@ export default StyleSheet.create({
     marginLeft: 10
   },
 
-
-
-
-
   contentHeaderTitle: {
     alignItems: 'flex-start'
   },
-
-
-
 
   contentHeaderItem: {
     flexDirection: 'column',
@@ -47,30 +54,23 @@ export default StyleSheet.create({
     padding: 10
   },
 
-
-
   textDesc: {
-    color: '#44E8C3',
+    color: '#060324ff',
     fontSize: 14,
     fontWeight: 'bold',
   },
 
-
-
-
   containerProof: {
     marginTop: 50,
-    padding:10,
+    padding: 10,
     width: 'auto',
     height: 'auto',
-    backgroundColor:'white',
-    marginStart:5,
-    marginEnd:5,
+    backgroundColor: 'white',
+    marginStart: 5,
+    marginEnd: 5,
     borderRadius: 10,
-    marginBottom:'auto'
-   // alignItems: 'center',
-  },
-
+    marginBottom: 'auto'    
+  },  
 
   titleProof: {
     color: '#000000',
@@ -79,9 +79,6 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
-
- 
   textProof: {
     color: '#000000',
     fontSize: 18,
@@ -89,70 +86,55 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
-
   containeEmpty: {
-    alignItems:'center',
-    marginTop: 50,
-    padding:10,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 'auto',
     width: 'auto',
     height: 200,
     borderWidth: 1,
-    borderBottomColor: "#44E8C3", 
-    borderRadius: 10,   
-    backgroundColor:'#2c4254',
-    marginBottom:'auto'
-   // alignItems: 'center',
+    borderBottomColor: "#44E8C3",
+    borderRadius: 10,
+    backgroundColor: '#c8e7f3ff',
   },
 
 
+  /*
+    boxInfo: {
+      width: 'auto',
+      height: 'auto',
+      backgroundColor: '#11132f',
+      alignItems: "center",
+      marginStart: 10,
+      marginEnd: 10,
+      marginTop: 10,
+      marginBottom: 10,
+      borderRadius: 10,
+      padding: 10,
+      borderWidth: 1,
+      borderBottomColor: "#44E8C3", 
+      borderRadius: 10,
+    },
+  */
 
 
-
-
-
-/*
-  boxInfo: {
-    width: 'auto',
-    height: 'auto',
-    backgroundColor: '#11132f',
-    alignItems: "center",
-    marginStart: 10,
-    marginEnd: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderBottomColor: "#44E8C3", 
-    borderRadius: 10,
-  },
-*/
-
-
-
-
-
-
- /*
-  boxSurch: {
-    flexDirection: 'column',
-    width: 'auto',
-    height: 'auto',
-    backgroundColor: '#11132f',
-    alignItems: "center",
-    marginStart: 10,
-    marginEnd: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    padding: 10
-
-  },
- */
-
-
-
+  /*
+   boxSurch: {
+     flexDirection: 'column',
+     width: 'auto',
+     height: 'auto',
+     backgroundColor: '#11132f',
+     alignItems: "center",
+     marginStart: 10,
+     marginEnd: 10,
+     marginTop: 10,
+     marginBottom: 10,
+     borderRadius: 10,
+     padding: 10
+ 
+   },
+  */
 
   textInfo: {
     color: '#44E8C3',
@@ -160,28 +142,27 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 
-
-
-
-  containerBtn: {  
-    flexDirection:'row',
-    justifyContent:'space-between', 
-    padding: 10,  
-    flexWrap:'wrap',  
+  containerBtn: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,   
     width: 'auto',
     height: 'auto',
     borderWidth: 1,
-    borderBottomColor: "#44E8C3", 
+    borderBottomColor: "#44E8C3",
     borderRadius: 10,
-    marginTop:'auto',      
+    marginTop: 'auto',
   },
 
   boxBtn: {
-    borderRadius: 6,
-    marginTop: 6
-  },
+    height: 40,
+    borderRadius: 10,
+  }, 
 
-  btn: {
+  
+
+  btnMenu: {
+    flexDirection: 'row',
     width: 'auto',
     height: 'auto',
     padding: 10,
@@ -203,25 +184,25 @@ export default StyleSheet.create({
 
 
 
-/*
-  containerReport: {
-    flexDirection: 'column',
-    backgroundColor: '#11132f',
-    padding: 5,
-    borderWidth: 1,
-    borderBottomColor: "#44E8C3", 
-    borderRadius: 10,    
-  },
-*/
+  /*
+    containerReport: {
+      flexDirection: 'column',
+      backgroundColor: '#11132f',
+      padding: 5,
+      borderWidth: 1,
+      borderBottomColor: "#44E8C3", 
+      borderRadius: 10,    
+    },
+  */
 
 
- /*
-  headerReport: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginBottom: 10   
-  },
- */
+  /*
+   headerReport: {
+     flexDirection: 'row',
+     justifyContent: 'space-evenly',
+     marginBottom: 10   
+   },
+  */
 
   /*
   contentTitle: {
@@ -242,17 +223,17 @@ export default StyleSheet.create({
  */
 
 
- /*
-  containerList: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',  
-    width: "auto",
-    height: "auto",
-    backgroundColor: 'white',
-    padding: 2,
-    marginTop: 2,    
-  },
-  */
+  /*
+   containerList: {
+     flexDirection: 'row',
+     justifyContent: 'space-between',  
+     width: "auto",
+     height: "auto",
+     backgroundColor: 'white',
+     padding: 2,
+     marginTop: 2,    
+   },
+   */
 
 
   /*
@@ -284,7 +265,7 @@ export default StyleSheet.create({
   containerModal: {
     flex: 1,
     padding: 10,
-    height: '100%',   
+    height: '100%',
   },
 
 
@@ -311,7 +292,7 @@ export default StyleSheet.create({
     width: 'auto',
     height: 'auto',
     padding: 20,
-    marginTop: 30,   
+    marginTop: 30,
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
     borderRadius: 10,

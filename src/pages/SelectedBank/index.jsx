@@ -101,6 +101,8 @@ export default function SelectedBank({ navigation }) {
 
    const [modalCadAccount, setModalCadAccount] = useState(false);
 
+   const [titleModal ,setTitleModal ] = useState("Cadastre uma Conta!");
+
    const [modalUpdateAccount, setModalUpdateAccount] = useState(false);
 
    const [listAccount, setListAccount] = useState([]);
@@ -247,7 +249,7 @@ export default function SelectedBank({ navigation }) {
             account
          })
       })
-         .then((res) => res.json())
+         .then(res => res.json())
          .then(
             (result) => {
 
@@ -268,6 +270,7 @@ export default function SelectedBank({ navigation }) {
 
  // const [accountType, setAccountType] = useState([]);
 
+  const difenedType = ['Conta Corrente','Digital','Poupança','Investimentos'];
   const type = [];
 
 
@@ -278,21 +281,28 @@ export default function SelectedBank({ navigation }) {
          .then(
 
             (result) => {
-                             
-               var count = Object.keys(result).length;
+              
+               if (result != "not found"){
+                
+                  var count = Object.keys(result).length;
+                  for (var i = 0; i < count; i++) {
+                     type.push({
+                       value: result[i].type_bka,
+                     })
+                  }                
+                 
 
-               for (var i = 0; i < count; i++) {
-
-                  type.push({
-                      value: result[i].type_bka,
-                  })
-
+               }else{
+                 
+                  for (var i = 0; i < difenedType.length ; i++) {
+                     type.push({
+                       value: difenedType[i],
+                     })
+                  }  
               }
 
-            //  setAccountType(type);
-              
+            //  setAccountType(type);              
             //  console.log(accountType);
-
 
             })
          .catch(function (error) {
@@ -321,7 +331,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
+  let responseClone;
 
    const getListAccountByBank = async (idBank) => {
 
@@ -336,9 +346,14 @@ export default function SelectedBank({ navigation }) {
             idBank
          })
       })
-         .then((res) => res.json())
+         .then(res => {
+                  responseClone=res.clone();   
+                  return res.json();
+           })
+            
+           
          .then(
-            (result) => {
+            result => {
 
                if (result != "not found") {
 
@@ -348,13 +363,19 @@ export default function SelectedBank({ navigation }) {
                   // console.log(" result getListAccountByBank => " + result);
 
                } else {
-
-                  console.log(result);
+                  setIsLoading(false);
+                  setIsList(false);
+                  //setModalCadAccount(true);
+                  setTitleModal("Abra a sua 1ª Conta!");                 
                }
 
             })
-         .catch(function (error) {
-            console.log('erro => ' + error.message);
+         .catch(error => {
+           console.log('erro => ' + error.message);
+           /*  
+           responseClone.text()
+           .then(text=>console.log('erro => ', text))
+            */
          });
    }
 
@@ -447,7 +468,7 @@ export default function SelectedBank({ navigation }) {
             account
          })
       })
-         .then((res) => res.json())
+         .then(res => res.json())
          .then(
             (result) => {
 
@@ -480,7 +501,7 @@ export default function SelectedBank({ navigation }) {
             id
          })
       })
-         .then((res) => res.json())
+         .then(res => res.json())
          .then(
             (result) => {
 
@@ -726,7 +747,7 @@ export default function SelectedBank({ navigation }) {
                            <View style={styles.containerBtn}>
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btn}
+                                 <Pressable style={styles.btnMenu}
                                     onPress={() => selectAccount(
                                        item.id_bka,
                                        item.type_bka,
@@ -735,12 +756,12 @@ export default function SelectedBank({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Select</Text>
+                                    <Text style={styles.textBtn}>{`  Select`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btn}
+                                 <Pressable style={styles.btnMenu}
                                     onPress={() => getListAccountById(
                                        item.id_bka,
                                        item.number_bka,
@@ -751,16 +772,16 @@ export default function SelectedBank({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='edit' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Edit</Text>
+                                    <Text style={styles.textBtn}>{`  Edit`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btn}
+                                 <Pressable style={styles.btnMenu}
                                     onPress={() => deleteAccount(item.id_bka)}
                                  >
                                     <FontAwesome name='trash' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>Delete</Text>
+                                    <Text style={styles.textBtn}>{`  Delete`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -779,23 +800,25 @@ export default function SelectedBank({ navigation }) {
                </FlatList>
          }
 
+
+
          <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
+               <Pressable style={styles.btnMenu}
                   onPress={() => setModalCadAccount(true)}
                >
                   <FontAwesome name='plus' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Add Account</Text>
+                  <Text style={styles.textBtn}>{`  Add Account`}</Text>
                </Pressable>
             </LinearGradient>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
+               <Pressable style={styles.btnMenu}
                   onPress={() => navigation.navigate("Home")}
                >
                   <FontAwesome name='home' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>Home</Text>
+                  <Text style={styles.textBtn}>{`  Home`}</Text>
                </Pressable>
             </LinearGradient>
 
@@ -814,7 +837,7 @@ export default function SelectedBank({ navigation }) {
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
                <View style={styles.contentModal} >
-                  <Text style={styles.textInfo}>{` REGISTER ACCOUNT`}</Text>
+                  <Text style={styles.textInfo}>{titleModal}</Text>
                </View>
 
                <View style={styles.formModal}>
@@ -912,19 +935,19 @@ export default function SelectedBank({ navigation }) {
                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                     <Pressable style={styles.btn}
+                     <Pressable style={styles.btnMenu}
                         onPress={() => insertAccount()}
                      >
                         <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Safe</Text>
+                        <Text style={styles.textBtn}>{`  Safe`}</Text>
                      </Pressable>
                   </LinearGradient>
 
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                     <Pressable style={styles.btn}
+                     <Pressable style={styles.btnMenu}
                         onPress={() => closeModal('cad')}>
                         <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>Cancel</Text>
+                        <Text style={styles.textBtn}>{`  Cancel`}</Text>
                      </Pressable>
                   </LinearGradient>
 
@@ -1007,18 +1030,18 @@ export default function SelectedBank({ navigation }) {
                      <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                           <Pressable style={styles.btn}
+                           <Pressable style={styles.btnMenu}
                               onPress={() => updateAccount()}>
                               <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                              <Text style={styles.textBtn}>Safe</Text>
+                              <Text style={styles.textBtn}>{`  Safe`}</Text>
                            </Pressable>
                         </LinearGradient>
 
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                           <Pressable style={styles.btn}
+                           <Pressable style={styles.btnMenu}
                               onPress={() => closeModal('update')}>
                               <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                              <Text style={styles.textBtn}>Cancel</Text>
+                              <Text style={styles.textBtn}>{`  Cancel`}</Text>
                            </Pressable>
                         </LinearGradient>
 
