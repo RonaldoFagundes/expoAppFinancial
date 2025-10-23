@@ -157,9 +157,11 @@ export default function CreditCard({ navigation }) {
 
 
    const getListCreditCardByAccount = async (id) => {
-
+       
+      setIsLoading(false);
       // console.log(" tela creditCard listCreditCardByAccount idAccount "+id);
 
+      /*
       await fetch(endpoint + "?action=creditCardByAccount", {
          method: 'POST',
          headers: {
@@ -180,14 +182,12 @@ export default function CreditCard({ navigation }) {
                   setListCreditCard(result);
                   // console.log(" result getListCreditCardByAccount => " + result);
                }
-
                setIsLoading(false);
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
+           */
    }
 
 
@@ -542,7 +542,7 @@ export default function CreditCard({ navigation }) {
          style={styles.main}
       >
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+         <LinearGradient colors={['#686779ff', '#050b3d']} style={styles.containerHeader}>
             <View>
                <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
             </View>
@@ -664,7 +664,7 @@ export default function CreditCard({ navigation }) {
          }
 
 
-         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.containerBtn}>
+         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.containerBtnFooter}>
             {!isList
                ?
                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
@@ -706,7 +706,7 @@ export default function CreditCard({ navigation }) {
          >
             <ScrollView>
 
-               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>              
 
                   <View style={styles.contentModal} >
                      <Text style={styles.textDesc}>{` Register Credit Card `}</Text>
@@ -723,8 +723,8 @@ export default function CreditCard({ navigation }) {
 
                         validColor={"black"}
                         invalidColor={"red"}
-                        placeholderColor={"#44E8C3"}
-
+                        placeholderColor={"#110846ff"}
+                        style={{backgroundColor:'#e0e0f7ff'}}
                      //onFocus={this._onFocus}
                      //onChange={this._onChange}
                      />

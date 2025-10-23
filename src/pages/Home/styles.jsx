@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
+ 
 
   containerLoading: {
     flex: 1,
@@ -18,8 +19,8 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: 'center',
-    backgroundColor: '#97a1a1ff',
-
+    
+    
 
     //backgroundColor: '#06121c'
     //backgroundColor: '#1C1B20'
@@ -34,19 +35,34 @@ export default StyleSheet.create({
   },
 
 
-  containerBtn: {
+  containerBtnCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
-    flexWrap: 'wrap',
-    width: '96%',
+    //flexWrap: 'wrap',
+    width: '90%',
     height: 'auto',
-    borderWidth: 1,
-    borderBottomColor: "#44E8C3",
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 20
+  },
+
+  containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
     borderRadius: 10,
-    marginTop: 10,
-    marginBottom: 10
+    //flexWrap: 'wrap',
+    width: 'auto',
+    height: 'auto',
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 50
   },
 
 
@@ -55,23 +71,23 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-
+ /*
   btn: {
     width: 'auto',
     height: 'auto',
     padding: 12,
   },
-
+ */
   btnMenu: {
     flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    padding: 14,
+    padding: 8,
   },
 
   textBtn: {
-    color: '#44E8C3',
-    fontSize: 14,
+     color: '#ffffff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 
@@ -80,11 +96,8 @@ export default StyleSheet.create({
   containerList: {
     padding: 10,
     flexDirection: 'column',
-    alignItems: 'center',
-    borderRadius: 10,
-    width: "auto",
-    height: 'auto',
-    marginBottom: 10
+    alignItems: 'center',    
+    width: '100%',
   },
 
 
@@ -92,14 +105,20 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     borderRadius: 10,
-    width: "96%",
+    width: 340,
     height: 'auto',
     padding: 6,
+
+    borderWidth: 1,
+    borderBottomColor: "#000000ff",
+    borderRadius: 10,
+    
+    
   },
 
 
 
-
+/* 
   contentCardList: {
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -109,7 +128,7 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 10
   },
-
+ */
 
   resizeModel: {
     height: 80,

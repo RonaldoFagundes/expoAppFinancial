@@ -153,6 +153,21 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginTop: 'auto',
   },
+  
+   containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    //flexWrap: 'wrap',
+    width: 'auto',
+    height: 'auto',
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 50
+  },
 
   boxBtn: {
     height: 40,

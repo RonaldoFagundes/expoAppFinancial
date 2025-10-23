@@ -20,14 +20,22 @@ function AuthProvider({children}){
 //const endpoint = "https://f0c7c439-762d-4af1-bb71-5d2b7d0c2347-00-1m7y8kps8u495.spock.replit.dev/";
 
 
+//const endpoint = "http://localhost:3322";
+
+  const endpoint = "https://php-api-financial.vercel.app/api";
+
+  //const [endpoint, setEndpoint] = useState("");
+
   const [load, setLoad] = useState(true);
 
 
-  const [user, setUser] = useState("Ronaldo");
+  const [user, setUser] = useState("");
 
-  const [endpoint, setEndpoint] = useState("");
+  
 
   const [bankData, setBankData] = useState([]);
+
+  const [accounts, setAccounts] = useState([]);
 
   const [accountData, setAccountData] = useState([]);
 
@@ -63,7 +71,7 @@ function AuthProvider({children}){
               setUser,
               user, 
 
-              setEndpoint,
+             // setEndpoint,
               endpoint, 
 
               setInfoDate,
@@ -71,6 +79,9 @@ function AuthProvider({children}){
               
               setBankData,
               bankData, 
+
+              setAccounts,
+              accounts,
 
               setAccountData,
               accountData,

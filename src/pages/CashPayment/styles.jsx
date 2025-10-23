@@ -14,15 +14,16 @@ export default StyleSheet.create({
   containerHeader: {
     height: "20%",
     width: 'auto',
-    padding: 10,
+    padding: 50,
+    
     flexDirection: 'row',
     justifyContent: 'center',
-    borderBottomStartRadius: 40,
-    borderBottomEndRadius: 40
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40
   },
 
   contentHeaderTitle: {
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',       
   },
 
   containerInfo: {
@@ -35,7 +36,7 @@ export default StyleSheet.create({
     marginStart: 30,
     marginEnd: 30,   
     borderWidth: 1,
-    borderBottomColor: "#44E8C3",
+    borderBottomColor: "#083b6bff",
     borderRadius: 10,  
     backgroundColor: '#ecf4f5ff',
   },
@@ -81,7 +82,7 @@ export default StyleSheet.create({
     marginTop: 'auto',
     width: 'auto',
     height: 200,
-    backgroundColor: '#c8e7f3ff',
+    backgroundColor: '#dfdfe4ff',
   },
 
 
@@ -98,6 +99,21 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
     marginTop: 'auto',
+  },
+
+  containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    //flexWrap: 'wrap',
+    width: 'auto',
+    height: 'auto',
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 220,
+    marginBottom: 50
   },
 
 
@@ -118,7 +134,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    padding: 14,
+    padding: 10,
   },
 
 

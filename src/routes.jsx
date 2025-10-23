@@ -51,17 +51,23 @@ export default function Routes() {
         headerShown: false
       }}
     >
+      
+     {/* 
       <Stack.Screen
         name='Config'
         component={Config}
       />
+      */}
 
+      
 
       <Stack.Screen
         name='Login'
         component={Login}
       />
-
+     
+      
+        
        <Stack.Screen
         name='Home'
         component={Home}

@@ -559,7 +559,7 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
                         onPress={() => setShowProof(false) & setModalPost(true)}>

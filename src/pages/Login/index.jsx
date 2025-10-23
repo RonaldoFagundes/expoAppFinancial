@@ -32,16 +32,19 @@ const {
     endpoint,
     setLoad,
     load,
+    setUser,
+    user
 } = useContext(AuthContext);
 
 
 
 
-
+/* 
   useEffect(() => {
       getUser();
    }, []);
 
+ */
 
 
 
@@ -49,8 +52,7 @@ const {
 
 
 
-
-const [user, setUser] = useState({
+const [cadUser, setCadUser] = useState({
    id: 0,     
    name: "",
    email: "",
@@ -59,6 +61,18 @@ const [user, setUser] = useState({
    img: null,
    base64: null,
 });
+
+
+
+
+
+const [credencials, setCredencials] = useState({
+   name: "",   
+   password: "",  
+});
+
+
+
 
 
 
@@ -77,16 +91,18 @@ const [modalUpdateUser, setModalUpdateUser] = useState(false);
 
 
 
-const handleInputChange = (value) => {     
-}
+const handleInputChange = (atribute, value) => {
+
+      setCredencials(
+         {
+            ...credencials, [atribute]: value
+         }
+      )
+   }
 
 
 
 
-const getUser = async () => {
-
-    setIsUser(true)
-}
 
 
 
@@ -118,10 +134,7 @@ const insertUser = async () => {
       .catch((error) =>
          // alert('Error no fetch'));
          console.log(" type error => " + error));
-*/
-
-
-   
+*/   
 }
 
 
@@ -131,13 +144,46 @@ const insertUser = async () => {
 
 
 
+const login = async () => {      
+    
+      await fetch(endpoint + "?action=login", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         // body:JSON.parse(JSON.stringify({bank}))
+         body: JSON.stringify({
+            credencials
+         })
+      })
+         .then((res) => res.json())
+         .then(
+            (result) => {
 
-const logIn = async () => {
+               if (result != "error") {
 
+                 //console.log(result);
+                 setUser(result);
+                 navigation.navigate("Home");   
+               
+               }else{
+                  console.log(result);
+               }              
+            })
+         .catch((error) =>
+            console.log(" type error => " + error));         
+   }
+
+
+
+
+
+
+
+const logIn2 = async () => {
 
     navigation.navigate("Home"); 
-
-    /*
+   
     await fetch(endpoint + "?action=login", {
         method: 'POST',
         headers: {
@@ -152,7 +198,7 @@ const logIn = async () => {
         .catch(function (error) {
            console.log('erro => ' + error.message);
         });
-    */
+  
 }
 
 
@@ -163,27 +209,19 @@ const logIn = async () => {
 
 
 
+
+
 return(
+   <View style={styles.main}>      
 
-
-
-   <View style={styles.main}>
-
-
-      { isUser
-
-       ?
-
-      <View>
-
-
+      <View style={styles.container}>
 
          <TextInput  style={styles.input}
             placeholder={"user"}
             placeholderTextColor="#44E8C3"
             type="text"
             onChangeText={(valor) =>
-               handleInputChange(valor)
+               handleInputChange('name',valor)
          }/> 
 
 
@@ -193,12 +231,12 @@ return(
             secureTextEntry={true}
             type="text"
             onChangeText={(valor) =>
-               handleInputChange(valor)
+               handleInputChange('password',valor)
          }/>           
 
          <View >
             <Pressable style={styles.btn}
-               onPress={() => logIn()}>
+               onPress={() => login()}>
                <Text style={styles.textBtn}>Confirm</Text>
             </Pressable>
          </View>
@@ -208,10 +246,9 @@ return(
 
 
 
-       :
+       
 
-
-
+{/* 
        <View >
           <Pressable style={styles.btn}
             onPress={() => setModalCadUser(true)}>
@@ -219,8 +256,8 @@ return(
           </Pressable>
        </View>
 
-
-      }
+ */}
+     
 
 
 
@@ -293,12 +330,12 @@ return(
                onChangeText={
                   (valor) => handleInputChange('name', valor)
                }
-               value={user.name}
+               value={cadUser.name}
              />
 
 
 
-
+             {/* 
              <TextInput style={styles.input}
                placeholder="E-mail"
                placeholderTextColor="#44E8C3"
@@ -308,6 +345,8 @@ return(
                }
                value={user.email}
              />
+            */}
+
 
 
              <TextInput style={styles.input}
@@ -318,12 +357,12 @@ return(
                onChangeText={
                   (valor) => handleInputChange('password', valor)
                }
-               value={user.password}
+               value={cadUser.password}
              />
 
 
 
-
+            {/* 
              <TextInput style={styles.input}
                placeholder="Perfil"
                placeholderTextColor="#44E8C3"
@@ -333,7 +372,7 @@ return(
                }
                value={user.profile}
              />
-
+            */}
 
           </View>
 

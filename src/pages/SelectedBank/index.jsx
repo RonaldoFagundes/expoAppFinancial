@@ -28,8 +28,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import Header from '../../components/Header';
 
 
-const h_max_hight = 300;
-const h_min_hight = 200;
+const h_max_hight = 260;
+const h_min_hight = 180;
 const h_scroll_distance = h_max_hight - h_min_hight;
 
 
@@ -41,7 +41,6 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
    //const testBankDataId = 10; 
 
    const {
@@ -50,10 +49,11 @@ export default function SelectedBank({ navigation }) {
       endpoint,
       user,
       bankData,
+      accounts,
       setAccountData,
       accountData,
       setAmountAccount,
-     // amountAccount,      
+      // amountAccount,      
    } = useContext(AuthContext);
 
 
@@ -61,12 +61,31 @@ export default function SelectedBank({ navigation }) {
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
       // getListAccount();
-      // console.log(' bankData.id ', bankData.id)
-      getListAccountByBank(bankData.id);
+      //console.log(' bankData.id ', bankData.id)
+      // getListAccountByBank(bankData.id);
+      // getAccountType();
 
 
-     // getAccountType();
 
+
+      var count = Object.keys(accounts).length;
+      console.log(count);
+      for (var i = 0; i < count; i++) {
+         console.log(accounts[i].type_act)
+      }
+
+
+      //for (var i = 0; i < count; i++) {
+      //bank.push({
+      // value:result[i].name_bnk,
+      // label:result[i].id_bnk,                        
+      // id:result[i].id_bnk+result[i].name_bnk,
+      // value: result[i].id_bnk + " " + result[i].name_bnk,
+      // value:result[i].id_bnk+" "+result[i].name_bnk,   
+      // key:result[i].name_bnk, 
+      //  value:result[i].id_bnk,                  
+      //  })
+      // }
 
    }, [load, navigation]);
 
@@ -78,7 +97,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-   
+
 
 
 
@@ -97,11 +116,11 @@ export default function SelectedBank({ navigation }) {
 
 
 
-   const [isLoading, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState(false);
 
    const [modalCadAccount, setModalCadAccount] = useState(false);
 
-   const [titleModal ,setTitleModal ] = useState("Cadastre uma Conta!");
+   const [titleModal, setTitleModal] = useState("Cadastre uma Conta!");
 
    const [modalUpdateAccount, setModalUpdateAccount] = useState(false);
 
@@ -124,6 +143,13 @@ export default function SelectedBank({ navigation }) {
       fkbnk: bankData.id
    });
 
+
+
+   const DATA = [
+      { id: '1', title: 'First Item' },
+      { id: '2', title: 'Second Item' },
+      { id: '3', title: 'Third Item' },
+   ];
 
 
    /*
@@ -200,7 +226,6 @@ export default function SelectedBank({ navigation }) {
                   //console.log(bank[0].id);
                   setListBank(bank);
 
-
                   //
                 result.map(
                   (item)=> 
@@ -211,7 +236,6 @@ export default function SelectedBank({ navigation }) {
                              listBank,[value]:item.name_bnk
                        }
                      )
-
                     
                      setListBank(
                        {
@@ -237,9 +261,9 @@ export default function SelectedBank({ navigation }) {
 
    const insertAccount = async () => {
 
+      //console.log(account);
       //console.log(" insertAccount  idBank " + account.fkbnk + " number " + account.number);
 
-     
       await fetch(endpoint + "?action=cadAccount", {
          method: 'POST',
          headers: {
@@ -252,63 +276,74 @@ export default function SelectedBank({ navigation }) {
          .then(res => res.json())
          .then(
             (result) => {
-
                //alert(result+" on api ");
                console.log(' insertAccount => ' + result);
-
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
       closeModal('cad');
-     
    }
 
 
 
- // const [accountType, setAccountType] = useState([]);
 
-  const difenedType = ['Conta Corrente','Digital','Poupança','Investimentos'];
-  const type = [];
+   /*
+    const [selected, setSelected] = useState("");
+    const type2 = [
+       { key: '1', value: 'Conta Corrente' },
+       { key: '2', value: 'Digital' },
+       { key: '3', value: 'Poupança' },
+       { key: '4', value: 'Investimentos' }
+    ];
+   */
+
+   const type = [
+      { value: 'Corrente' },
+      { value: 'Digital' },
+      { value: 'Poupança' },
+      { value: 'Investimentos' }
+   ];
 
 
-   const getAccountType = async () => {
-   
-      await fetch(endpoint + "?action=listAccountType")
-         .then((res) => res.json())
-         .then(
+   /*
+   const [accountType, setAccountType] = useState([]);
+   let difenedType = ['Conta Corrente','Digital','Poupança','Investimentos'];
+   let type = [];
+ 
+    const getAccountType = async () => {   
+       await fetch(endpoint + "?action=listAccountType")
+          .then((res) => res.json())
+          .then(
+             (result) => {              
+                if (result != "not found"){ 
+               
+                   var count = Object.keys(result).length;
+                   for (var i = 0; i < count; i++) {
+                      type.push({
+                        value: result[i].type_bka,
+                      })
+                   }                
+                   
+                }else{                 
+                   for (var i = 0; i < difenedType.length ; i++) {
+                      type.push({
+                        value: difenedType[i],
+                      })
+                   }  
+               }
+               setAccountType(type);              
+             //  console.log(accountType);
+             })
+          .catch(function (error) {
+             console.log('erro => ' + error.message);
+          });
+    }
+   */
 
-            (result) => {
-              
-               if (result != "not found"){
-                
-                  var count = Object.keys(result).length;
-                  for (var i = 0; i < count; i++) {
-                     type.push({
-                       value: result[i].type_bka,
-                     })
-                  }                
-                 
 
-               }else{
-                 
-                  for (var i = 0; i < difenedType.length ; i++) {
-                     type.push({
-                       value: difenedType[i],
-                     })
-                  }  
-              }
 
-            //  setAccountType(type);              
-            //  console.log(accountType);
 
-            })
-         .catch(function (error) {
-            console.log('erro => ' + error.message);
-         });
-   }
 
 
 
@@ -331,9 +366,52 @@ export default function SelectedBank({ navigation }) {
 
 
 
-  let responseClone;
+
+
+
+
 
    const getListAccountByBank = async (idBank) => {
+
+      await fetch(endpoint + "?action=listAccountByBank", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            idBank
+         })
+      })
+         .then(res => {
+            // responseClone = res.clone();
+            return res.json();
+         })
+
+         .then(
+            result => {
+
+               setIsLoading(false);
+               setListAccount(result);
+               setIsList(true);
+
+               //setIsList(false);                  
+               //setTitleModal("Abra a sua 1ª Conta!");
+
+
+            })
+         .catch(error => {
+            console.log('erro => ' + error.message);
+         });
+   }
+
+
+
+
+
+
+
+   // let responseClone;
+   const getListAccountByBank2 = async (idBank) => {
 
       // console.log(" tela selectedBank getListAccountByBank  id bank " + idBank)
 
@@ -347,11 +425,11 @@ export default function SelectedBank({ navigation }) {
          })
       })
          .then(res => {
-                  responseClone=res.clone();   
-                  return res.json();
-           })
-            
-           
+            // responseClone = res.clone();
+            return res.json();
+         })
+
+
          .then(
             result => {
 
@@ -366,16 +444,16 @@ export default function SelectedBank({ navigation }) {
                   setIsLoading(false);
                   setIsList(false);
                   //setModalCadAccount(true);
-                  setTitleModal("Abra a sua 1ª Conta!");                 
+                  setTitleModal("Abra a sua 1ª Conta!");
                }
 
             })
          .catch(error => {
-           console.log('erro => ' + error.message);
-           /*  
-           responseClone.text()
-           .then(text=>console.log('erro => ', text))
-            */
+            console.log('erro => ' + error.message);
+            /*  
+            responseClone.text()
+            .then(text=>console.log('erro => ', text))
+             */
          });
    }
 
@@ -457,8 +535,11 @@ export default function SelectedBank({ navigation }) {
 
    const updateAccount = async () => {
 
-      // console.log(" id bank " + account.fkbnk + " id accont " + account.id);
+      console.log(" updateAccount ");
 
+       //console.log(" id bank " + account.fkbnk + " id accont " + account.id);
+
+      /*
       await fetch(endpoint + "?action=updateAccount", {
          method: 'POST',
          headers: {
@@ -479,7 +560,7 @@ export default function SelectedBank({ navigation }) {
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
+       */
       closeModal('update');
    }
 
@@ -555,7 +636,7 @@ export default function SelectedBank({ navigation }) {
             ...accountData, ['id']: id,
             accountData, ['type']: type,
             accountData, ['number']: number,
-           // accountData, ['amount']: amount,
+            // accountData, ['amount']: amount,
          }
       )
 
@@ -622,80 +703,83 @@ export default function SelectedBank({ navigation }) {
 
 
    if (isLoading) {
-        return (
-          <View style={styles.containerLoading}>
+      return (
+         <View style={styles.containerLoading}>
             <ActivityIndicator size="large" color="#0000ff" />
             <Text>Loading...</Text>
-          </View>
-        )
-    }
-    
+         </View>
+      )
+   }
+
+
+
 
 
    return (
 
-      <View style={styles.main}>
+      <View style={{ flex: 1 }} >
 
-         <StatusBar
-            backgroundColor={"#121212"}
-            barStyle={'light-content'}
-            translucent={false} />
 
-         <Animated.View
-            style={{
-               position: 'absolute',
-               top: 0,
-               left: 0,
-               right: 0,
-               zIndex: 99,
-               width: '100%',
-               padding: 10,
-               backgroundColor: '#06121c',
-               alignItems: 'center',
-               justifyContent: 'center',
-               height: headerScrollHeight,
-               overflow: 'hidden'
-            }}
-         >
 
-            <Animated.Image
-               source={{ uri: `data:image/png;base64,${bankData.img}` }}
+         <View style={{ height: h_max_hight }}>
+
+            <Animated.View
                style={{
-                  padding: imageScaleHeight,
-                  width: 80,
-                  height: imageScaleHeight,
-                  borderRadius: 10,
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  zIndex: 99,
+                  width: '100%',
+                  //paddingTop: 20,
+                  //paddingBottom: 20,
+                  //padding: 40,                             
+                  backgroundColor: '#a5a4acff',
+                  // backgroundColor: '#06121c',
+                  // backgroundColor: '#97a1a1ff',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: headerScrollHeight,
+                  borderBottomLeftRadius: 40,
+                  borderBottomRightRadius: 40,
+                  overflow: 'hidden'
                }}
-               resizeModel='contain'
-            />
-            <Header info={bankData.name} />
-            <Header user={`${user}`} />
-         </Animated.View>
+            >
+               <Animated.Image
+                  source={{ uri: `data:image/png;base64,${bankData.img}` }}
+                  style={{
+                     padding: imageScaleHeight,
+                     width: 60,
+                     height: imageScaleHeight,
+                     borderRadius: 8,
+                     marginTop: 70,
+                     
+                  }}
+                  resizeModel='contain'
+               />
+               <View style={{ marginTop: 10, marginBottom:10, borderRadius: 6, backgroundColor: `${bankData.backgroundup}` }}>
+                  <Header info={bankData.name} user={`${user}`} />
+               </View>
+            </Animated.View>
+
+         </View>
+
+
+
 
          {/* 
-
         <View style={styles.containerHeader}>
-
            <View>          
             <Image source={{ uri: `data:image/png;base64,${bankData.img}` }}
              style={styles.resizeModel}
              />            
            </View>
-
-           <View ><Text style={styles.textAlert}>{bankData.name}</Text></View>
- 
+           <View ><Text style={styles.textAlert}>{bankData.name}</Text></View> 
         </View>
-
-     */}
-
+        */}
 
 
-         {
-            !isList
-               ?
-
+         {/* 
                <View style={{
-
                   width: 'auto',
                   height: 'auto',
                   alignItems: 'center',
@@ -705,119 +789,132 @@ export default function SelectedBank({ navigation }) {
                   borderRadius: 10,
                   paddingTop: h_max_hight
                }}>
-
                   <Text style={styles.textAlert}>Ainda não existe conta cadastrada</Text>
+               </View>
+              */}
 
+
+
+         <FlatList
+            showsVerticalScrollIndicator={false}
+            data={accounts}
+            renderItem={({ item }) =>
+
+
+
+               <View style={styles.containerList} >
+
+                  <LinearGradient colors={[`${bankData.backgroundup}`, `${bankData.backgrounddown}`]} style={styles.contentList}>
+
+                     <View style={styles.contentCardList}>
+                        {/*
+                                    <Text style={styles.textList}>
+                                      {`Bank Name : ${item.name_bnk}`}
+                                    </Text>
+                                  */}
+                        <Text style={styles.textList}>
+                           {/*   {`Type :  ${item.type_bka}`} */}
+                           {`Type :  ${item.type_act}`}
+                        </Text>
+                        <Text style={styles.textList}>
+                           {/*  {`Nº :  ${item.number_bka}`} */}
+                           {`Nº :  ${item.number_act}`}
+                        </Text>
+                        <Text style={styles.textList}>
+                           {/* {`Amount:  ${item.amount_bka}`} */}
+                           {`Amount:  ${item.saldo_act}`}
+                        </Text>
+                     </View>
+
+                     <View style={styles.containerBtn}>
+                        <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => selectAccount(
+                                /* 
+                                 item.id_bka,
+                                 item.type_bka,
+                                 item.number_bka,
+                                 item.amount_bka,
+                                  */
+                                 item.id_act,
+                                 item.type_act,
+                                 item.number_act,
+                                 item.saldo_act,
+                              )}
+                           >
+                              <FontAwesome name='eye' size={18} color={"#ffffff"} />
+                              <Text style={styles.textBtn}>{`  Select`}</Text>
+                           </Pressable>
+                        </LinearGradient>
+                        <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                             
+                                onPress={() => getListAccountById(
+                                 item.id_act,
+                                 item.number_act,
+                                 item.type_act,
+                                 item.open_date_bka,
+                                 item.desc_act,
+                                 item.saldo_act,
+                              )}
+                             /*
+                                 onPress={() => getListAccountById(
+                                 item.id_bka,
+                                 item.number_bka,
+                                 item.type_bka,
+                                 item.open_date_bka,
+                                 item.desc_bka,
+                                 item.amount_bka,
+                              )}
+                              */
+                           >
+                              <FontAwesome name='edit' size={18} color={"#ffffff"} />
+                              <Text style={styles.textBtn}>{`  Edit`}</Text>
+                           </Pressable>
+                        </LinearGradient>
+                        <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => deleteAccount(item.id_bka)}
+                           >
+                              <FontAwesome name='trash' size={18} color={"#ffffff"} />
+                              <Text style={styles.textBtn}>{`  Delete`}</Text>
+                           </Pressable>
+                        </LinearGradient>
+                     </View>
+                  </LinearGradient>
                </View>
 
-               :
-
-               <FlatList
-                  style={{ paddingTop: h_max_hight }}
-                  showsVerticalScrollIndicator={false}
-                  data={listAccount}
-                  renderItem={({ item }) =>
-
-                     <View style={styles.containerList} >
-
-                        <LinearGradient colors={['#0a0439', '#170c7c']} style={styles.contentList}>
-
-                           <View style={styles.contentCardList}>
-
-                              {/*
-                   <Text style={styles.textList}>
-                     {`Bank Name : ${item.name_bnk}`}
-                   </Text>
-                  */}
-
-                              <Text style={styles.textList}>
-                                 {`Type :  ${item.type_bka}`}
-                              </Text>
-
-                              <Text style={styles.textList}>
-                                 {`Nº :  ${item.number_bka}`}
-                              </Text>
-
-                              <Text style={styles.textList}>
-                                 {`Amount:  ${item.amount_bka}`}
-                              </Text>
-
-                           </View>
-
-                           <View style={styles.containerBtn}>
-
-                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btnMenu}
-                                    onPress={() => selectAccount(
-                                       item.id_bka,
-                                       item.type_bka,
-                                       item.number_bka,
-                                       item.amount_bka,
-                                    )}
-                                 >
-                                    <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>{`  Select`}</Text>
-                                 </Pressable>
-                              </LinearGradient>
-
-                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btnMenu}
-                                    onPress={() => getListAccountById(
-                                       item.id_bka,
-                                       item.number_bka,
-                                       item.type_bka,
-                                       item.open_date_bka,
-                                       item.desc_bka,
-                                       item.amount_bka,
-                                    )}
-                                 >
-                                    <FontAwesome name='edit' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>{`  Edit`}</Text>
-                                 </Pressable>
-                              </LinearGradient>
-
-                              <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
-                                 <Pressable style={styles.btnMenu}
-                                    onPress={() => deleteAccount(item.id_bka)}
-                                 >
-                                    <FontAwesome name='trash' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>{`  Delete`}</Text>
-                                 </Pressable>
-                              </LinearGradient>
-
-                           </View>
-
-                        </LinearGradient>
-
-                     </View>
-                  }
-
-                  onScroll={Animated.event([
-                     { nativeEvent: { contentOffset: { y: scrollOffsetY } } },],
-                     { useNativeDriver: false })}
-                  scrollEventThrottle={16}
-               >
-               </FlatList>
-         }
+            }
+            onScroll={Animated.event([
+               { nativeEvent: { contentOffset: { y: scrollOffsetY } } },],
+               { useNativeDriver: false })}
+            scrollEventThrottle={16}
+         >
+         </FlatList>
 
 
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
 
-            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+
+
+
+
+         <LinearGradient colors={['#97a1a1ff', '#ffececff']} style={styles.containerBtnFooter}>
+
+            <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
                   onPress={() => setModalCadAccount(true)}
                >
-                  <FontAwesome name='plus' size={16} color={"#44E8C3"} />
+                  <FontAwesome name='plus' size={16} color={"#ffffff"} />
                   <Text style={styles.textBtn}>{`  Add Account`}</Text>
                </Pressable>
             </LinearGradient>
 
-            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+            <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
                   onPress={() => navigation.navigate("Home")}
                >
-                  <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                  <FontAwesome name='home' size={16} color={"#ffffff"} />
                   <Text style={styles.textBtn}>{`  Home`}</Text>
                </Pressable>
             </LinearGradient>
@@ -833,15 +930,11 @@ export default function SelectedBank({ navigation }) {
             animationType='fade'
             visible={modalCadAccount}
          >
-
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
                <View style={styles.contentModal} >
                   <Text style={styles.textInfo}>{titleModal}</Text>
                </View>
-
                <View style={styles.formModal}>
-
                   <TextInput style={styles.input}
                      placeholder="Account Number"
                      placeholderTextColor="#44E8C3"
@@ -851,10 +944,7 @@ export default function SelectedBank({ navigation }) {
                      }
                      value={account.number}
                   />
-
-
-
-                    {/* 
+                  {/* 
                   <TextInput style={styles.input}
                      placeholder="type"
                      placeholderTextColor="#44E8C3"
@@ -865,40 +955,47 @@ export default function SelectedBank({ navigation }) {
                      value={account.type}
                   />
                   */}
-
-                 <View style={styles.boxSurch}>
-                    
-                      <SelectList
-
+                  <View style={styles.boxSurch}>
+                     <SelectList
+                        //setSelected={setSelected}
                         setSelected={(value) =>
-
                            setAccount(
                               {
                                  ...account, 'type': value
                               }
                            )
-
                         }
-                        
                         data={type}
-
-                        placeholder='Select Type'
-
-                        onPress={getAccountType()}
-
-                       // onSelect={getAccountType()}
-
+                        placeholder="Choose a account type"
+                        searchPlaceholder="Search account..."
                         boxStyles={{ backgroundColor: '#314452' }}
-
                         inputStyles={{ color: '#44E8C3' }}
                         dropdownTextStyles={{ color: '#44E8C3' }}
+                        //dropdownStyles={styles.dropdownList} // Custom style for the dropdown list
+                        //dropdownItemStyles={styles.dropdownItem} // Custom style for each item
+                        arrowicon={<Text style={{ fontSize: 18, color: '#44E8C3' }}>  ▼</Text>} // Custom arrow icon
+                     />
 
-                       />
-
-                 </View>
-
-
-
+                     {/* 
+                     <SelectList
+                        setSelected={(value) =>
+                           setAccount(
+                              {
+                                 ...account, 'type': value
+                              }
+                           )
+                        }
+                        // data={type}
+                        data={accountType}
+                        placeholder='Select Type'
+                        onPress={getAccountType()}
+                        // onSelect={getAccountType()}
+                        boxStyles={{ backgroundColor: '#314452' }}
+                        inputStyles={{ color: '#44E8C3' }}
+                        dropdownTextStyles={{ color: '#44E8C3' }}
+                     />
+                    */}
+                  </View>
 
                   <TextInput style={styles.input}
                      placeholder="open date"
@@ -929,11 +1026,9 @@ export default function SelectedBank({ navigation }) {
                      }
                   // value={account.amount}
                   />
-
                </View>
 
                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
-
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                      <Pressable style={styles.btnMenu}
                         onPress={() => insertAccount()}
@@ -942,7 +1037,6 @@ export default function SelectedBank({ navigation }) {
                         <Text style={styles.textBtn}>{`  Safe`}</Text>
                      </Pressable>
                   </LinearGradient>
-
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                      <Pressable style={styles.btnMenu}
                         onPress={() => closeModal('cad')}>
@@ -950,14 +1044,10 @@ export default function SelectedBank({ navigation }) {
                         <Text style={styles.textBtn}>{`  Cancel`}</Text>
                      </Pressable>
                   </LinearGradient>
-
                </LinearGradient>
-
             </LinearGradient>
 
          </Modal>
-
-
 
 
 
@@ -966,14 +1056,12 @@ export default function SelectedBank({ navigation }) {
             animationType='fade'
             visible={modalUpdateAccount}
          >
-
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
                <View style={styles.contentModal} >
                   <Text style={styles.textInfo}>{` UPDATE ACCOUNT `}</Text>
                </View>
 
-               <View style={styles.containerList}>
+               <View style={styles.containerListModal}>
 
                   <View style={styles.contentList}>
 
@@ -986,7 +1074,6 @@ export default function SelectedBank({ navigation }) {
                         }
                         value={account.number}
                      />
-
                      <TextInput style={styles.input}
                         placeholder={` ${account.type}`}
                         placeholderTextColor="#cc0000"
@@ -996,8 +1083,8 @@ export default function SelectedBank({ navigation }) {
                         }
                         value={account.type}
                      />
-
-                     <TextInput style={styles.input}
+                    {/* 
+                      <TextInput style={styles.input}
                         placeholder={` ${account.open}`}
                         placeholderTextColor="#cc0000"
                         type="text"
@@ -1005,8 +1092,8 @@ export default function SelectedBank({ navigation }) {
                            handleInputChange('open', valor)
                         }
                         value={account.open}
-                     />
-
+                     /> 
+                     */}
                      <TextInput style={styles.input}
                         placeholder={` ${account.desc}`}
                         placeholderTextColor="#cc0000"
@@ -1016,19 +1103,16 @@ export default function SelectedBank({ navigation }) {
                         }
                         value={account.desc}
                      />
-
                      <TextInput style={styles.input}
-                        placeholder={` ${account.amount}`}
-                        placeholderTextColor="#cc0000"
+                        placeholder={` R$ ${account.amount}`}
+                        placeholderTextColor="#0db1a9ff"
                         type="text"
                         onChangeText={(valor) =>
                            handleInputChange('amount', valor)
                         }
                         value={account.amount}
                      />
-
                      <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
-
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
                               onPress={() => updateAccount()}>
@@ -1036,7 +1120,6 @@ export default function SelectedBank({ navigation }) {
                               <Text style={styles.textBtn}>{`  Safe`}</Text>
                            </Pressable>
                         </LinearGradient>
-
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
                               onPress={() => closeModal('update')}>
@@ -1044,28 +1127,37 @@ export default function SelectedBank({ navigation }) {
                               <Text style={styles.textBtn}>{`  Cancel`}</Text>
                            </Pressable>
                         </LinearGradient>
-
                      </LinearGradient>
-
                   </View>
-
                </View>
-
             </LinearGradient>
-
          </Modal>
-
-
-
-
-
-
 
       </View>
 
    )
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -23,10 +23,11 @@ export default StyleSheet.create({
     height: "20%",
     width: 'auto',
     padding: 10,
+    paddingTop:60,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomStartRadius: 40,
-    borderBottomEndRadius: 40
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40
   },
   
    containerInfo: {
@@ -88,8 +89,24 @@ containerBtn: {
     marginTop: 'auto',
   },
 
+  containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    //flexWrap: 'wrap',
+    width: 'auto',
+    height: 'auto',
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 'auto',
+    marginBottom:40   
+  },
+
+
   boxBtn: {
-    height: 40,
+    height: 'auto',
     borderRadius: 10,
   }, 
 

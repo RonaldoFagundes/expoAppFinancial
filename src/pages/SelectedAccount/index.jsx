@@ -52,6 +52,7 @@ export default function SelectedAccount({ navigation }) {
       setAccountData,
       setAmountAccount,
       amountAccount,
+      accounts
       // setTransactionsType,
       // transactionsType, 
    } = useContext(AuthContext);
@@ -97,9 +98,11 @@ export default function SelectedAccount({ navigation }) {
 
 
    const getListAccountByBank = async () => {
-
+ 
+      setIsLoading(false);
+      setAccount(accounts);
+      /*
       //console.log(surchAccount)
-
       await fetch(endpoint + "?action=listAccountByBankIgnoreId", {
          method: 'POST',
          headers: {
@@ -112,12 +115,10 @@ export default function SelectedAccount({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                setIsLoading(false);
-
                setAccount(result);
-
-               /* 
+               
+               // 
                var count = Object.keys(result).length;               
                for (var i = 0; i < count; i++) {                
                  accounts.push({
@@ -126,14 +127,16 @@ export default function SelectedAccount({ navigation }) {
                   })                
                }
                setAccount(accounts);
-              */
-
+              //
 
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
+         */
    }
+
+
 
 
 
@@ -570,8 +573,10 @@ export default function SelectedAccount({ navigation }) {
 
 
             <View style={styles.contentHeaderBox}>
+                
                <Text style={styles.textInfo}>{`${accountData.type} `}</Text>
-               <Text style={styles.textInfo}>{`Nº ${accountData.number}`}</Text>
+               <Text style={styles.textInfo}>{`Nº ${accountData.number}`}</Text>             
+
                <Pressable style={styles.btn}
                   onPress={() => chooseAccount()}>
                   <FontAwesome name='sort-down' size={20} color={"#060324ff"} />
@@ -592,18 +597,30 @@ export default function SelectedAccount({ navigation }) {
                               <Pressable
 
                                  onPress={() =>
+
                                     sendAccount(
+
+                                      /*
                                        item.id_bka,
                                        item.type_bka,
                                        item.number_bka,
-                                       item.amount_bka
+                                       item.amount_bka 
+                                       */
+
+                                       item.id_act,
+                                       item.type_act,
+                                       item.number_act,
+                                       item.saldo_act
                                     )
+
+
                                  }>
 
                                  <View style={styles.contentList}>
 
                                     <Text style={styles.textList}>
-                                       {` ${item.type_bka} ${item.number_bka}`}
+                                       {/*   {` ${item.type_bka} ${item.number_bka}`} */}
+                                       {` ${item.type_act} ${item.number_act}`}
                                     </Text>
 
                                     {/* <FontAwesome name='check' size={16} color={"#44E8C3"} />  */}
@@ -645,7 +662,7 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-         <LinearGradient colors={['#d3dcf1ff', '#c8e7f3ff']} style={styles.containerCarrousel}>
+         <LinearGradient colors={['#d3dcf1ff', '#9da2a7ff']} style={styles.containerCarrousel}>
 
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
 
@@ -790,7 +807,7 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}

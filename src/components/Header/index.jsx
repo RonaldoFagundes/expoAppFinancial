@@ -17,18 +17,19 @@ export default function Header({user , info}){
 
 
       <View style={styles.container}>
+
        
          <View style={styles.content}>
 
-              <Text style={styles.text}>{user}</Text>
-              <Text style={styles.text}>{info}</Text>
+            <Text style={styles.text}>{info}</Text>
 
               {/* 
               <TouchableOpacity style={styles.buttonUser}>
                  <Feather name='user' size={27} color={'blue'} />
               </TouchableOpacity>
-             */}
-              
+             */}              
+       
+            <Text style={styles.text}>{user}</Text>            
         </View>
 
 
@@ -47,15 +48,14 @@ const styles = StyleSheet.create({
       
          width:'auto',
          height:'auto',
-        // alignItems:'center',        
-      
-         padding:10,
-        // marginTop:5,
-        // marginBottom:5, 
-         
-        // borderRadius: 6,
-      /*
+        // alignItems:'center',      
+         padding:5,
         
+         
+        // marginTop:5,
+        // marginBottom:5,          
+         
+      /*        
         paddingTop:statusBarHeight,
         paddingStart:16,
         paddingEnd:16,
@@ -66,28 +66,29 @@ const styles = StyleSheet.create({
 
      content:{
          borderRadius: 6,
-         backgroundColor:'#172b49',
+        // backgroundColor:'#172b49',
          width:'auto',
          height:'auto',
         // flexDirection:'row',
         
          alignItems:'center',
        //  justifyContent:'space-around',
-         padding:10,
+         padding:5,        
+         
          /*
          flex:1,
          flexDirection:'row',
          alignItems:'center',
-         justifyContent:'space-between',
-         
+         justifyContent:'space-between',         
          */
      },
 
 
      text: {
-        color: '#44E8C3',
+        color: '#ffffff',
         fontSize: 14,
         fontWeight: 'bold',
+        textAlign:'center',       
      },
   
 

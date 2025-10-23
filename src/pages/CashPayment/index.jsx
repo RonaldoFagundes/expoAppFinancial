@@ -211,6 +211,9 @@ export default function CashPayment({ navigation }) {
 
     const getAmount = async () => {
 
+         setAmount(27.75);
+
+         /*
         await fetch(endpoint + "?action=cashAmount", {
             method: 'POST',
             headers: {
@@ -229,7 +232,7 @@ export default function CashPayment({ navigation }) {
             .catch(function (error) {
                 console.log('erro => ' + error.message);
             });
-
+        */
     }
 
 
@@ -281,7 +284,7 @@ export default function CashPayment({ navigation }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.main}>
 
-            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
+            <LinearGradient colors={['#83838bff', '#20244bff']} style={styles.containerHeader}>
                 <View style={styles.contentHeaderTitle}>
                     <Header user={`${user}`} />
                 </View>
@@ -334,7 +337,7 @@ export default function CashPayment({ navigation }) {
                     </View>
             }          
 
-            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+            <LinearGradient colors={['#83838bff', '#20244bff']} style={styles.containerBtnFooter}>
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
                         onPress={() => setShowProof(false) & setModalPost(true)}>

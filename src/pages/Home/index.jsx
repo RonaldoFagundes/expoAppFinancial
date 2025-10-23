@@ -11,7 +11,12 @@ import {
    Image,
    Animated,
    StatusBar,
-   ScrollView
+   ScrollView,
+
+   KeyboardAvoidingView,
+   Platform,
+   Dimensions,
+
 }
    from 'react-native';
 
@@ -25,9 +30,13 @@ import Header from '../../components/Header';
 
 //import Introduction from '../../components/Introduction';
 
-const h_max_hight = 300;
-const h_min_hight = 200;
+const h_max_hight = 260;
+const h_min_hight = 190;
 const h_scroll_distance = h_max_hight - h_min_hight;
+
+
+
+
 
 export default function Home({ navigation }) {
 
@@ -39,8 +48,12 @@ export default function Home({ navigation }) {
       setBankData,
       bankData,
       setInfoDate,
-      infoDate
+      infoDate,
+
+      setAccounts
    } = useContext(AuthContext);
+
+
 
 
    useEffect(() => {
@@ -74,7 +87,6 @@ export default function Home({ navigation }) {
          }
       )
 
-
       if (hours > 0 && hours < 12) {
          setWelcome("Bom dia")
       } else if (hours >= 12 && hours < 18) {
@@ -102,7 +114,7 @@ export default function Home({ navigation }) {
 
    const imageScaleHeight = scrollOffsetY.interpolate({
       inputRange: [0, h_max_hight],
-      outputRange: [80, 24],
+      outputRange: [60, 24],
       extrapolate: 'clamp'
    });
 
@@ -116,6 +128,8 @@ export default function Home({ navigation }) {
    ];
    */
 
+
+
    const [isLoading, setIsLoading] = useState(true);
 
    const [welcome, setWelcome] = useState();
@@ -126,6 +140,9 @@ export default function Home({ navigation }) {
 
    const [isList, setIsList] = useState(false);
 
+
+
+
    const [bank, setBank] = useState({
       id: 0,
       number: "",
@@ -134,12 +151,14 @@ export default function Home({ navigation }) {
       contact: "",
       desc: "",
       img: null,
-      base64: null,
+      base64: null,      
    });
+
+   
+
 
 
    const cleanFields = () => {
-
       setBank(
          {
             ...bank, 'id': 0,
@@ -153,6 +172,7 @@ export default function Home({ navigation }) {
          }
       )
    }
+
 
 
    const pickImage = async () => {
@@ -189,7 +209,7 @@ export default function Home({ navigation }) {
 
    const [listBank, setListBank] = useState([]);
 
-   //const [bankSelected, setBankSelected] = useState([]);
+   const [bankSelected, setBankSelected] = useState([]);
 
    const handleInputChange = (atribute, value) => {
 
@@ -203,35 +223,33 @@ export default function Home({ navigation }) {
 
 
 
+
+
    const insertBank = async () => {
+       alert("implements cadBank "+bank.name)
 
       //setModalCadBank(false);
       // closeModal('cad');
-
+       /*
       await fetch(endpoint + "?action=cadBank", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
          },
          // body:JSON.parse(JSON.stringify({bank}))
-
          body: JSON.stringify({
             bank
          })
-
       })
          .then((res) => res.json())
          .then(
-
             (result) => {
-
                //alert(result + " on api ");
                console.log(' insertBank => ' + result);
-
             })
          .catch((error) =>
             console.log(" type error => " + error));
-
+       */
       closeModal('cad');
    }
 
@@ -261,31 +279,35 @@ export default function Home({ navigation }) {
    */
 
 
-   let responseClone;
+
+
+   // let responseClone;
    const getListBank = async () => {
 
       // console.log(" tela home getListBank ");
 
       await fetch(endpoint + "?action=listBank")
          .then(res => {
-            responseClone = res.clone();
+            //  responseClone = res.clone();
             return res.json();
          })
          .then(
             result => {
 
-               if (result !== "not found") {
+               // if (result !== "not found") {
+               setIsLoading(false);
+               setIsList(true);
+               setListBank(result);
 
-                  setIsLoading(false);
-                  setIsList(true);
-                  setListBank(result);
-
+             //  console.log(result[0].accounts)
+               /*
                } else {
 
                   //alert(result);
-                  console.log(" return api => " + result);
+                  console.log(" return api listBank => " + result);
+                  setIsLoading(false);
                }
-
+               */
             })
          .catch(error => {
             console.log('erro => ' + error.message);
@@ -301,11 +323,18 @@ export default function Home({ navigation }) {
 
 
 
-   const getListBankById = async (id, number, name, ein, contact, desc, img) => {
+   const getListBankById = async (
+      id,
+      number,
+      name,
+      ein,
+      contact,
+      desc,
+      img,      
+      ) => {
 
       // console.log("function getListBankById nº " + id);
-
-      //  cleanFields();
+      // cleanFields();
 
       setBank(
          {
@@ -315,7 +344,7 @@ export default function Home({ navigation }) {
             bank, ['ein']: ein,
             bank, ['contact']: contact,
             bank, ['desc']: desc,
-            bank, ['base64']: img,
+            bank, ['base64']: img
          }
       )
 
@@ -344,16 +373,18 @@ export default function Home({ navigation }) {
             console.log('erro => ' + error.message);
          });
          */
-
       setModalUpdateBank(true);
    }
 
 
 
+
+
+
    const updateBank = async () => {
-
+       alert("updateBank "+bank)
       // console.log("function updateBank " + bank.id + "  " + bank.name + "  " + bank.contact);
-
+       /*
       await fetch(endpoint + "?action=updateBank", {
          method: 'POST',
          headers: {
@@ -366,14 +397,12 @@ export default function Home({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                console.log(result);
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
+        */
       closeModal('update');
    }
 
@@ -381,9 +410,10 @@ export default function Home({ navigation }) {
 
 
    const deleteBank = async (id) => {
-
+       alert("deleteBank "+id);
       // console.log("function deletebank id nº ", id);
 
+       /*
       await fetch(endpoint + "?action=deleteBank", {
          method: 'POST',
          headers: {
@@ -396,9 +426,7 @@ export default function Home({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                if (result != "error") {
-
                   getListBank();
                   // console.log(result);
                   // alert(result);
@@ -406,20 +434,20 @@ export default function Home({ navigation }) {
                   console.log(result);
                   // alert(result);
                }
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
+        */
    }
 
 
 
 
 
-   const closeModal = async (atribute) => {
 
+
+   const closeModal = async (atribute) => {
       if (atribute == "cad") {
          setModalCadBank(false);
       } else {
@@ -433,17 +461,21 @@ export default function Home({ navigation }) {
 
 
 
-   const selectBanc = (id, name, img) => {
+   const selectBanc = (id, name, img, backgrounddown, backgroundup, accounts  ) => {
 
-      //console.log(id, name);
+     // console.log(" contas ",accounts);
 
       setBankData(
          {
             ...bankData, ['id']: id,
             bankData, ['name']: name,
             bankData, ['img']: img,
+            bankData, ['backgrounddown']: backgrounddown,
+            bankData, ['backgroundup']: backgroundup,
          }
       )
+
+      setAccounts(accounts);
 
       navigation.navigate("SelectedBank");
 
@@ -469,12 +501,20 @@ export default function Home({ navigation }) {
    }
 
 
-
+   const screenHeight = Dimensions.get('window').height;
 
    return (
+      /* 
+          <KeyboardAvoidingView
+                  style={{ flex: 1 }}
+                  behavior={Platform.OS === 'ios' ? 'padding' : 'hight'}
+                  keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+               >
+       */
+      <View style={{ flex: 1 }} >
 
-      <View style={styles.main}>
 
+         {/* 
          <StatusBar
             // backgroundColor={"#121212"}          
             //  backgroundColor={"#02183a"}  
@@ -482,61 +522,59 @@ export default function Home({ navigation }) {
             barStyle={'light-content'}
             translucent={false}
          />
+        */}
 
-         <Animated.View
-            style={{
-               position: 'absolute',
-               top: 0,
-               left: 0,
-               right: 0,
-               zIndex: 99,
-               width: '100%',
-               paddingTop: 40,
-               paddingBottom: 40,
-               //padding: 40,                             
-               //backgroundColor: '#1C1B20',
-               // backgroundColor: '#06121c',
-               backgroundColor: '#97a1a1ff',
-               alignItems: 'center',
-               justifyContent: 'center',
-               height: headerScrollHeight,
-               overflow: 'hidden'
-            }}
-         >
+         <View style={{ height: h_max_hight }}>
 
-            <Animated.Image
-               source={require('../logo_rfideia.png')}
+
+            <Animated.View
                style={{
-                  padding: imageScaleHeight,
-                  width: 60,
-                  height: imageScaleHeight,
-                  borderRadius: 8
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  zIndex: 99,
+                  width: '100%',
+                  //paddingTop: 20,
+                  //paddingBottom: 20,
+                  //padding: 40,                             
+                  backgroundColor: '#a5a4acff',
+                  // backgroundColor: '#06121c',
+                  // backgroundColor: '#97a1a1ff',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: headerScrollHeight,
+                  borderBottomLeftRadius:40,
+                  borderBottomRightRadius:40,
+                  overflow: 'hidden'
                }}
-               resizeModel='contain'
-            />
-            <Header user={`${welcome} ${user}`} />
-            <Header info="App Banc" />
+            >
 
-         </Animated.View>
+               <Animated.Image
+                  source={require('../logo_rfideia.png')}
+                  style={{
+                     padding: imageScaleHeight,
+                     width: 60,
+                     height: imageScaleHeight,
+                     borderRadius: 8,
+                     marginTop:60
+                  }}
+                  resizeModel='contain'
+               />
+               <View style={{marginTop:10,borderRadius:6, backgroundColor:"#021f4b"}}>
+                 <Header user={`${welcome} ${user}`} />
+               </View>
 
-         {
-            isList ?
-               <FlatList
-                  style={{ paddingTop: h_max_hight }}
-                  showsVerticalScrollIndicator={false}
-                  data={listBank}
-                  renderItem={({ item }) =>
+            </Animated.View>
 
-                     <View style={styles.containerList} >
+         </View>
 
-                        <LinearGradient
-                           /* 
-                            colors={[
-                               'rgba(255, 249, 145, 0.07)',
-                               'rgba(249, 225, 175 ,0.09)',
-                            ]}                          
-                           */
 
+
+         {/*         
+         <ScrollView style={{ flex: 1 }}>      
+            {listBank.map((item) => (           
+               <View style={styles.containerList} >
+                        <LinearGradient                        
                            // colors={['#0a0439', '#170c7c']}
                            colors={['#02183a', '#021f4b']}
                            style={styles.contentList}>
@@ -546,37 +584,28 @@ export default function Home({ navigation }) {
                                  style={styles.resizeModel}
                               />
                            </View>
-
-                           <View style={styles.contentCardList}>
-
+                           <View>
                               <Text style={styles.textList}>
                                  {`ID  :  ${item.id_bnk}`}
                               </Text>
-
                               <Text style={styles.textList}>
                                  {`Nº :  ${item.number_bnk}`}
-                              </Text>
-
+                              </Text>                         
                               <Text style={styles.textList}>
                                  {`Name :  ${item.name_bnk}`}
-                              </Text>
-
+                              </Text>                         
                               <Text style={styles.textList}>
                                  {`Cnpj :  ${item.ein_bnk}`}
                               </Text>
-
                               <Text style={styles.textList}>
                                  {`Contact :  ${item.contact_bnk}`}
                               </Text>
-
                               <Text style={styles.textList}>
                                  {`Desk :  ${item.desc_bnk}`}
                               </Text>
-
                            </View>
 
                            <View style={styles.containerBtn}>
-
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                  <Pressable style={styles.btnMenu}
                                     onPress={() => selectBanc(
@@ -586,7 +615,7 @@ export default function Home({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='eye' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>{`  Select`}</Text>
+                                    <Text style={styles.textBtn}>{` Select`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -603,7 +632,7 @@ export default function Home({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='edit' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>{`  Edit`}</Text>
+                                    <Text style={styles.textBtn}>{` Edit`}</Text>
                                  </Pressable>
                               </LinearGradient>
 
@@ -614,31 +643,142 @@ export default function Home({ navigation }) {
                                     )}
                                  >
                                     <FontAwesome name='trash' size={16} color={"#44E8C3"} />
-                                    <Text style={styles.textBtn}>{`  Delete`}</Text>
+                                    <Text style={styles.textBtn}>{` Delete`}</Text>
                                  </Pressable>
                               </LinearGradient>
-
                            </View>
+                        </LinearGradient>
+                  </View>                                 
+            )      
+          )            
+        }
+      </ScrollView>
+ */}
 
+
+
+
+
+
+
+         <FlatList
+            //style={{ paddingTop: h_max_hight}}
+
+            showsVerticalScrollIndicator={false}
+            data={listBank}
+            renderItem={({ item }) =>
+
+               <View style={styles.containerList} >
+
+                  <LinearGradient
+                     // colors={['#0a0439', '#055b5eff']}
+                     colors={['#52627aff', '#cfd5f5ff']}
+                     style={styles.contentList}>
+
+                     <View>
+                        <Image source={{ uri: `data:image/png;base64,${item.img_bnk}` }}
+                           style={styles.resizeModel}
+                        />
+                     </View>
+
+                     <View>
+
+                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                           {`ID  :  ${item.id_bnk}`}
+                        </Text>
+
+                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                           {`Nº :  ${item.number_bnk}`}
+                        </Text>
+
+                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                           {`Name :  ${item.name_bnk}`}
+                        </Text>
+
+                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                           {`Cnpj :  ${item.ein_bnk}`}
+                        </Text>
+
+                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                           {`Contact :  ${item.contact_bnk}`}
+                        </Text>
+
+                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                           {`Desk :  ${item.desc_bnk}`}
+                        </Text>
+
+                     </View>
+
+                     <View style={styles.containerBtnCard}>
+
+                        <LinearGradient colors={['#fdfdffff', `${item.backgroundup}`]} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => selectBanc(
+                                 item.id_bnk,
+                                 item.name_bnk,
+                                 item.img_bnk,
+                                 item.backgrounddown,
+                                 item.backgroundup,
+                                 item.accounts
+                              )}
+                           >
+                              <FontAwesome name='eye' size={16} color={"#ffffff"} />
+                              <Text style={styles.textBtn}>{` Select`}</Text>
+                           </Pressable>
+                        </LinearGradient>
+
+                        <LinearGradient colors={['#fdfdffff', `${item.backgroundup}`]} style={styles.boxBtn}>
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => getListBankById(
+                                 item.id_bnk,
+                                 item.number_bnk,
+                                 item.name_bnk,
+                                 item.ein_bnk,
+                                 item.contact_bnk,
+                                 item.desc_bnk,
+                                 item.img_bnk
+                              )}
+                           >
+                              <FontAwesome name='edit' size={16} color={"#ffffff"} />
+                              <Text style={styles.textBtn}>{` Edit`}</Text>
+                           </Pressable>
+                        </LinearGradient>
+
+                        <LinearGradient colors={['#fdfdffff', `${item.backgroundup}`]} style={styles.boxBtn} >
+                           <Pressable style={styles.btnMenu}
+                              onPress={() => deleteBank(
+                                 item.id_bnk
+                              )}
+                           >
+                              <FontAwesome name='trash' size={16} color={"#ffffff"} />
+                              <Text style={styles.textBtn}>{` Delete`}</Text>
+                           </Pressable>
                         </LinearGradient>
 
                      </View>
 
-                  }
-                  onScroll={Animated.event([
-                     {
-                        nativeEvent: { contentOffset: { y: scrollOffsetY } }
-                     },
-                  ], { useNativeDriver: false }
-                  )}
+                  </LinearGradient>
 
-                  scrollEventThrottle={16}
-               >
+               </View>
 
-               </FlatList>
+            }
 
-               :
+            onScroll={Animated.event([
+               {
+                  nativeEvent: { contentOffset: { y: scrollOffsetY } }
+               },
+            ], { useNativeDriver: false }
+            )}
+            scrollEventThrottle={16}
 
+
+         >
+
+         </FlatList>
+
+
+
+         {/* 
                <View style={{
                   width: 'auto',
                   height: 'auto',
@@ -657,9 +797,8 @@ export default function Home({ navigation }) {
                   </Pressable>
 
                </View>
-         }
-
-
+      
+         */}
 
 
 
@@ -688,7 +827,7 @@ export default function Home({ navigation }) {
 
 
 
-         <LinearGradient colors={['#97a1a1ff', '#97a1a1ff']} style={styles.containerBtn}>
+         <LinearGradient colors={['#faffffff', '#97a1a1ff']} style={styles.containerBtnFooter}>
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
@@ -708,6 +847,8 @@ export default function Home({ navigation }) {
             </LinearGradient>
 
          </LinearGradient>
+
+
 
 
 
@@ -796,7 +937,7 @@ export default function Home({ navigation }) {
                      />
                   </View>
 
-                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
 
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable onPress={() => insertBank()} style={styles.btnMenu}>
@@ -823,14 +964,8 @@ export default function Home({ navigation }) {
 
 
 
-
-
-
-
          <Modal animationType='fade'
-            visible={modalUpdateBank}
-         >
-            <ScrollView>
+            visible={modalUpdateBank}>            
 
                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
 
@@ -840,8 +975,8 @@ export default function Home({ navigation }) {
 
                   <View style={styles.containerList}>
 
-                     {
-                        bank.base64 === null ?
+                        {
+                           bank.base64 === null ?
                            <View style={styles.boxImg}>
                               <Pressable onPress={() => pickImage()}>
                                  <FontAwesome name='image' size={40} color={"#fff"} />
@@ -850,9 +985,11 @@ export default function Home({ navigation }) {
                            </View>
                            :
                            <View style={styles.boxImg}>
-                              {/* 
+
+                               {/*   
                                  <Image source={{ uri: bank.img }} style={styles.resizeModel} />  
-                                */}
+                              */}
+
                               <Pressable onPress={() => pickImage()}>
                                  <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
                                     style={styles.resizeModel}
@@ -863,7 +1000,7 @@ export default function Home({ navigation }) {
                                  <FontAwesome name='trash' size={20} color={"#B8AAA7"} />
                               </Pressable>
                            </View>
-                     }
+                        }
 
 
                      <View style={styles.formModal}>
@@ -918,7 +1055,7 @@ export default function Home({ navigation }) {
                         />
                      </View>
 
-                     <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+                     <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnCard}>
 
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
@@ -941,13 +1078,10 @@ export default function Home({ navigation }) {
                   </View>
 
 
-
-
-                  {/* 
-                <FlatList
-                   data={bankSelected}
+                  <FlatList
+                     data={bankSelected}
                      renderItem={({ item }) =>
-                      <View style={styles.containerList}>                                             
+                        <View style={styles.containerList}>
                            <View style={styles.contentList}>
                               <View style={styles.boxAddImg}>
                                  <Pressable onPress={() => pickImage()}>
@@ -957,7 +1091,7 @@ export default function Home({ navigation }) {
                               </View>
                               <View style={styles.boxImg}>
 
-                                  /   <Image source={{ uri: bank.img }} style={styles.resizeModel} />  /
+                              {/*    <Image source={{ uri: bank.img }} style={styles.resizeModel} />   */}
 
                                  <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
                                     style={styles.resizeModel}
@@ -968,7 +1102,7 @@ export default function Home({ navigation }) {
                                  </Pressable>
                               </View>
 
-                           //
+                              {/* 
                               <TextInput style={styles.input}
                                  placeholder={` ${item.id_bnk}`}
                                  placeholderTextColor="#cc0000"
@@ -978,7 +1112,7 @@ export default function Home({ navigation }) {
                                  }
                                  value={bank.id}
                               />
-                           //  
+                         */}
 
                               <TextInput style={styles.input}
                                  placeholder={` ${item.number_bnk}`}
@@ -1030,7 +1164,7 @@ export default function Home({ navigation }) {
                                  value={bank.desc}
                               />
 
-                              <View style={styles.containerBtn}>
+                              <View style={styles.containerBtnFooter}>
                                  <View>
                                     <Pressable style={styles.btn}
                                        onPress={() => updateBank()}>
@@ -1052,16 +1186,20 @@ export default function Home({ navigation }) {
                      }
                   >
                   </FlatList>
-               */}
-
 
                </LinearGradient>
-
-            </ScrollView>
-
+           
          </Modal>
 
+
+
+
+
       </View>
+
+
+
+      /*  </KeyboardAvoidingView> */
 
    )
 

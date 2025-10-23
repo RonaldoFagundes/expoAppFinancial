@@ -28,9 +28,9 @@ export default StyleSheet.create({
     height: "20%",
     flexDirection: 'row',
     justifyContent: 'space-evenly',   
-    paddingTop: 15,
+    paddingTop: 50,
     paddingStart: 15,
-    backgroundColor: '#06121c',
+    backgroundColor: '#9da2a7ff',
     borderBottomStartRadius: 40,
     borderBottomEndRadius: 40
   },
@@ -132,8 +132,8 @@ export default StyleSheet.create({
   },
 
   textTitle: {
-    color: '#44E8C3',
-    fontSize: 14,
+    color: '#103030ff',
+    fontSize: 16,
     fontWeight: 'bold',
     marginTop: 10
   },
@@ -159,9 +159,24 @@ export default StyleSheet.create({
     marginTop: 'auto',
   },
 
+  containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    //flexWrap: 'wrap',
+    width: 'auto',
+    height: 'auto',
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 'auto',
+    marginBottom: 50
+  },
+
 
   boxBtn: {
-    height: 40,
+    height: 'auto',
     borderRadius: 10,
   },
 

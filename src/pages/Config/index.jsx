@@ -16,13 +16,13 @@ export default function Config({ navigation }) {
 
 
 
-
+/* 
 const {
     setEndpoint ,
     endpoint,
 } = useContext(AuthContext);
 
-
+ */
  
 
 const handleInputChange = (value) => {
@@ -102,7 +102,7 @@ return(
 
 const styles = StyleSheet.create({
 
-   main:{   
+   main:{  
     backgroundColor:'#000000',    
     flexDirection: 'column',
     justifyContent:'center',

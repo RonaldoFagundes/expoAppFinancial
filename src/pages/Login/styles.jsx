@@ -9,7 +9,8 @@ export default StyleSheet.create({
 
    main:{
     flex:1,
-    backgroundColor:'#000000'
+    backgroundColor:'#0d0530ff',
+    justifyContent:'center'
     /*
     flexDirection: 'column',
     justifyContent:'center',
@@ -21,7 +22,13 @@ export default StyleSheet.create({
    },
 
 
-
+   container:{
+      width:'auto',
+      height:'auto',
+      padding:50,
+      backgroundColor:'#214349ff',
+      borderRadius:10
+   },
    
 
 
@@ -125,6 +132,7 @@ textBtn: {
   color: '#44E8C3',
   fontSize: 14,
   fontWeight: 'bold',
+  textAlign:'center'
 },
 
 

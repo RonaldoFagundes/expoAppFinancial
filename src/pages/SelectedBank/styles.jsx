@@ -28,17 +28,20 @@ export default StyleSheet.create({
 
 
 
-
-
-
-
-
-
-  containerList: {
+  containerListModal: {
     height: '100%',
     padding: 10,
     marginTop: 6,
   },
+
+  containerList: {
+    padding: 10,
+    flexDirection: 'column',
+    alignItems: 'center',    
+    width: '100%',
+  },
+
+
 
 
   contentList: {
@@ -50,8 +53,7 @@ export default StyleSheet.create({
     padding: 6,
   },
 
-
-
+ 
 
   contentCardList: {
     flexDirection: 'column',
@@ -142,8 +144,26 @@ export default StyleSheet.create({
   },
 
 
+
+   containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    //flexWrap: 'wrap',
+    width: 'auto',
+    height: 'auto',
+   // borderWidth: 1,
+   // borderBottomColor: "#44E8C3",
+   // borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 50
+  },
+
+
+
   boxBtn: {
-    height:40,
+    height:'auto',
     borderRadius: 8,
   },
 
@@ -165,18 +185,10 @@ export default StyleSheet.create({
 
 
   textBtn: {
-    color: '#44E8C3',
-    fontSize: 14,
+    color: '#ffffff',
+    fontSize: 16,
     fontWeight: 'bold',
   },
-
-
-
-
-
-
-
-
 
 
 
