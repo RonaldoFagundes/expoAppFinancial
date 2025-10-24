@@ -49,7 +49,6 @@ export default function Home({ navigation }) {
       bankData,
       setInfoDate,
       infoDate,
-
       setAccounts
    } = useContext(AuthContext);
 
@@ -65,10 +64,7 @@ export default function Home({ navigation }) {
 
 
 
-
-
    const getTime = () => {
-
       var dta = new Date();
       var hours = dta.getHours();
       var dd = dta.getDate().toString().padStart(2, '0');
@@ -76,7 +72,6 @@ export default function Home({ navigation }) {
       var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');
       var yyyy = dta.getFullYear();
       // var today = dd + "/" + mm + "/" + yyyy;
-
       setInfoDate(
          {
             ...infoDate, 'day': dd,
@@ -85,8 +80,7 @@ export default function Home({ navigation }) {
             infoDate, 'year': yyyy
 
          }
-      )
-
+      );
       if (hours > 0 && hours < 12) {
          setWelcome("Bom dia")
       } else if (hours >= 12 && hours < 18) {
@@ -94,10 +88,7 @@ export default function Home({ navigation }) {
       } else {
          setWelcome("Boa noite")
       }
-   }
-
-
-
+   };
 
 
 
@@ -118,7 +109,6 @@ export default function Home({ navigation }) {
       extrapolate: 'clamp'
    });
 
-
    /*
    const dataTest = [
       { id: '1', title: 'item 1' },
@@ -127,8 +117,6 @@ export default function Home({ navigation }) {
       { id: '4', title: 'item 4' },
    ];
    */
-
-
 
    const [isLoading, setIsLoading] = useState(true);
 
@@ -140,9 +128,6 @@ export default function Home({ navigation }) {
 
    const [isList, setIsList] = useState(false);
 
-
-
-
    const [bank, setBank] = useState({
       id: 0,
       number: "",
@@ -151,10 +136,10 @@ export default function Home({ navigation }) {
       contact: "",
       desc: "",
       img: null,
-      base64: null,      
+      base64: null,
    });
 
-   
+
 
 
 
@@ -171,7 +156,7 @@ export default function Home({ navigation }) {
             bank, 'base64': null,
          }
       )
-   }
+   };
 
 
 
@@ -185,7 +170,6 @@ export default function Home({ navigation }) {
          base64: true,
          // includeBase64: true
       });
-
       if (!result.canceled) {
          //console.log(result)
          setBank(
@@ -193,8 +177,8 @@ export default function Home({ navigation }) {
                ...bank, 'img': result.assets[0].uri,
                bank, 'base64': result.assets[0].base64,
             }
-         )
-      }
+         );
+      };
    };
 
 
@@ -204,7 +188,7 @@ export default function Home({ navigation }) {
             ...bank, [atribute]: null
          }
       )
-   }
+   };
 
 
    const [listBank, setListBank] = useState([]);
@@ -212,59 +196,51 @@ export default function Home({ navigation }) {
    const [bankSelected, setBankSelected] = useState([]);
 
    const handleInputChange = (atribute, value) => {
-
       setBank(
          {
             ...bank, [atribute]: value
          }
       )
-   }
-
-
-
-
+   };
 
 
    const insertBank = async () => {
-       alert("implements cadBank "+bank.name)
-
+      alert("implements cadBank " + bank.name);
       //setModalCadBank(false);
       // closeModal('cad');
-       /*
-      await fetch(endpoint + "?action=cadBank", {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json'
-         },
-         // body:JSON.parse(JSON.stringify({bank}))
-         body: JSON.stringify({
-            bank
-         })
-      })
-         .then((res) => res.json())
-         .then(
-            (result) => {
-               //alert(result + " on api ");
-               console.log(' insertBank => ' + result);
-            })
-         .catch((error) =>
-            console.log(" type error => " + error));
-       */
+      /*
+     await fetch(endpoint + "?action=cadBank", {
+        method: 'POST',
+        headers: {
+           'Content-Type': 'application/json'
+        },
+        // body:JSON.parse(JSON.stringify({bank}))
+        body: JSON.stringify({
+           bank
+        })
+     })
+        .then((res) => res.json())
+        .then(
+           (result) => {
+              //alert(result + " on api ");
+              console.log(' insertBank => ' + result);
+           })
+        .catch((error) =>
+           console.log(" type error => " + error));
+      */
       closeModal('cad');
-   }
+   };
 
 
 
    /*
     const getListBank2 = async () => {
      await fetch(endpointPhp + "?action=test", {
-       method: "GET",
-      
+       method: "GET",      
        headers: {
          "X-RapidAPI-Key": "your-api-key",
          "X-RapidAPI-Host": "jokes-by-api-ninjas.p.rapidapi.com",
-       },
-   
+       },   
      })
      .then(function(response) {
         response.text()
@@ -283,9 +259,6 @@ export default function Home({ navigation }) {
 
    // let responseClone;
    const getListBank = async () => {
-
-      // console.log(" tela home getListBank ");
-
       await fetch(endpoint + "?action=listBank")
          .then(res => {
             //  responseClone = res.clone();
@@ -293,16 +266,13 @@ export default function Home({ navigation }) {
          })
          .then(
             result => {
-
                // if (result !== "not found") {
                setIsLoading(false);
                setIsList(true);
                setListBank(result);
-
-             //  console.log(result[0].accounts)
+               //  console.log(result[0].accounts)
                /*
                } else {
-
                   //alert(result);
                   console.log(" return api listBank => " + result);
                   setIsLoading(false);
@@ -316,9 +286,7 @@ export default function Home({ navigation }) {
            .then(text=>console.log('erro => ', text))
            */
          });
-   }
-
-
+   };
 
 
 
@@ -330,11 +298,8 @@ export default function Home({ navigation }) {
       ein,
       contact,
       desc,
-      img,      
-      ) => {
-
-      // console.log("function getListBankById nº " + id);
-      // cleanFields();
+      img,
+   ) => {
 
       setBank(
          {
@@ -346,7 +311,7 @@ export default function Home({ navigation }) {
             bank, ['desc']: desc,
             bank, ['base64']: img
          }
-      )
+      );
 
       /*
       await fetch(endpointPhp + "?action=listBankById", {
@@ -374,7 +339,7 @@ export default function Home({ navigation }) {
          });
          */
       setModalUpdateBank(true);
-   }
+   };
 
 
 
@@ -382,9 +347,8 @@ export default function Home({ navigation }) {
 
 
    const updateBank = async () => {
-       alert("updateBank "+bank)
-      // console.log("function updateBank " + bank.id + "  " + bank.name + "  " + bank.contact);
-       /*
+      alert("use this when dabase working");
+      /* use this when dabase working
       await fetch(endpoint + "?action=updateBank", {
          method: 'POST',
          headers: {
@@ -404,16 +368,14 @@ export default function Home({ navigation }) {
          });
         */
       closeModal('update');
-   }
+   };
 
 
 
 
    const deleteBank = async (id) => {
-       alert("deleteBank "+id);
-      // console.log("function deletebank id nº ", id);
-
-       /*
+      alert("use this when dabase working");
+      /* use this when dabase working
       await fetch(endpoint + "?action=deleteBank", {
          method: 'POST',
          headers: {
@@ -439,7 +401,7 @@ export default function Home({ navigation }) {
             console.log('erro => ' + error.message);
          });
         */
-   }
+   };
 
 
 
@@ -455,16 +417,13 @@ export default function Home({ navigation }) {
       }
       getListBank();
       cleanFields();
-   }
+   };
 
 
 
 
 
-   const selectBanc = (id, name, img, backgrounddown, backgroundup, accounts  ) => {
-
-     // console.log(" contas ",accounts);
-
+   const selectBanc = (id, name, img, backgrounddown, backgroundup, accounts) => {
       setBankData(
          {
             ...bankData, ['id']: id,
@@ -473,21 +432,18 @@ export default function Home({ navigation }) {
             bankData, ['backgrounddown']: backgrounddown,
             bankData, ['backgroundup']: backgroundup,
          }
-      )
-
+      );
       setAccounts(accounts);
-
       navigation.navigate("SelectedBank");
-
-   }
-
-
+   };
 
 
 
    const screenCashPost = () => {
       console.log("Cash");
    }
+
+
 
 
 
@@ -500,8 +456,7 @@ export default function Home({ navigation }) {
       )
    }
 
-
-   const screenHeight = Dimensions.get('window').height;
+   //const screenHeight = Dimensions.get('window').height;
 
    return (
       /* 
@@ -512,7 +467,6 @@ export default function Home({ navigation }) {
                >
        */
       <View style={{ flex: 1 }} >
-
 
          {/* 
          <StatusBar
@@ -526,7 +480,6 @@ export default function Home({ navigation }) {
 
          <View style={{ height: h_max_hight }}>
 
-
             <Animated.View
                style={{
                   position: 'absolute',
@@ -534,21 +487,15 @@ export default function Home({ navigation }) {
                   right: 0,
                   zIndex: 99,
                   width: '100%',
-                  //paddingTop: 20,
-                  //paddingBottom: 20,
-                  //padding: 40,                             
                   backgroundColor: '#a5a4acff',
-                  // backgroundColor: '#06121c',
-                  // backgroundColor: '#97a1a1ff',
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: headerScrollHeight,
-                  borderBottomLeftRadius:40,
-                  borderBottomRightRadius:40,
+                  borderBottomLeftRadius: 40,
+                  borderBottomRightRadius: 40,
                   overflow: 'hidden'
                }}
             >
-
                <Animated.Image
                   source={require('../logo_rfideia.png')}
                   style={{
@@ -556,18 +503,15 @@ export default function Home({ navigation }) {
                      width: 60,
                      height: imageScaleHeight,
                      borderRadius: 8,
-                     marginTop:60
+                     marginTop: 60
                   }}
                   resizeModel='contain'
                />
-               <View style={{marginTop:10,borderRadius:6, backgroundColor:"#021f4b"}}>
-                 <Header user={`${welcome} ${user}`} />
+               <View style={{ marginTop: 10, borderRadius: 6, backgroundColor: "#021f4b" }}>
+                  <Header user={`${welcome} ${user}`} />
                </View>
-
             </Animated.View>
-
          </View>
-
 
 
          {/*         
@@ -604,7 +548,6 @@ export default function Home({ navigation }) {
                                  {`Desk :  ${item.desc_bnk}`}
                               </Text>
                            </View>
-
                            <View style={styles.containerBtn}>
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                  <Pressable style={styles.btnMenu}
@@ -618,7 +561,6 @@ export default function Home({ navigation }) {
                                     <Text style={styles.textBtn}>{` Select`}</Text>
                                  </Pressable>
                               </LinearGradient>
-
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                  <Pressable style={styles.btnMenu}
                                     onPress={() => getListBankById(
@@ -635,7 +577,6 @@ export default function Home({ navigation }) {
                                     <Text style={styles.textBtn}>{` Edit`}</Text>
                                  </Pressable>
                               </LinearGradient>
-
                               <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn} >
                                  <Pressable style={styles.btnMenu}
                                     onPress={() => deleteBank(
@@ -656,61 +597,40 @@ export default function Home({ navigation }) {
  */}
 
 
-
-
-
-
-
          <FlatList
-            //style={{ paddingTop: h_max_hight}}
-
             showsVerticalScrollIndicator={false}
             data={listBank}
             renderItem={({ item }) =>
-
                <View style={styles.containerList} >
-
                   <LinearGradient
-                     // colors={['#0a0439', '#055b5eff']}
                      colors={['#52627aff', '#cfd5f5ff']}
                      style={styles.contentList}>
-
                      <View>
                         <Image source={{ uri: `data:image/png;base64,${item.img_bnk}` }}
                            style={styles.resizeModel}
                         />
                      </View>
-
                      <View>
-
-                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                        <Text style={{ color: `${item.backgroundup}`, fontSize: 16, fontWeight: 'bold', }}>
                            {`ID  :  ${item.id_bnk}`}
                         </Text>
-
-                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                        <Text style={{ color: `${item.backgroundup}`, fontSize: 16, fontWeight: 'bold', }}>
                            {`Nº :  ${item.number_bnk}`}
                         </Text>
-
-                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                        <Text style={{ color: `${item.backgroundup}`, fontSize: 16, fontWeight: 'bold', }}>
                            {`Name :  ${item.name_bnk}`}
                         </Text>
-
-                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                        <Text style={{ color: `${item.backgroundup}`, fontSize: 16, fontWeight: 'bold', }}>
                            {`Cnpj :  ${item.ein_bnk}`}
                         </Text>
-
-                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                        <Text style={{ color: `${item.backgroundup}`, fontSize: 16, fontWeight: 'bold', }}>
                            {`Contact :  ${item.contact_bnk}`}
                         </Text>
-
-                        <Text style={{color:`${item.backgroundup}` , fontSize:16, fontWeight: 'bold',}}>
+                        <Text style={{ color: `${item.backgroundup}`, fontSize: 16, fontWeight: 'bold', }}>
                            {`Desk :  ${item.desc_bnk}`}
                         </Text>
-
                      </View>
-
                      <View style={styles.containerBtnCard}>
-
                         <LinearGradient colors={['#fdfdffff', `${item.backgroundup}`]} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
                               onPress={() => selectBanc(
@@ -726,7 +646,6 @@ export default function Home({ navigation }) {
                               <Text style={styles.textBtn}>{` Select`}</Text>
                            </Pressable>
                         </LinearGradient>
-
                         <LinearGradient colors={['#fdfdffff', `${item.backgroundup}`]} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
                               onPress={() => getListBankById(
@@ -743,7 +662,6 @@ export default function Home({ navigation }) {
                               <Text style={styles.textBtn}>{` Edit`}</Text>
                            </Pressable>
                         </LinearGradient>
-
                         <LinearGradient colors={['#fdfdffff', `${item.backgroundup}`]} style={styles.boxBtn} >
                            <Pressable style={styles.btnMenu}
                               onPress={() => deleteBank(
@@ -754,15 +672,10 @@ export default function Home({ navigation }) {
                               <Text style={styles.textBtn}>{` Delete`}</Text>
                            </Pressable>
                         </LinearGradient>
-
                      </View>
-
                   </LinearGradient>
-
                </View>
-
             }
-
             onScroll={Animated.event([
                {
                   nativeEvent: { contentOffset: { y: scrollOffsetY } }
@@ -770,13 +683,8 @@ export default function Home({ navigation }) {
             ], { useNativeDriver: false }
             )}
             scrollEventThrottle={16}
-
-
          >
-
          </FlatList>
-
-
 
          {/* 
                <View style={{
@@ -789,21 +697,15 @@ export default function Home({ navigation }) {
                   borderRadius: 10,
                   paddingTop: h_max_hight
                }}>
-
                   <Pressable style={styles.btnMenu}
                      onPress={() => setModalCadBank(true)}
                   >
-                     <Text style={styles.textBtn}>Insert 1º Banc</Text>
+                    <Text style={styles.textBtn}>Insert 1º Banc</Text>
                   </Pressable>
-
-               </View>
-      
+               </View>      
          */}
 
-
-
          {/*
-
         <View style={{          
          height:'auto',
          width:'100%',
@@ -811,24 +713,17 @@ export default function Home({ navigation }) {
          backgroundColor:'red',      
          paddingTop: h_max_hight 
          }}>
-
-
           <Introduction/>          
               <Pressable style={styles.btn}
                  onPress={() => setModalCadBank(true)}
                  >                                             
                   <Text style={styles.textAlert}>Insert 1º Banc</Text>      
-              </Pressable>      
-    
-         </View>  
-        
+              </Pressable>     
+         </View>          
       */}
 
 
-
-
          <LinearGradient colors={['#faffffff', '#97a1a1ff']} style={styles.containerBtnFooter}>
-
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
                   onPress={() => setModalCadBank(true)}
@@ -837,7 +732,6 @@ export default function Home({ navigation }) {
                   <Text style={styles.textBtn}>{`  Add Banc`}</Text>
                </Pressable>
             </LinearGradient>
-
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
                   onPress={() => navigation.navigate("CashPayment")}>
@@ -845,26 +739,17 @@ export default function Home({ navigation }) {
                   <Text style={styles.textBtn}>{`  Cash Payment`}</Text>
                </Pressable>
             </LinearGradient>
-
          </LinearGradient>
-
-
-
-
-
 
          <Modal
             animationType='fade'
             visible={modalCadBank}
          >
             <ScrollView>
-
                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
                   <View style={styles.contentModal} >
                      <Text style={styles.textInfo}>{` Register Bank`}</Text>
                   </View>
-
                   {
                      bank.img === null ?
                         <View style={styles.boxImg}>
@@ -883,8 +768,6 @@ export default function Home({ navigation }) {
                            </Pressable>
                         </View>
                   }
-
-
                   <View style={styles.formModal}>
                      <TextInput style={styles.input}
                         placeholder="Bank Nº "
@@ -895,7 +778,6 @@ export default function Home({ navigation }) {
                         }
                         value={bank.number}
                      />
-
                      <TextInput style={styles.input}
                         placeholder="Bank Name"
                         placeholderTextColor="#44E8C3"
@@ -905,7 +787,6 @@ export default function Home({ navigation }) {
                         }
                         value={bank.name}
                      />
-
                      <TextInput style={styles.input}
                         placeholder="CNPJ"
                         placeholderTextColor="#44E8C3"
@@ -915,7 +796,6 @@ export default function Home({ navigation }) {
                         }
                         value={bank.ein}
                      />
-
                      <TextInput style={styles.input}
                         placeholder="Contact"
                         placeholderTextColor="#44E8C3"
@@ -925,7 +805,6 @@ export default function Home({ navigation }) {
                         }
                         value={bank.contact}
                      />
-
                      <TextInput style={styles.input}
                         placeholder="Description"
                         placeholderTextColor="#44E8C3"
@@ -936,173 +815,140 @@ export default function Home({ navigation }) {
                         value={bank.desc}
                      />
                   </View>
-
                   <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
-
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable onPress={() => insertBank()} style={styles.btnMenu}>
                            <FontAwesome name='save' size={16} color={"#44E8C3"} />
                            <Text style={styles.textBtn}>{`  Safe`}</Text>
                         </Pressable>
                      </LinearGradient>
-
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable onPress={() => closeModal('cad')} style={styles.btnMenu}>
                            <FontAwesome name='close' size={16} color={"#44E8C3"} />
                            <Text style={styles.textBtn}>{`  Cancel`}</Text>
                         </Pressable>
                      </LinearGradient>
-
                   </LinearGradient>
-
                </LinearGradient>
-
             </ScrollView>
-
          </Modal>
 
 
-
-
          <Modal animationType='fade'
-            visible={modalUpdateBank}>            
-
-               <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
-                  <View style={styles.contentModal} >
-                     <Text style={styles.textInfo}>{` UPDATE BANK `}</Text>
+            visible={modalUpdateBank}>
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+               <View style={styles.contentModal} >
+                  <Text style={styles.textInfo}>{` UPDATE BANK `}</Text>
+               </View>
+               <View style={styles.containerList}>
+                  {
+                     bank.base64 === null ?
+                        <View style={styles.boxImg}>
+                           <Pressable onPress={() => pickImage()}>
+                              <FontAwesome name='image' size={40} color={"#fff"} />
+                           </Pressable>
+                           <Text style={styles.textInfo}>Chosse Image</Text>
+                        </View>
+                        :
+                        <View style={styles.boxImg}>
+                           {/*   
+                                 <Image source={{ uri: bank.img }} style={styles.resizeModel} />  
+                              */}
+                           <Pressable onPress={() => pickImage()}>
+                              <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
+                                 style={styles.resizeModel}
+                              />
+                           </Pressable>
+                           <Pressable onPress={() => removeImage('base64')}>
+                              <FontAwesome name='trash' size={20} color={"#B8AAA7"} />
+                           </Pressable>
+                        </View>
+                  }
+                  <View style={styles.formModal}>
+                     <TextInput style={styles.input}
+                        placeholder={` ${bank.number}`}
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={(valor) =>
+                           handleInputChange('number', valor)
+                        }
+                        value={bank.number}
+                     />
+                     <TextInput style={styles.input}
+                        placeholder={` ${bank.name}`}
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={(valor) =>
+                           handleInputChange('name', valor)
+                        }
+                        value={bank.name}
+                     />
+                     <TextInput style={styles.input}
+                        placeholder={` ${bank.ein}`}
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('ein', valor)
+                        }
+                        value={bank.ein}
+                     />
+                     <TextInput style={styles.input}
+                        placeholder={` ${bank.contact}`}
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('contact', valor)
+                        }
+                        value={bank.contact}
+                     />
+                     <TextInput style={styles.input}
+                        placeholder={` ${bank.desc}`}
+                        placeholderTextColor="#cc0000"
+                        type="text"
+                        onChangeText={
+                           (valor) => handleInputChange('desc', valor)
+                        }
+                        value={bank.desc}
+                     />
                   </View>
-
-                  <View style={styles.containerList}>
-
-                        {
-                           bank.base64 === null ?
-                           <View style={styles.boxImg}>
+                  <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnCard}>
+                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btnMenu}
+                           onPress={() => updateBank()}>
+                           <FontAwesome name='save' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>{`  Safe`}</Text>
+                        </Pressable>
+                     </LinearGradient>
+                     <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btnMenu}
+                           onPress={() => closeModal('update')}>
+                           <FontAwesome name='close' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>{`  Cancel`}</Text>
+                        </Pressable>
+                     </LinearGradient>
+                  </LinearGradient>
+               </View>
+               <FlatList
+                  data={bankSelected}
+                  renderItem={({ item }) =>
+                     <View style={styles.containerList}>
+                        <View style={styles.contentList}>
+                           <View style={styles.boxAddImg}>
                               <Pressable onPress={() => pickImage()}>
                                  <FontAwesome name='image' size={40} color={"#fff"} />
                               </Pressable>
                               <Text style={styles.textInfo}>Chosse Image</Text>
                            </View>
-                           :
                            <View style={styles.boxImg}>
-
-                               {/*   
-                                 <Image source={{ uri: bank.img }} style={styles.resizeModel} />  
-                              */}
-
-                              <Pressable onPress={() => pickImage()}>
-                                 <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
-                                    style={styles.resizeModel}
-                                 />
-                              </Pressable>
-
+                              {/*    <Image source={{ uri: bank.img }} style={styles.resizeModel} />   */}
+                              <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
+                                 style={styles.resizeModel}
+                              />
                               <Pressable onPress={() => removeImage('base64')}>
-                                 <FontAwesome name='trash' size={20} color={"#B8AAA7"} />
+                                 <FontAwesome name='remove' size={14} color={"#B8AAA7"} />
                               </Pressable>
                            </View>
-                        }
-
-
-                     <View style={styles.formModal}>
-                        <TextInput style={styles.input}
-                           placeholder={` ${bank.number}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={(valor) =>
-                              handleInputChange('number', valor)
-                           }
-                           value={bank.number}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${bank.name}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={(valor) =>
-                              handleInputChange('name', valor)
-                           }
-                           value={bank.name}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${bank.ein}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={
-                              (valor) => handleInputChange('ein', valor)
-                           }
-                           value={bank.ein}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${bank.contact}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={
-                              (valor) => handleInputChange('contact', valor)
-                           }
-                           value={bank.contact}
-                        />
-
-                        <TextInput style={styles.input}
-                           placeholder={` ${bank.desc}`}
-                           placeholderTextColor="#cc0000"
-                           type="text"
-                           onChangeText={
-                              (valor) => handleInputChange('desc', valor)
-                           }
-                           value={bank.desc}
-                        />
-                     </View>
-
-                     <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnCard}>
-
-                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                           <Pressable style={styles.btnMenu}
-                              onPress={() => updateBank()}>
-                              <FontAwesome name='save' size={16} color={"#44E8C3"} />
-                              <Text style={styles.textBtn}>{`  Safe`}</Text>
-                           </Pressable>
-                        </LinearGradient>
-
-                        <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                           <Pressable style={styles.btnMenu}
-                              onPress={() => closeModal('update')}>
-                              <FontAwesome name='close' size={16} color={"#44E8C3"} />
-                              <Text style={styles.textBtn}>{`  Cancel`}</Text>
-                           </Pressable>
-                        </LinearGradient>
-
-                     </LinearGradient>
-
-                  </View>
-
-
-                  <FlatList
-                     data={bankSelected}
-                     renderItem={({ item }) =>
-                        <View style={styles.containerList}>
-                           <View style={styles.contentList}>
-                              <View style={styles.boxAddImg}>
-                                 <Pressable onPress={() => pickImage()}>
-                                    <FontAwesome name='image' size={40} color={"#fff"} />
-                                 </Pressable>
-                                 <Text style={styles.textInfo}>Chosse Image</Text>
-                              </View>
-                              <View style={styles.boxImg}>
-
-                              {/*    <Image source={{ uri: bank.img }} style={styles.resizeModel} />   */}
-
-                                 <Image source={{ uri: `data:image/png;base64,${bank.base64}` }}
-                                    style={styles.resizeModel}
-                                 />
-
-                                 <Pressable onPress={() => removeImage('base64')}>
-                                    <FontAwesome name='remove' size={14} color={"#B8AAA7"} />
-                                 </Pressable>
-                              </View>
-
-                              {/* 
+                           {/* 
                               <TextInput style={styles.input}
                                  placeholder={` ${item.id_bnk}`}
                                  placeholderTextColor="#cc0000"
@@ -1113,96 +959,75 @@ export default function Home({ navigation }) {
                                  value={bank.id}
                               />
                          */}
-
-                              <TextInput style={styles.input}
-                                 placeholder={` ${item.number_bnk}`}
-                                 placeholderTextColor="#cc0000"
-                                 type="text"
-                                 onChangeText={
-                                    (valor) => handleInputChange('number', valor)
-                                 }
-                                 value={bank.number}
-                              />
-
-                              <TextInput style={styles.input}
-                                 placeholder={` ${item.name_bnk}`}
-                                 placeholderTextColor="#cc0000"
-                                 type="text"
-                                 onChangeText={
-                                    (valor) => handleInputChange('name', valor)
-                                 }
-                                 value={bank.name}
-                              />
-
-                              <TextInput style={styles.input}
-                                 placeholder={` ${item.ein_bnk}`}
-                                 placeholderTextColor="#cc0000"
-                                 type="text"
-                                 onChangeText={
-                                    (valor) => handleInputChange('ein', valor)
-                                 }
-                                 value={bank.ein}
-                              />
-
-                              <TextInput style={styles.input}
-                                 placeholder={` ${item.contact_bnk}`}
-                                 placeholderTextColor="#cc0000"
-                                 type="text"
-                                 onChangeText={
-                                    (valor) => handleInputChange('contact', valor)
-                                 }
-                                 value={bank.contact}
-                              />
-
-                              <TextInput style={styles.input}
-                                 placeholder={` ${item.desc_bnk}`}
-                                 placeholderTextColor="#cc0000"
-                                 type="text"
-                                 onChangeText={
-                                    (valor) => handleInputChange('desc', valor)
-                                 }
-                                 value={bank.desc}
-                              />
-
-                              <View style={styles.containerBtnFooter}>
-                                 <View>
-                                    <Pressable style={styles.btn}
-                                       onPress={() => updateBank()}>
-                                       <Text style={styles.textBtn}>Confirm</Text>
-                                    </Pressable>
-                                 </View>
-
-                                 <View >
-                                    <Pressable style={styles.btn}
-                                       onPress={() => closeModal('update')}>
-                                       <Text style={styles.textBtn}>Cancel</Text>
-                                    </Pressable>
-                                 </View>
+                           <TextInput style={styles.input}
+                              placeholder={` ${item.number_bnk}`}
+                              placeholderTextColor="#cc0000"
+                              type="text"
+                              onChangeText={
+                                 (valor) => handleInputChange('number', valor)
+                              }
+                              value={bank.number}
+                           />
+                           <TextInput style={styles.input}
+                              placeholder={` ${item.name_bnk}`}
+                              placeholderTextColor="#cc0000"
+                              type="text"
+                              onChangeText={
+                                 (valor) => handleInputChange('name', valor)
+                              }
+                              value={bank.name}
+                           />
+                           <TextInput style={styles.input}
+                              placeholder={` ${item.ein_bnk}`}
+                              placeholderTextColor="#cc0000"
+                              type="text"
+                              onChangeText={
+                                 (valor) => handleInputChange('ein', valor)
+                              }
+                              value={bank.ein}
+                           />
+                           <TextInput style={styles.input}
+                              placeholder={` ${item.contact_bnk}`}
+                              placeholderTextColor="#cc0000"
+                              type="text"
+                              onChangeText={
+                                 (valor) => handleInputChange('contact', valor)
+                              }
+                              value={bank.contact}
+                           />
+                           <TextInput style={styles.input}
+                              placeholder={` ${item.desc_bnk}`}
+                              placeholderTextColor="#cc0000"
+                              type="text"
+                              onChangeText={
+                                 (valor) => handleInputChange('desc', valor)
+                              }
+                              value={bank.desc}
+                           />
+                           <View style={styles.containerBtnFooter}>
+                              <View>
+                                 <Pressable style={styles.btn}
+                                    onPress={() => updateBank()}>
+                                    <Text style={styles.textBtn}>Confirm</Text>
+                                 </Pressable>
                               </View>
-
+                              <View >
+                                 <Pressable style={styles.btn}
+                                    onPress={() => closeModal('update')}>
+                                    <Text style={styles.textBtn}>Cancel</Text>
+                                 </Pressable>
+                              </View>
                            </View>
-
                         </View>
-                     }
-                  >
-                  </FlatList>
-
-               </LinearGradient>
-           
+                     </View>
+                  }
+               >
+               </FlatList>
+            </LinearGradient>
          </Modal>
-
-
-
-
-
       </View>
-
-
-
       /*  </KeyboardAvoidingView> */
-
    )
-
 }
 
 
@@ -1216,25 +1041,19 @@ export default function Home({ navigation }) {
 
 {/* 
 
-
        <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
           <View style={styles.main}>
           </View>
 
-       </KeyboardAvoidingView>
-    
-
+       </KeyboardAvoidingView>   
 
        https://www.youtube.com/watch?v=iiqea8lTM6A
        
-        <View style={{flex:1}}>
- 
+        <View style={{flex:1}}> 
          <StatusBar backgroundColor={"#121212"} barStyle={'light-content'} translucent={false}/>
-
-          <Animated.View 
-           
+          <Animated.View          
             style={{
                position:'absolute',
                top:0,
@@ -1250,11 +1069,8 @@ export default function Home({ navigation }) {
                overflow:'hidden'
             }}
           >
-
              <Text style={styles.textHeader}>Tela Home</Text>
-
-          </Animated.View>    
-
+          </Animated.View>  
         <FlatList
           style={{paddingTop:h_max_hight}}
           data={dataTest}
@@ -1264,35 +1080,22 @@ export default function Home({ navigation }) {
              <View style={styles.itemFlatList}>
                   <Text>{item.title}</Text>
              </View>  
-          )}
-                    
+          )}                    
           onScroll={Animated.event([
              {
               nativeEvent:{contentOffset:{y:scrollOffsetY}}
              },
             ], { useNativeDriver:false}
           )}
-
            scrollEventThrottle={16}
 
           >
          </FlatList>
-
          */}
 
 
-
-
-
-
-
-
-
-
-{/* 
-           
+{/*            
             <View style={styles.boxBtnOut}>
-
                <View >
                   <Pressable style={styles.btn}
                      onPress={() => setModalCadBank(true)}
@@ -1306,8 +1109,6 @@ export default function Home({ navigation }) {
                      }
                   </Pressable>
                </View>
-
-
                <View >
                   <Pressable style={styles.btn}
                      onPress={() => screenCashPost()}
@@ -1315,15 +1116,8 @@ export default function Home({ navigation }) {
                      <Text style={styles.textAlert}>Insert Cash Payment</Text>
                   </Pressable>
                </View>
-
             </View>
-
           */}
-
-
-
-
-
 
 {/* 
                {
@@ -1331,67 +1125,42 @@ export default function Home({ navigation }) {
                   ?
                   <View></View>
                   :
-
                 */}
-
-
-
 {/* 
                   <View>
-
                      <FlatList
-
                         style={{ paddingTop: h_max_hight }}
                         //showsVerticalScrollIndicator={false}
                         data={listBank}
                         renderItem={({ item }) =>
-
-
                            //  <View style={styles.dataList}>
-
-
                            <View style={styles.cardList}>
-
                               <View>
                                  <Image source={{ uri: `data:image/png;base64,${item.img_bnk}` }}
                                     style={styles.resizeModel}
                                  />
                               </View>
-
-
                               <View style={styles.contentCardList}>
-
                                  <Text style={styles.textList}>
                                     {`ID  :  ${item.id_bnk}`}
                                  </Text>
-
-
                                  <Text style={styles.textList}>
                                     {`Nº :  ${item.number_bnk}`}
                                  </Text>
-
                                  <Text style={styles.textList}>
                                     {`Name :  ${item.name_bnk}`}
                                  </Text>
-
                                  <Text style={styles.textList}>
                                     {`Cnpj :  ${item.cnpj_bnk}`}
                                  </Text>
-
                                  <Text style={styles.textList}>
                                     {`Contact :  ${item.contact_bnk}`}
                                  </Text>
-
                                  <Text style={styles.textList}>
                                     {`Desk :  ${item.desc_bnk}`}
                                  </Text>
-
                               </View>
-
-
-
                               <View style={styles.boxBtn}>
-
                                  <View >
                                     <Pressable style={styles.btn}
                                        onPress={() => selectBanc(
@@ -1403,7 +1172,6 @@ export default function Home({ navigation }) {
                                        <Text style={styles.textAlert}>Select</Text>
                                     </Pressable>
                                  </View>
-
                                  <View >
                                     <Pressable style={styles.btn}
                                        onPress={() => deleteBank(
@@ -1413,7 +1181,6 @@ export default function Home({ navigation }) {
                                        <Text style={styles.textAlert}>Delete</Text>
                                     </Pressable>
                                  </View>
-
                                  <View >
                                     <Pressable style={styles.btn}
                                        onPress={() => getListBankById(
@@ -1429,31 +1196,20 @@ export default function Home({ navigation }) {
                                        <Text style={styles.textAlert}>Update</Text>
                                     </Pressable>
                                  </View>
-
                               </View>
-
                            </View>
-
-                           //   </View>
-
+                    //   </View>
                         }
-
-
                         onScroll={Animated.event([
                            {
                               nativeEvent: { contentOffset: { y: scrollOffsetY } }
                            },
                         ], { useNativeDriver: false }
                         )}
-
                         scrollEventThrottle={16}
-
                      >
-
                      </FlatList>
-
                   </View>
-
                */}
 
 

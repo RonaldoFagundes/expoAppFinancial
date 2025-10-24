@@ -45,21 +45,33 @@ export default function Transactions({ navigation }) {
       setAmountAccount,
       amountAccount,
       transactionsType,
+
+      accounts,
+      reports,  
    } = useContext(AuthContext);
 
 
+   const [listReport, setListReport] = useState(false);
+
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
-      listAccounts(accountData.id);
+      //listAccounts(accountData.id);
 
       /*
       if( accountData.type == "Investimentos" ){
        checkInvest();
        }
+
       */
-
       //console.log(accountData.type)
-
+    
+      var count = Object.keys(reports).length;     
+        if(count != 0  ){
+           setListReport(true);
+        }else{
+           setListReport(false);
+        }
+     
    }, [load, navigation]);
 
 
@@ -84,6 +96,10 @@ export default function Transactions({ navigation }) {
    });
 
 
+   
+
+
+
    const [showAmount, setShowAmount] = useState(false);
 
    const [proof, setProof] = useState({});
@@ -91,6 +107,8 @@ export default function Transactions({ navigation }) {
    const [showProof, setShowProof] = useState(false);
 
    const [resultPost, setResultPost] = useState();
+
+
 
 
    const handleInputChangeCad = (atribute, value) => {
@@ -149,10 +167,13 @@ export default function Transactions({ navigation }) {
 
    //const [selectedAccount, setSelectedAccount] = useState("");
 
-   const accounts = [];
 
+
+   //const accounts = [];
+
+  
+   /* use this when dabase working
    const listAccounts = async (id) => {
-
       await fetch(endpoint + "?action=listAccountById", {
          method: 'POST',
          headers: {
@@ -164,16 +185,10 @@ export default function Transactions({ navigation }) {
       })
          .then((res) => res.json())
          .then(
-
             (result) => {
-
-               var count = Object.keys(result).length;
-               //  console.log(" count " + count);
-
+               var count = Object.keys(result).length;             
                for (var i = 0; i < count; i++) {
-
                   accounts.push(
-
                      {
                         value:
                            result[i].id_bka + " " +
@@ -181,20 +196,15 @@ export default function Transactions({ navigation }) {
                            result[i].type_bka + ", " +
                            result[i].number_bka,
                      }
-
                   )
-
                }
-
-               setAccount(accounts);
-               // console.log(" listUserCC " + accounts);
-
+               setAccount(accounts);              
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
    }
+    */
 
 
 
@@ -211,8 +221,7 @@ export default function Transactions({ navigation }) {
 
 
    /*
-   const checkInvest = () => {  
-          
+   const checkInvest = () => { 
         setTransaction(
            {
               ...transaction, 'move': 'out',
@@ -225,18 +234,19 @@ export default function Transactions({ navigation }) {
 
                  transaction, 'form': 'Digital'
            }
-        )
-       
+        )      
   }
  */
 
 
 
-   const selectedAccount = (val) => {
 
+
+
+
+   const selectedAccount = (val) => {
       const accountSelected = val;
       const accountSlice = accountSelected.split(", ");
-
       setTransaction(
          {
             ...transaction, 'idacf': val.substr(0, 2),
@@ -244,47 +254,35 @@ export default function Transactions({ navigation }) {
             transaction, 'source': accountData.type + " " + accountData.number,
             transaction, 'accountway': accountSlice[1],
             transaction, 'numberway': accountSlice[2],
-
          }
       )
-
-   }
-
+   };
 
 
-   const checkData = () => {
 
-      // console.log(transaction)
-
+   const checkData = () => {  
       /*     
        resgate será necessário :
          - setar a conta digital como conta destino 
          - out para conta origem
          - in para conta destino
       */
-
-
       if (transaction.move == "out") {
-
          if (parseFloat(amountAccount) >= parseFloat(transaction.value)) {
             safePost();
          } else {
             console.log(" transação " + transaction.value + " Saldo insuficiente " + amountAccount);
          }
-
       } else {
          safePost();
-      }
-
-
-   }
-
+      };
+   };
 
 
 
 
+  /* use this when dabase working
    const safePost = async () => {
-
       await fetch(endpoint + "?action=postTransaction", {
          method: 'POST',
          headers: {
@@ -296,30 +294,26 @@ export default function Transactions({ navigation }) {
       })
          .then((res) => res.json())
          .then(
-            (result) => {
-
-               //console.log(result);
-
+            (result) => {              
                setShowProof(true);
                setResultPost(result);
                setModalTransaction(false);
                cleanFields();
                updateAmount(accountData.id);
                proofPost(accountData.id);
-
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
    }
+   */
 
 
 
 
+
+   /*
    const proofPost = async (fkac) => {
-
       await fetch(endpoint + "?action=proofTransaction", {
          method: 'POST',
          headers: {
@@ -332,12 +326,9 @@ export default function Transactions({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                console.log(result);
-
                {
                   result.map((item) => {
-
                      setProof(
                         {
                            ...proof, 'id': item.id_trs,
@@ -350,11 +341,9 @@ export default function Transactions({ navigation }) {
                            proof, 'value': item.value_trs,
                         }
                      )
-
-                     /*
-                    if(item.type_trs === "Saque"){                         
-  
-                       setCashMov(
+                     //
+                    if(item.type_trs === "Saque"){                        
+                        setCashMov(
                           {
                               ...cashMov, ['date']: item.date_trs,
                               cashMov, ['type']: 'in',
@@ -363,32 +352,25 @@ export default function Transactions({ navigation }) {
                               cashMov, ['value']: item.value_trs,
                               cashMov, ['fktrs']: item.id_trs
                           }
-                      )
-  
-                       safeCashMov();
-  
+                      )  
+                       safeCashMov();  
                      }
-                    */
-
+                    //
                   }
-
-                  )
+                 )
                }
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
-   }
-
+      }
+   */
 
 
 
 
    /*
-   const safeCashMov = async () => {
-      
+   const safeCashMov = async () => {      
       await fetch(endpoint + "?action=postCashMov", {
           method: 'POST',
           headers: {
@@ -401,23 +383,19 @@ export default function Transactions({ navigation }) {
           .then((res) => res.json())
           .then(
               (result) => {
-
-                  console.log(result);                 
-
+                  console.log(result);               
               })
           .catch(function (error) {
               console.log('erro => ' + error.message);
-          });     
-
-    }
+          }); 
+     }
     */
 
 
 
 
-
+   /*
    const updateAmount = async (id) => {
-
       await fetch(endpoint + "?action=amountAccountById", {
          method: 'POST',
          headers: {
@@ -430,24 +408,20 @@ export default function Transactions({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                console.log(result);
                setAmountAccount(result)
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-
    }
-
+   */
 
 
 
 
 
    const cleanFields = () => {
-
       setTransaction(
          {
             ...transaction, 'move': "",
@@ -459,16 +433,14 @@ export default function Transactions({ navigation }) {
             transaction, 'valuet': 0,
          }
       )
-
       setStatusCheckBox(null);
-   }
+   };
 
 
 
 
 
    const selectStatus = (index, item) => {
-
       setStatusCheckBox(index);
       if (statusCheckBox !== index && checkBox[index] !== undefined) {
          checkBox[index] = undefined;
@@ -477,7 +449,6 @@ export default function Transactions({ navigation }) {
          setStatusCheckBox(index);
       }
       setRandomCheckBox(Math.random());
-
       setTransaction(
          {
             ...transaction, 'move': item,
@@ -486,8 +457,7 @@ export default function Transactions({ navigation }) {
             transaction, 'source': '',
          }
       )
-
-   }
+   };
 
 
 
@@ -496,23 +466,18 @@ export default function Transactions({ navigation }) {
    const cancel = () => {
       setModalTransaction(false);
       cleanFields();
-   }
-
-
-
+   };
 
 
    const back = () => {
       showProof ? setShowProof(false) : setShowProof(false);
       navigation.navigate("SelectedAccount");
-   }
-
-
+   };
 
 
    const getReport = () => {
       console.log("gerar relatorio/extrato")
-   }
+   };
 
 
 
@@ -521,7 +486,6 @@ export default function Transactions({ navigation }) {
 
 
    return (
-
       <KeyboardAvoidingView
          behavior={Platform.OS === "ios" ? "padding" : "height"}
          style={styles.main}>
@@ -554,6 +518,31 @@ export default function Transactions({ navigation }) {
             }
          </View>
 
+          {
+           listReport ?      
+           <View>
+               <FlatList
+                      showsVerticalScrollIndicator={false}
+                      data={reports}
+                      renderItem={({ item }) =>                         
+                         <View style={styles.containerList}>
+                            <View style={styles.contentCardList}>
+                              <Text style={styles.textList}>{`Data :  ${item.date_rpt}`}</Text>
+                              <Text style={styles.textList}>{`Desc :  ${item.desc_rpt}`}</Text>
+                              <Text style={styles.textList}>{`R$ :  ${item.value_rpt}`}</Text>   
+                            </View>
+                         </View>
+                      }
+                   >               
+               </FlatList>
+            </View>                   
+             :
+            <View style={styles.containerList}>
+               <Text style={styles.textList}>{`Não existem transações na conta  ${accountData.number}`}</Text>
+            </View>
+           }
+
+
          {/* 
             <Text style={styles.textInfo}>{` Banc = ${bankData.name}`}</Text>
             <Text style={styles.textInfo}>{` ID = ${accountData.id}`}</Text>
@@ -561,6 +550,8 @@ export default function Transactions({ navigation }) {
             <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text>
          */}
 
+
+         {/* 
          {
             showProof
                ?
@@ -585,7 +576,7 @@ export default function Transactions({ navigation }) {
                         onPress={() => setModalTransaction(true)}>
                         <FontAwesome name='barcode' size={18} color={"#44E8C3"} />
 
-                        {/* { accountData.type == "Investimentos" ?  */}
+                        // { accountData.type == "Investimentos" ?  //
 
                         {transactionsType == "Investir" 
                            ?
@@ -601,6 +592,7 @@ export default function Transactions({ navigation }) {
                   </LinearGradient>
                </View>
          }
+         */}
 
 
           <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>

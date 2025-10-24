@@ -20,15 +20,12 @@ import {
 import { AuthContext } from '../../context/auth';
 
 
-
 //import { SelectList } from 'react-native-dropdown-select-list'
 //npm i react-native-dropdown-select-list
 
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
-
-
 
 import Header from '../../components/Header';
 
@@ -42,6 +39,7 @@ export default function SelectedAccount({ navigation }) {
    //const endpointPhp = 'http://localhost:3322/php-api-financial';
 
 
+
    const {
       setLoad,
       load,
@@ -52,7 +50,10 @@ export default function SelectedAccount({ navigation }) {
       setAccountData,
       setAmountAccount,
       amountAccount,
-      accounts
+
+      accounts,
+      reports,            
+      creditcard,
       // setTransactionsType,
       // transactionsType, 
    } = useContext(AuthContext);
@@ -63,13 +64,20 @@ export default function SelectedAccount({ navigation }) {
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
       //selectAccount(idAccont);
-
       //console.log(" id bank "+bankData.id+" conta select "+accountData.id);
+      
+     
+       // var count = Object.keys(reports).length;
+       // var count2 = Object.keys(creditcard).length;
+       // console.log("reporst "+count+" creditcards "+count2);
+      /*
+      for (var i = 0; i < count; i++) {
+      console.log(accounts[i].type_act)
+      }
+      */
 
       getListAccountByBank();
    }, [load, navigation]);
-
-
 
 
 
@@ -86,7 +94,6 @@ export default function SelectedAccount({ navigation }) {
 
    const [enableAccount, setEnableAccount] = useState(false);
 
-
    const [account, setAccount] = useState([]);
    //const accounts = [];
    // const [accountSelected, setAccountSelected] = useState([]);
@@ -95,13 +102,11 @@ export default function SelectedAccount({ navigation }) {
    const [showAmount, setShowAmount] = useState(false);
 
 
-
-
-   const getListAccountByBank = async () => {
- 
+   const getListAccountByBank = async () => { 
       setIsLoading(false);
-      setAccount(accounts);
-      /*
+      setAccount(accounts);     
+
+      /* use this when dabase working
       //console.log(surchAccount)
       await fetch(endpoint + "?action=listAccountByBankIgnoreId", {
          method: 'POST',
@@ -116,8 +121,7 @@ export default function SelectedAccount({ navigation }) {
          .then(
             (result) => {
                setIsLoading(false);
-               setAccount(result);
-               
+               setAccount(result);               
                // 
                var count = Object.keys(result).length;               
                for (var i = 0; i < count; i++) {                
@@ -139,14 +143,9 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-
-
    const chooseAccount = async () => {
-
       getListAccountByBank();
-
       enableAccount ? setEnableAccount(false) : setEnableAccount(true)
-
       /*
       if(enableAccount){
          setEnableAccount(false)
@@ -154,7 +153,6 @@ export default function SelectedAccount({ navigation }) {
          setEnableAccount(true)
       }
      */
-
    }
 
 
@@ -162,13 +160,11 @@ export default function SelectedAccount({ navigation }) {
 
 
    const sendAccount = (id, type, number, amount) => {
-
       setSurchAccount(
          {
             ...surchAccount, ['id']: id,
          }
       )
-
       setAccountData(
          {
             ...accountData, ['id']: id,
@@ -177,25 +173,14 @@ export default function SelectedAccount({ navigation }) {
             // accountData, ['amount']: amount,
          }
       )
-
       setAmountAccount(amount);
       setEnableAccount(false);
-   }
+   };
 
 
 
-
-
-
-
-
-
-
-
+   
    // const [modalUpdateAccount, setModalUpdateAccount] = useState(false);
-
-
-
 
    /*
     const [account, setAccount] = useState({
@@ -210,13 +195,9 @@ export default function SelectedAccount({ navigation }) {
    */
 
 
-
-
    /*
-      const [selected, setSelected] = useState("");
-   
-      const [test, setTest] = useState("");
-   
+      const [selected, setSelected] = useState("");   
+      const [test, setTest] = useState("");   
       const data3 = [
          { key: '1', value: 'Mobiles', disabled: true },
          { key: '2', value: 'Appliances' },
@@ -231,24 +212,13 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-
-
-
-
-
-
    // const [selectedAccount, setSelectedAccount] = useState([]);
-
-
-
 
    //const [listBank, setListBank] = useState([]);
 
 
-
    /*
    const handleInputChange = (atribute, value) => {
-
       setAccount(
          {
             ...account, [atribute]: value
@@ -261,28 +231,18 @@ export default function SelectedAccount({ navigation }) {
 
 
    /*
-    const bank = [];
- 
-    const getListBank = async () => {
- 
+    const bank = []; 
+    const getListBank = async () => { 
        await fetch(endpointPhp + "?action=listBankDropdown")
-          .then((res) => res.json())
- 
+          .then((res) => res.json()) 
           .then(
-             (result) => {
- 
-                if (result === 'not found') {
- 
-                   console.log("empty array");
- 
-                } else {
- 
-                   var count = Object.keys(result).length;
- 
-                   //console.log(result);
- 
-                   // let bank = [];
- 
+             (result) => { 
+                if (result === 'not found') { 
+                   console.log("empty array"); 
+                } else { 
+                   var count = Object.keys(result).length; 
+                   //console.log(result); 
+                   // let bank = []; 
                    for (var i = 0; i < count; i++) {
                       bank.push({
                          // value:result[i].name_bnk,
@@ -295,8 +255,7 @@ export default function SelectedAccount({ navigation }) {
                       })
                    }
                    //console.log(bank[0].id);
-                   setListBank(bank);
- 
+                   setListBank(bank); 
                    //
                  result.map(
                    (item)=> 
@@ -307,8 +266,6 @@ export default function SelectedAccount({ navigation }) {
                               listBank,[value]:item.name_bnk
                         }
                       )
- 
-                     
                       setListBank(
                         {
                            ...listBank,['id']:item.id_bnk,
@@ -316,10 +273,8 @@ export default function SelectedAccount({ navigation }) {
                         }
                       )  
                  )
-                    //
- 
-                }
- 
+                    // 
+                } 
              })
           .catch(() => {
              alert('Erro', 'Não foi possível carregar os dados ');
@@ -331,12 +286,8 @@ export default function SelectedAccount({ navigation }) {
 
 
 
-
-
-
    /*
    const selectAccount = async (id) => {
-
       await fetch(endpointPhp + "?action=listAccountById", {
          method: 'POST',
          headers: {
@@ -349,12 +300,10 @@ export default function SelectedAccount({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                //  if (result === 'not found') {
                console.log(result);
                //  } else {  
                setSelectedAccount(result);
-
                // }
 
             })
@@ -370,19 +319,16 @@ export default function SelectedAccount({ navigation }) {
 
    /*
     const updateAccount = async () => {
- 
-         
+    
       //
-      console.log(" updateAccount id "+id+" fk "+idBank);
-     
+      console.log(" updateAccount id "+id+" fk "+idBank);     
        setAccount(
           {
              ...account, ['id']: id,
              account, ['fkbnk']: idBank
           }
        )
-      //
-       
+      //       
        await fetch(endpointPhp + "?action=updateAccount", {
           method: 'POST',
           headers: {
@@ -394,8 +340,7 @@ export default function SelectedAccount({ navigation }) {
        })
           .then((res) => res.json())
           .then(
-             (result) => {
- 
+             (result) => { 
                // setModalUpdateAccount(false);
                 selectAccount(idAccont);
                 //getListBank();
@@ -403,17 +348,15 @@ export default function SelectedAccount({ navigation }) {
              })
           .catch(function (error) {
              console.log('erro => ' + error.message);
-          });     
-        
-    }
+          });   
+        }
    */
 
 
 
 
    /*
-    const deleteAccount = async () => {
- 
+    const deleteAccount = async () => { 
        //console.log(" deleteAccount "+id);
        let id = idAccont ;
        await fetch(endpointPhp + "?action=deleteAccount", {
@@ -434,16 +377,9 @@ export default function SelectedAccount({ navigation }) {
              })
           .catch(() => {
              alert('Erro');
-          });
-      
+          });      
     }
    */
-
-
-
-
-
-
 
 
 
@@ -478,45 +414,32 @@ export default function SelectedAccount({ navigation }) {
    const cleanFields = () => { }
 
 
-
-
    const callInvest = () => {
       console.log("abrir conta investimento")
    }
 
-
-
-
-
    const investir = () => {
-      console.log("investir " + accountData.id)
+      console.log("investir " + accountData.id);
    }
-
-
 
    const resgatar = () => {
-      console.log(" resgatar " + accountData.id)
+      console.log(" resgatar " + accountData.id);
    }
-
-
-
 
    const callReport = () => {
-      console.log(" criar estrutura de relatório ")
+      alert(" criar estrutura de relatório ");
    }
-
-
-
-
 
    const callIndefined = () => {
-      console.log(" criar alguma estrutura ")
+      alert(" criar alguma estrutura ");
    }
+
+
+
 
 
 
    const investiments = () => {
-
       /*  
        if(type == "Investir"){
          setTransactionsType("Investir");
@@ -524,11 +447,8 @@ export default function SelectedAccount({ navigation }) {
          setTransactionsType("Resgatar");
        }
       */
-      navigation.navigate("Transactions")
-
+      navigation.navigate("Transactions");
    }
-
-
 
 
 
@@ -540,6 +460,12 @@ export default function SelectedAccount({ navigation }) {
          </View>
       )
    }
+
+
+
+
+
+
 
 
 

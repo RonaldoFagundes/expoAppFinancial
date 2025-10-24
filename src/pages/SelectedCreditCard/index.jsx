@@ -71,7 +71,9 @@ export default function SelectedCreditCard({ navigation }) {
         accountData,
         bankData,
         creditCardData,
-        infoDate
+        infoDate,
+
+        postCreditcard
     } = useContext(AuthContext);
 
 
@@ -82,39 +84,39 @@ export default function SelectedCreditCard({ navigation }) {
         //  listUserCC(creditCardData.id);
 
         nextDueDay();
-        proofPost(creditCardData.id);
+       // proofPost(creditCardData.id);
         // console.log(" dados do cartao  id "+accountData.id+" data vencimento "+creditCardData.due_day)
 
+         var count = Object.keys(postCreditcard).length;
+         if(count != 0  ){
+            setShowProof(true);
+          }else{
+           setShowProof(false);
+          }
+        
     }, [load, navigation]);
 
 
 
 
     const nextDueDay = () => {
-
         let bestDay = creditCardData.due_day - 6;
-
         if (bestDay > infoDate.day) {
-
             setMonthPay(infoDate.month);
             setPostCreditCard(
                 {
                     ...postCreditCard, 'expery': `${creditCardData.due_day}/${infoDate.month}`
                 }
-            )
-
+            );
         } else {
-
             setMonthPay(infoDate.nextMonth);
             setPostCreditCard(
                 {
                     ...postCreditCard, 'expery': `${creditCardData.due_day}/${infoDate.nextMonth}`
                 }
-            )
-
-        }
-
-    }
+            );
+        };
+    };
 
 
 
@@ -145,17 +147,18 @@ export default function SelectedCreditCard({ navigation }) {
      user: "Neyde",
     */
 
+
     /*
     const [surch, setSurch] = useState({
         fkac: accountData.id,
         due: creditCardData.due_day,
         date: infoDate.month,
-
-        /     
+        //     
          fkcc: creditCardData.id
-        /
+        //
     });
     */
+
 
     /*
     const [surchUser, setSurchUser] = useState({
@@ -167,24 +170,18 @@ export default function SelectedCreditCard({ navigation }) {
     });
     */
 
-
-
     const [isList, setIsList] = useState(false);
     const [reportList, setReportList] = useState([]);
     const [selectedPrinter, setSelectedPrinter] = useState();
     const [amount, setAmount] = useState(0);
 
-
-
     const handleInputChange = (atribute, value) => {
-
         setPostCreditCard(
             {
                 ...postCreditCard, [atribute]: value
             }
-        )
-    }
-
+        );
+    };
 
 
     const closeModal = (atribute) => {
@@ -192,16 +189,13 @@ export default function SelectedCreditCard({ navigation }) {
             setModalPost(false);
         } else {
             setModalUpdatePost(false);
-        }
-    }
-
+        };
+    };
 
 
     /*
-      const listPostByCreditCard = async () => {
-  
-          //  console.log(" fkcc "+surch.fkcc+" mes "+surch.date)
-  
+      const listPostByCreditCard = async () => {  
+          //  console.log(" fkcc "+surch.fkcc+" mes "+surch.date)  
           await fetch(endpoint + "?action=listPostByCreditCard", {
               method: 'POST',
               headers: {
@@ -213,23 +207,16 @@ export default function SelectedCreditCard({ navigation }) {
           })
               .then((res) => res.json())
               .then(
-                  (result) => {
-  
-  
-                      if (result != "not found") {
-  
+                  (result) => { 
+                     if (result != "not found") {  
                           //console.log(result);
                           setIsList(true)
                           setReportList(result);
-                          getAmount();
-  
-                      } else {
-  
+                          getAmount();  
+                      } else {  
                           console.log(result);
-                          setIsList(false)
-  
-                      }
-  
+                          setIsList(false)  
+                      }  
                   })
               .catch(function (error) {
                   console.log('erro => listPostByCreditCard' + error.message);
@@ -239,12 +226,9 @@ export default function SelectedCreditCard({ navigation }) {
 
 
     /*
-      const listPostByCreditCardByUser = async () => {
-  
-          //  console.log(" tela selectdeCreditCard getListPostByCreditCard idCC ");
-  
-          //  console.log(" fkcc "+surch.fkcc+" mes "+surch.date+" user "+surch.user)
-  
+      const listPostByCreditCardByUser = async () => {  
+          //  console.log(" tela selectdeCreditCard getListPostByCreditCard idCC ");  
+          //  console.log(" fkcc "+surch.fkcc+" mes "+surch.date+" user "+surch.user)  
           await fetch(endpoint + "?action=listPostByCreditCardUser", {
               method: 'POST',
               headers: {
@@ -256,13 +240,11 @@ export default function SelectedCreditCard({ navigation }) {
           })
               .then((res) => res.json())
               .then(
-                  (result) => {
-  
+                  (result) => {  
                       //console.log(result);
                       setIsList(true)
                       setReportList(result);
-                      getAmountByUser();
-  
+                      getAmountByUser();  
                   })
               .catch(function (error) {
                   console.log('erro => ' + error.message);
@@ -272,12 +254,9 @@ export default function SelectedCreditCard({ navigation }) {
 
 
     /*
-     const [usersCC, setUsersCC] = useState([]);
- 
-     const users = [];
- 
-     const listUserCC = async (id) => {
- 
+     const [usersCC, setUsersCC] = useState([]); 
+     const users = []; 
+     const listUserCC = async (id) => { 
          await fetch(endpoint + "?action=listUsers", {
              method: 'POST',
              headers: {
@@ -288,38 +267,28 @@ export default function SelectedCreditCard({ navigation }) {
              })
          })
              .then((res) => res.json())
-             .then(
- 
-                 (result) => {
- 
+             .then( 
+                 (result) => { 
                      var count = Object.keys(result).length;
-                     //console.log(" count " + count);
- 
-                     for (var i = 0; i < count; i++) {
- 
+                     //console.log(" count " + count); 
+                     for (var i = 0; i < count; i++) { 
                          users.push({
                              value: result[i].user_pcc,
-                         })
- 
-                     }
- 
+                         }) 
+                     } 
                      setUsersCC(users);
-                     // console.log(" listUserCC "+result);            
- 
-                 })
+                     // console.log(" listUserCC "+result);          
+                  })
              .catch(function (error) {
                  console.log('erro => listUserCC ' + error.message);
              });
         }
      */
 
-
-
-
-
-
+     
     const safePost = async () => {
-
+        alert('use this when dabase working');
+        /* use this when dabase working
         await fetch(endpoint + "?action=postCreditCard", {
             method: 'POST',
             headers: {
@@ -331,28 +300,22 @@ export default function SelectedCreditCard({ navigation }) {
         })
             .then((res) => res.json())
             .then(
-                (result) => {
-
-                    //console.log(' postCreditCard => ' + result);
+                (result) => {                   
                     showProof(true);
                     setResultPost(result);
                     cleanFields();
                     closeModal("post");
-                    // listPostByCreditCard();
-
+                // listPostByCreditCard();
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
             });
+        */    
+    };
+    
 
-    }
-
-
-
-
-
+    /* use this when dabase working
     const proofPost = async (fkac) => {
-
         await fetch(endpoint + "?action=proofPostCreditCard", {
             method: 'POST',
             headers: {
@@ -365,9 +328,7 @@ export default function SelectedCreditCard({ navigation }) {
             .then((res) => res.json())
             .then(
                 (result) => {
-
                     console.log(result);
-
                     {
                         result.map((item) => {
                             setProof(
@@ -383,24 +344,19 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                             )
                         }
-
-                        )
+                      )
                     }
-
-
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
             });
-
-    }
-
+    };
+    */
 
 
 
     /*
     const getAmount = async () => {
-
         await fetch(endpoint + "?action=amountCreditCard", {
             method: 'POST',
             headers: {
@@ -413,10 +369,8 @@ export default function SelectedCreditCard({ navigation }) {
             .then((res) => res.json())
             .then(
                 (result) => {
-
                    // console.log(result);
                     setAmount(result)
-
                 })
             .catch(function (error) {
                 console.log('erro => ' + error.message);
@@ -426,10 +380,8 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-
     /*
-     const getAmountByUser = async () => {
- 
+     const getAmountByUser = async () => { 
          await fetch(endpoint + "?action=amountCreditCardByUser", {
              method: 'POST',
              headers: {
@@ -441,11 +393,9 @@ export default function SelectedCreditCard({ navigation }) {
          })
              .then((res) => res.json())
              .then(
-                 (result) => {
- 
+                 (result) => { 
                      //   console.log(result);
-                     setAmount(result);
- 
+                     setAmount(result); 
                  })
              .catch(function (error) {
                  console.log('erro => ' + error.message);
@@ -455,16 +405,7 @@ export default function SelectedCreditCard({ navigation }) {
 
 
 
-
-
-
-
-
-
-
-
     const cleanFields = () => {
-
         setPostCreditCard(
             {
                 ...postCreditCard, 'placeshop': "",
@@ -476,11 +417,7 @@ export default function SelectedCreditCard({ navigation }) {
                 postCreditCard, 'expery': "",
             }
         )
-    }
-
-
-
-
+    };
 
 
 
@@ -493,39 +430,57 @@ export default function SelectedCreditCard({ navigation }) {
                printerUrl: selectedPrinter?.url, // iOS only     
            });
            // checkImgStatus();
-       };
-   
+       };   
     */
 
 
 
-    return (
 
+
+    return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.main}>
-
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerHeader}>
                 <Image source={{ uri: `data:image/png;base64,${bankData.img}` }} style={styles.resizeModel} />
                 <View style={styles.contentHeaderTitle}>
                     <Header user={`${user}`} />
                 </View>
             </LinearGradient>
-
             <View style={styles.containerInfo}>
                 <Text style={styles.textDesc}>{`${creditCardData.type.toUpperCase()}  `}</Text>
                 <Text style={styles.textDesc}>{`${creditCardData.number}`}</Text>
                 <Text style={styles.textDesc}>{`Vencimento ${creditCardData.due_day}/${monthPay}`}</Text>
             </View>
 
-            {
-                showProof
-                    ?
-                    <View style={styles.containerProof}>
+         
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={postCreditcard}
+                    renderItem={({ item }) =>
+
+                        <View style={styles.containerList}>
+                            <View style={styles.contentCardList}>
+                                <Text style={styles.textProof}>{`ID : ${item.id_pst}  `}</Text>
+                                <Text style={styles.textProof}>{`Date : ${item.date_pst}  `}</Text>
+                                <Text style={styles.textProof}>{`Shop : ${item.shop_pst}  `}</Text>                             
+                                <Text style={styles.textProof}>{`Desc : ${item.desc_pst}  `}</Text>
+                                <Text style={styles.textProof}>{`Value R$ : ${item.value_pst}  `}</Text>
+                                <Text style={styles.textProof}>{`Parcel : ${item.parcel_pst}  `}</Text> 
+                            </View>                                
+                        </View>
+                        
+                        
+                    }
+                    >
+                </FlatList>          
+
+
+                {/* 
+                    <View style={styles.containerProof}>                 
                         <View>
                             <Text style={styles.titleProof}>{` ${resultPost} `}</Text>
                         </View>
-
                         <Text style={styles.textProof}>{`ID : ${proof.id}  `}</Text>
                         <Text style={styles.textProof}>{`Date : ${proof.date}  `}</Text>
                         <Text style={styles.textProof}>{`Shop : ${proof.shop}  `}</Text>
@@ -533,10 +488,12 @@ export default function SelectedCreditCard({ navigation }) {
                         <Text style={styles.textProof}>{`Desc : ${proof.desc}  `}</Text>
                         <Text style={styles.textProof}>{`Value R$ : ${proof.value}  `}</Text>
                         <Text style={styles.textProof}>{`Parcel : ${proof.parcel}  `}</Text>
-                        <Text style={styles.textProof}>{`Expery : ${proof.expery}  `}</Text>
-                    </View>
-                    :
+                        <Text style={styles.textProof}>{`Expery : ${proof.expery}  `}</Text>                     
+                    </View>              
+                */}
 
+
+                {/*   
                     <View style={styles.containeEmpty}>
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                             <Pressable style={styles.btnMenu}
@@ -545,8 +502,10 @@ export default function SelectedCreditCard({ navigation }) {
                                 <Text style={styles.textBtn}>{`  Registrar Compras`}</Text>
                             </Pressable>
                         </LinearGradient>
-                    </View>
-            }
+                    </View>           
+                */}
+
+
 
             {/* 
         <View style={styles.containerInfo}>
@@ -556,9 +515,6 @@ export default function SelectedCreditCard({ navigation }) {
             <Text style={styles.textInfo}>{` EXPIRY  ${creditCardData.expiry}`}</Text>
         </View>
       */}
-
-
-
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
@@ -567,7 +523,6 @@ export default function SelectedCreditCard({ navigation }) {
                         <Text style={styles.textBtn}>{`  Post`}</Text>
                     </Pressable>
                 </LinearGradient>
-
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
                         onPress={() => navigation.navigate("ReportCreditCard")}>
@@ -575,7 +530,6 @@ export default function SelectedCreditCard({ navigation }) {
                         <Text style={styles.textBtn}>{`  Report`}</Text>
                     </Pressable>
                 </LinearGradient>
-
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
                         onPress={() => navigation.navigate("CreditCard")}>
@@ -583,7 +537,6 @@ export default function SelectedCreditCard({ navigation }) {
                         <Text style={styles.textBtn}>{`  Voltar`}</Text>
                     </Pressable>
                 </LinearGradient>
-
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
                         onPress={() => navigation.navigate("Home")}>
@@ -592,7 +545,6 @@ export default function SelectedCreditCard({ navigation }) {
                     </Pressable>
                 </LinearGradient>
             </LinearGradient>
-
 
             <Modal
                 animationType='fade'
@@ -603,7 +555,6 @@ export default function SelectedCreditCard({ navigation }) {
                         <View style={styles.contentModal} >
                             <Text style={styles.textInfo}>{` Register PostCreditCard`}</Text>
                         </View>
-
                         <View style={styles.formModal}>
                             <TextInput style={styles.input}
                                 placeholder="Placeshop"
@@ -614,7 +565,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.placeshop}
                             />
-
                             <TextInput style={styles.input}
                                 placeholder={postCreditCard.date}
                                 placeholderTextColor="#44E8C3"
@@ -624,7 +574,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.date}
                             />
-
                             <TextInput style={styles.input}
                                 placeholder="User"
                                 placeholderTextColor="#44E8C3"
@@ -634,7 +583,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.user}
                             />
-
                             <TextInput style={styles.input}
                                 placeholder="Parcel"
                                 placeholderTextColor="#44E8C3"
@@ -644,7 +592,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.parcel}
                             />
-
                             <TextInput style={styles.input}
                                 placeholder="Value"
                                 placeholderTextColor="#44E8C3"
@@ -654,7 +601,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.value}
                             />
-
                             <TextInput style={styles.input}
                                 placeholder="Description"
                                 placeholderTextColor="#44E8C3"
@@ -664,7 +610,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.desc}
                             />
-
                             <TextInput style={styles.input}
                                 placeholder={postCreditCard.expery}
                                 placeholderTextColor="#44E8C3"
@@ -675,7 +620,6 @@ export default function SelectedCreditCard({ navigation }) {
                                 value={postCreditCard.expery}
                             />
                         </View>
-
                         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
                             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                 <Pressable style={styles.btnMenu}
@@ -692,16 +636,11 @@ export default function SelectedCreditCard({ navigation }) {
                                 </Pressable>
                             </LinearGradient>
                         </LinearGradient>
-
                     </LinearGradient>
-
                 </ScrollView>
-
             </Modal>
-
         </KeyboardAvoidingView>
     )
-
 }
 
 
@@ -712,40 +651,27 @@ export default function SelectedCreditCard({ navigation }) {
 
 {/* 
             <ScrollView>
-
                 <View style={styles.boxInfo}>
-
                     <View style={styles.boxSurch}>
-
                         <SelectList
-
                             setSelected={(key) =>
-
                                 setSurch(
                                     {
                                         ...surch, 'date': key
                                     }
                                 )
                             }
-
                             data={listMonth}
                             save="key"
-
                             placeholder='Select month'
-
-
-                            onSelect={() => listPostByCreditCard()}                           
-
+                            onSelect={() => listPostByCreditCard()}                          
                             //placeholderTextColor='#44E8C3'
                             // boxStyles={{color:'#44E8C3'}}        
                             // dropdownItemStyles={{color:'#44E8C3'}}
                             boxStyles={{ backgroundColor: '#314452' }}
-
                             inputStyles={{ color: '#44E8C3' }}
                             dropdownTextStyles={{ color: '#44E8C3' }}
                         />
-
-
                          //
                         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                             <Pressable style={styles.btn}
@@ -756,44 +682,30 @@ export default function SelectedCreditCard({ navigation }) {
                             </Pressable>
                         </LinearGradient>
                          //
-
                     </View>
 
 
-
-
                     <View style={styles.boxSurch}>
-
                         <SelectList
-
                             setSelected={(val) =>
-
                                 setSurch(
                                     {
                                         ...surch, 'user': val
                                     }
                                 )
                             }
-
                             data={usersCC}
                             save="value"
-
                             placeholder='Select User'
-
-                            onSelect={() => listPostByCreditCardByUser()}
-                          
-
+                            onSelect={() => listPostByCreditCardByUser()}                         
                             //placeholderTextColor='#44E8C3'
                             // boxStyles={{color:'#44E8C3'}}        
                             // dropdownItemStyles={{color:'#44E8C3'}}
                             boxStyles={{ backgroundColor: '#314452' }}
-
                             inputStyles={{ color: '#44E8C3' }}
                             dropdownTextStyles={{ color: '#44E8C3' }}
                         />
-
-
-                        / 
+                        // 
                         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                             <Pressable style={styles.btn}
                                 //</View>onPress={() => listPostByCreditCardByUser()} >
@@ -802,10 +714,7 @@ export default function SelectedCreditCard({ navigation }) {
                                 <Text style={styles.textBtn}>List By User</Text>
                             </Pressable>
                         </LinearGradient>
-                        /
-
-
-
+                        //
                         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                             <Pressable style={styles.btn}
                                 //</View>onPress={() => listPostByCreditCardByUser()} >
@@ -814,147 +723,94 @@ export default function SelectedCreditCard({ navigation }) {
                                 <Text style={styles.textBtn}>List All</Text>
                             </Pressable>
                         </LinearGradient>
-
                     </View>
+                </View>               
 
-                </View>
-               
-
-            { !isList ?                     
-               
-              
+            { !isList ?                
             <View style={styles.boxInfo}>
-
                 <Text style={styles.textInfo}>{` Não Existem Compras no mês de ${surch.date} `}</Text>
-
-            </View>            
-
+            </View>         
                :
-
                 <View style={styles.containerReport}>
-
                     <View style={styles.boxInfo}>
-
                         <Text style={styles.textInfo}>{` Total R$ ${amount}`}</Text>
-
                     </View>
-
-
                     <View style={styles.headerReport}>
-
-
                         <View style={styles.contentTitle}>
                             <Text style={styles.textTitle}>
                                 {`Date`}
                             </Text>
                         </View>
-
-
                         <View style={styles.contentTitle}>
                             <Text style={styles.textTitle}>
                                 {`Shop`}
                             </Text>
                         </View>
-
-
                         <View style={styles.contentTitle}>
                             <Text style={styles.textTitle}>
                                 {`User`}
                             </Text>
                         </View>
-
-
                         <View style={styles.contentTitle}>
                             <Text style={styles.textTitle}>
                                 {`Parcel`}
                             </Text>
                         </View>
-
-
                         <View style={styles.contentTitle}>
                             <Text style={styles.textTitle}>
                                 {`Value`}
                             </Text>
                         </View>
-
-
                         <View style={styles.contentTitle}>
                             <Text style={styles.textTitle}>
                                 {`Desc`}
                             </Text>
                         </View>
-
                     </View>
-
-
                     <FlatList
-
                         // horizontal
                         data={reportList}
                         renderItem={({ item }) =>
-
-
                             <View style={styles.containerList} >
-
-
                                 <View style={styles.contentList} >
                                     <Text style={styles.textList}>
                                         {item.date_pcc}
                                     </Text>
                                 </View>
-
-
                                 <View style={styles.contentList} >
                                     <Text style={styles.textList}>
                                         {item.shop_pcc}
                                     </Text>
                                 </View>
-
-
                                 <View style={styles.contentList} >
                                     <Text style={styles.textList}>
                                         {item.user_pcc}
                                     </Text>
                                 </View>
-
-
                                 <View style={styles.contentList} >
                                     <Text style={styles.textList}>
                                         {item.parcel_pcc}
                                     </Text>
                                 </View>
-
-
                                 <View style={styles.contentList} >
                                     <Text style={styles.textList}>
                                         {item.value_pcc}
                                     </Text>
                                 </View>
-
                                 <View style={styles.contentList} >
                                     <Text style={styles.textList}>
                                         {item.desc_pcc}
                                     </Text>
                                 </View>
-
                             </View>
-
                         }
-
                     //  showsHorizontalScrollIndicator={false}
-
                     >
-
                     </FlatList>
-
                 </View>
-
-             }             
-
+             }           
              <View style={{height:10}}></View>
-
         </ScrollView>
-
    */}
 
 
@@ -1157,8 +1013,6 @@ export default function SelectedCreditCard({ navigation }) {
                    </div>                        
                    
               </div>
-
-
                
             </div>                 
            `
@@ -1232,8 +1086,7 @@ const html =
 </html>        
 `;
       return html;
-}  
- 
+}   
  
 */
 
@@ -1252,64 +1105,41 @@ const html =
 
 {/* 
             <FlatList
-
                 data={reportList}
                 renderItem={({ item }) =>
-
-
                     <View style={styles.dataList}>
-
-
                         <View style={styles.cardList}>
-
-
                             <View >
-
                                 <Text style={styles.textList}>
                                     {`ID  :  ${item.id_pcc}`}
                                 </Text>
-
-
                                 <Text style={styles.textList}>
                                     {`Shop :  ${item.shop_pcc}`}
                                 </Text>
-
                                 <Text style={styles.textList}>
                                     {`Date :  ${item.date_pcc}`}
                                 </Text>
-
                                 <Text style={styles.textList}>
                                     {`User :  ${item.user_pcc}`}
                                 </Text>
-
                                 <Text style={styles.textList}>
                                     {`Parcel :  ${item.parcel_pcc}`}
                                 </Text>
-
                                 <Text style={styles.textList}>
                                     {`Value :  ${item.value_pcc}`}
                                 </Text>
-
                                 <Text style={styles.textList}>
                                     {`Desc :  ${item.desc_pcc}`}
                                 </Text>
-
                                 <Text style={styles.textList}>
                                     {`Fk CC :  ${item.fk_cc}`}
                                 </Text>
-
                             </View>
-
-
                         </View>
-
                     </View>
-
                 }
-
             >
     </FlatList>
-
  */}
 
 

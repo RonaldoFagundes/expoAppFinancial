@@ -138,7 +138,7 @@ containerBtn: {
   containerCard: {
     alignItems: 'center',
     flexDirection: 'column',
-    backgroundColor: '#0A0352',
+    backgroundColor: '#1e2c46ff',
     width: "auto",
     height: "auto",
     padding: 10,

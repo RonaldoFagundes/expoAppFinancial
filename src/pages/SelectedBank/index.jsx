@@ -34,26 +34,25 @@ const h_scroll_distance = h_max_hight - h_min_hight;
 
 
 
-
-
-
 export default function SelectedBank({ navigation }) {
 
 
-
-   //const testBankDataId = 10; 
+   // const testBankDataId = 10; 
+   // const endpointPhp = 'http://localhost:3322/php-api-financial';
 
    const {
       setLoad,
       load,
       endpoint,
       user,
-      bankData,
-      accounts,
+      bankData,      
       setAccountData,
       accountData,
       setAmountAccount,
-      // amountAccount,      
+      // amountAccount,
+      accounts,
+      setReports,
+      setCreditCard
    } = useContext(AuthContext);
 
 
@@ -61,43 +60,19 @@ export default function SelectedBank({ navigation }) {
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
       // getListAccount();
-      //console.log(' bankData.id ', bankData.id)
+      // console.log(' bankData.id ', bankData.id)
       // getListAccountByBank(bankData.id);
       // getAccountType();
 
-
-
-
+      /*
       var count = Object.keys(accounts).length;
       console.log(count);
       for (var i = 0; i < count; i++) {
-         console.log(accounts[i].type_act)
+      console.log(accounts[i].type_act)
       }
-
-
-      //for (var i = 0; i < count; i++) {
-      //bank.push({
-      // value:result[i].name_bnk,
-      // label:result[i].id_bnk,                        
-      // id:result[i].id_bnk+result[i].name_bnk,
-      // value: result[i].id_bnk + " " + result[i].name_bnk,
-      // value:result[i].id_bnk+" "+result[i].name_bnk,   
-      // key:result[i].name_bnk, 
-      //  value:result[i].id_bnk,                  
-      //  })
-      // }
+      */
 
    }, [load, navigation]);
-
-
-
-
-   // const endpointPhp = 'http://localhost:3322/php-api-financial';
-
-
-
-
-
 
 
 
@@ -115,7 +90,6 @@ export default function SelectedBank({ navigation }) {
    });
 
 
-
    const [isLoading, setIsLoading] = useState(false);
 
    const [modalCadAccount, setModalCadAccount] = useState(false);
@@ -127,9 +101,6 @@ export default function SelectedBank({ navigation }) {
    const [listAccount, setListAccount] = useState([]);
 
    const [isList, setIsList] = useState(false);
-
-   //const [testData, setTestData] = useState([]);
-
 
 
 
@@ -145,18 +116,20 @@ export default function SelectedBank({ navigation }) {
 
 
 
+   /*
+   const [testData, setTestData] = useState([]);
    const DATA = [
       { id: '1', title: 'First Item' },
       { id: '2', title: 'Second Item' },
       { id: '3', title: 'Third Item' },
    ];
+   */
+
 
 
    /*
-      const [selected, setSelected] = useState("");
-   
-      const [test, setTest] = useState("");
-   
+      const [selected, setSelected] = useState("");   
+      const [test, setTest] = useState("");   
       const data3 = [
          { key: '1', value: 'Mobiles', disabled: true },
          { key: '2', value: 'Appliances' },
@@ -169,49 +142,32 @@ export default function SelectedBank({ navigation }) {
    */
 
 
-
-
-
    //const [listBank, setListBank] = useState([]);
 
 
-
-
    const handleInputChange = (atribute, value) => {
-
       setAccount(
          {
             ...account, [atribute]: value
          }
       )
-   }
+   };
 
 
 
-
-   /*
+   /* use this when dabase working
    const bank = [];
-
    const getListBank = async () => {
-
       await fetch(endpointPhp + "?action=listBankDropdown")
          .then((res) => res.json())
-
          .then(
             (result) => {
-
                if (result === 'not found') {
-
                   console.log("empty array");
-
                } else {
-
                   var count = Object.keys(result).length;
-
                   //console.log(result);
-
                   // let bank = [];
-
                   for (var i = 0; i < count; i++) {
                      bank.push({
                         // value:result[i].name_bnk,
@@ -225,7 +181,6 @@ export default function SelectedBank({ navigation }) {
                   }
                   //console.log(bank[0].id);
                   setListBank(bank);
-
                   //
                 result.map(
                   (item)=> 
@@ -235,57 +190,22 @@ export default function SelectedBank({ navigation }) {
                           ...listBank,[key]:item.id_bnk,
                              listBank,[value]:item.name_bnk
                        }
-                     )
-                    
+                     )                    
                      setListBank(
                        {
                           ...listBank,['id']:item.id_bnk,
                              listBank,['name']:item.name_bnk
                        }
                      )  
-                )
+                   )
                    //
-
-
                }
-
             })
         .catch(function (error) {
                console.log('erro => ' + error.message);
          }); 
-   }
+      }
     */
-
-
-
-
-   const insertAccount = async () => {
-
-      //console.log(account);
-      //console.log(" insertAccount  idBank " + account.fkbnk + " number " + account.number);
-
-      await fetch(endpoint + "?action=cadAccount", {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({
-            account
-         })
-      })
-         .then(res => res.json())
-         .then(
-            (result) => {
-               //alert(result+" on api ");
-               console.log(' insertAccount => ' + result);
-            })
-         .catch(function (error) {
-            console.log('erro => ' + error.message);
-         });
-      closeModal('cad');
-   }
-
-
 
 
    /*
@@ -316,15 +236,13 @@ export default function SelectedBank({ navigation }) {
           .then((res) => res.json())
           .then(
              (result) => {              
-                if (result != "not found"){ 
-               
+                if (result != "not found"){                
                    var count = Object.keys(result).length;
                    for (var i = 0; i < count; i++) {
                       type.push({
                         value: result[i].type_bka,
                       })
-                   }                
-                   
+                   }          
                 }else{                 
                    for (var i = 0; i < difenedType.length ; i++) {
                       type.push({
@@ -338,23 +256,17 @@ export default function SelectedBank({ navigation }) {
           .catch(function (error) {
              console.log('erro => ' + error.message);
           });
-    }
+      }
    */
 
 
 
-
-
-
-
    /*
-      const getListAccount = async () => {
-   
+      const getListAccount = async () => {   
          await fetch(endpoint + "?action=listAccount")
             .then((res) => res.json())
             .then(
-               (result) => {
-   
+               (result) => {   
                   console.log(result);
                })
             .catch(function (error) {
@@ -367,12 +279,9 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
-
-
-
    const getListAccountByBank = async (idBank) => {
 
+      /* use this when dabase working
       await fetch(endpoint + "?action=listAccountByBank", {
          method: 'POST',
          headers: {
@@ -386,35 +295,26 @@ export default function SelectedBank({ navigation }) {
             // responseClone = res.clone();
             return res.json();
          })
-
          .then(
             result => {
-
                setIsLoading(false);
                setListAccount(result);
                setIsList(true);
-
                //setIsList(false);                  
                //setTitleModal("Abra a sua 1ª Conta!");
-
-
             })
          .catch(error => {
             console.log('erro => ' + error.message);
          });
-   }
-
-
-
+      */
+   };
 
 
 
 
    // let responseClone;
    const getListAccountByBank2 = async (idBank) => {
-
       // console.log(" tela selectedBank getListAccountByBank  id bank " + idBank)
-
       await fetch(endpoint + "?action=listAccountByBank", {
          method: 'POST',
          headers: {
@@ -428,25 +328,19 @@ export default function SelectedBank({ navigation }) {
             // responseClone = res.clone();
             return res.json();
          })
-
-
          .then(
             result => {
-
                if (result != "not found") {
-
                   setIsLoading(false);
                   setListAccount(result);
                   setIsList(true);
                   // console.log(" result getListAccountByBank => " + result);
-
                } else {
                   setIsLoading(false);
                   setIsList(false);
                   //setModalCadAccount(true);
                   setTitleModal("Abra a sua 1ª Conta!");
                }
-
             })
          .catch(error => {
             console.log('erro => ' + error.message);
@@ -455,22 +349,13 @@ export default function SelectedBank({ navigation }) {
             .then(text=>console.log('erro => ', text))
              */
          });
-   }
+   };
 
 
 
 
-
-
-
-
-
-
-   const getListAccountById = async (id, number, type, open, desc, amount) => {
-
-      // console.log(" update id getListAccountById  id account " + id + " id do banco " + account.fkbnk);
-
-      setAccount(
+   const getListAccountById = async (id, number, type, open, desc, amount ) => {      
+       setAccount(
          {
             ...account, ['id']: id,
             account, ['number']: number,
@@ -479,11 +364,7 @@ export default function SelectedBank({ navigation }) {
             account, ['desc']: desc,
             account, ['amount']: amount,
          }
-      )
-
-
-
-
+      );    
       /*
       await fetch(endpointPhp + "?action=listAccountById", {
          method: 'POST',
@@ -497,26 +378,19 @@ export default function SelectedBank({ navigation }) {
          .then((res) => res.json())
          .then(
             (result) => {
-
                if (result != "not found"){  
                   setListAccount(result); 
                   console.log(" result getListAccountByBank => " + result);
                }else{
                    alert(result);
               }
-
             })
             .catch(function (error) {
                console.log('erro => ' + error.message);
-         });  
-         
+         });          
          */
-
       setModalUpdateAccount(true)
-   }
-
-
-
+   };
 
 
 
@@ -530,17 +404,10 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
-
-
-   const updateAccount = async () => {
-
-      console.log(" updateAccount ");
-
-       //console.log(" id bank " + account.fkbnk + " id accont " + account.id);
-
-      /*
-      await fetch(endpoint + "?action=updateAccount", {
+   const insertAccount = async () => {
+      alert("use this when dabase working");
+      /* use this when dabase working
+      await fetch(endpoint + "?action=cadAccount", {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
@@ -552,27 +419,49 @@ export default function SelectedBank({ navigation }) {
          .then(res => res.json())
          .then(
             (result) => {
+               //alert(result+" on api ");
+               console.log(' insertAccount => ' + result);
+            })
+         .catch(function (error) {
+            console.log('erro => ' + error.message);
+         });
+      */
+      closeModal('cad');
+   };
 
+
+
+   const updateAccount = async () => {
+      alert("use this when dabase working");
+      /* use this when dabase working
+      await fetch(endpoint + "?action=updateAccount", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            account
+         })
+        })
+         .then(res => res.json())
+         .then(
+            (result) => {
                // alert(result);
                console.log(result);
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
        */
       closeModal('update');
-   }
-
-
-
-
+   };
 
 
 
 
    const deleteAccount = async (id) => {
-      //console.log(id);
+      alert("use this when dabase working");
+      /* use this when dabase working
       await fetch(endpoint + "?action=deleteAccount", {
          method: 'POST',
          headers: {
@@ -581,33 +470,27 @@ export default function SelectedBank({ navigation }) {
          body: JSON.stringify({
             id
          })
-      })
+        })
          .then(res => res.json())
          .then(
             (result) => {
-
                if (result != "error") {
                   getListAccountByBank(bankData.id);
                   alert(result);
                } else {
                   alert(result);
                }
-
             })
          .catch(function (error) {
             console.log('erro => ' + error.message);
          });
-   }
-
-
-
-
+      */
+   };
 
 
 
 
    const closeModal = (atribute) => {
-
       if (atribute == "cad") {
          setModalCadAccount(false);
       } else {
@@ -615,8 +498,7 @@ export default function SelectedBank({ navigation }) {
       }
       getListAccountByBank(bankData.id);
       cleanFields();
-   }
-
+   };
 
 
 
@@ -629,8 +511,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-   const selectAccount = (id, type, number, amount) => {
-
+   const selectAccount = (id, type, number, amount, reports, creditcards) => {
       setAccountData(
          {
             ...accountData, ['id']: id,
@@ -638,17 +519,18 @@ export default function SelectedBank({ navigation }) {
             accountData, ['number']: number,
             // accountData, ['amount']: amount,
          }
-      )
-
-      setAmountAccount(amount)
-
-      navigation.navigate("SelectedAccount")
-   }
+      )  
+       const report = reports !== null && reports !== undefined ? reports : {};
+       const creditcard = creditcards !== null && creditcards !== undefined ? creditcards : {};
+       setReports(report);
+       setCreditCard(creditcard);   
+       setAmountAccount(amount);
+       navigation.navigate("SelectedAccount");
+   };
 
 
 
    const cleanFields = () => {
-
       setAccount(
          {
             ...account, ['id']: 0,
@@ -660,23 +542,19 @@ export default function SelectedBank({ navigation }) {
             account, ['id']: 0,
          }
       )
+   };
 
 
-   }
 
 
 
    /*
-  const  sendDataAccount = (id ,type , number, amount)=>{
-    
-      
-         setAccountData(
+  const  sendDataAccount = (id ,type , number, amount)=>{   
+        setAccountData(
              {
                ...accountData,['id']:id                  
              }
-         )
-      
-
+         ) 
          setTestData(
             {
                ...testData,['id']:id ,   
@@ -686,19 +564,10 @@ export default function SelectedBank({ navigation }) {
             }
           )
           // chamar tela credit card
-
-       // setTestData(id,img);
-       // setAccountData(id,img);
+         // setTestData(id,img);
+        // setAccountData(id,img);
   }
-
 */
-
-
-
-
-
-
-
 
 
 
@@ -709,20 +578,15 @@ export default function SelectedBank({ navigation }) {
             <Text>Loading...</Text>
          </View>
       )
-   }
+   };
 
 
 
 
 
    return (
-
       <View style={{ flex: 1 }} >
-
-
-
          <View style={{ height: h_max_hight }}>
-
             <Animated.View
                style={{
                   position: 'absolute',
@@ -730,12 +594,7 @@ export default function SelectedBank({ navigation }) {
                   right: 0,
                   zIndex: 99,
                   width: '100%',
-                  //paddingTop: 20,
-                  //paddingBottom: 20,
-                  //padding: 40,                             
                   backgroundColor: '#a5a4acff',
-                  // backgroundColor: '#06121c',
-                  // backgroundColor: '#97a1a1ff',
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: headerScrollHeight,
@@ -752,19 +611,15 @@ export default function SelectedBank({ navigation }) {
                      height: imageScaleHeight,
                      borderRadius: 8,
                      marginTop: 70,
-                     
+
                   }}
                   resizeModel='contain'
                />
-               <View style={{ marginTop: 10, marginBottom:10, borderRadius: 6, backgroundColor: `${bankData.backgroundup}` }}>
+               <View style={{ marginTop: 10, marginBottom: 10, borderRadius: 6, backgroundColor: `${bankData.backgroundup}` }}>
                   <Header info={bankData.name} user={`${user}`} />
                </View>
             </Animated.View>
-
          </View>
-
-
-
 
          {/* 
         <View style={styles.containerHeader}>
@@ -776,7 +631,6 @@ export default function SelectedBank({ navigation }) {
            <View ><Text style={styles.textAlert}>{bankData.name}</Text></View> 
         </View>
         */}
-
 
          {/* 
                <View style={{
@@ -791,27 +645,21 @@ export default function SelectedBank({ navigation }) {
                }}>
                   <Text style={styles.textAlert}>Ainda não existe conta cadastrada</Text>
                </View>
-              */}
-
-
+         */}
 
          <FlatList
             showsVerticalScrollIndicator={false}
             data={accounts}
             renderItem={({ item }) =>
 
-
-
                <View style={styles.containerList} >
-
                   <LinearGradient colors={[`${bankData.backgroundup}`, `${bankData.backgrounddown}`]} style={styles.contentList}>
-
                      <View style={styles.contentCardList}>
                         {/*
-                                    <Text style={styles.textList}>
-                                      {`Bank Name : ${item.name_bnk}`}
-                                    </Text>
-                                  */}
+                           <Text style={styles.textList}>
+                             {`Bank Name : ${item.name_bnk}`}
+                           </Text>
+                        */}
                         <Text style={styles.textList}>
                            {/*   {`Type :  ${item.type_bka}`} */}
                            {`Type :  ${item.type_act}`}
@@ -825,21 +673,22 @@ export default function SelectedBank({ navigation }) {
                            {`Amount:  ${item.saldo_act}`}
                         </Text>
                      </View>
-
                      <View style={styles.containerBtn}>
                         <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
                               onPress={() => selectAccount(
-                                /* 
-                                 item.id_bka,
-                                 item.type_bka,
-                                 item.number_bka,
-                                 item.amount_bka,
-                                  */
+                                 /* 
+                                  item.id_bka,
+                                  item.type_bka,
+                                  item.number_bka,
+                                  item.amount_bka,
+                                   */
                                  item.id_act,
                                  item.type_act,
                                  item.number_act,
                                  item.saldo_act,
+                                 item.reports,
+                                 item.creditcard
                               )}
                            >
                               <FontAwesome name='eye' size={18} color={"#ffffff"} />
@@ -848,25 +697,24 @@ export default function SelectedBank({ navigation }) {
                         </LinearGradient>
                         <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
                            <Pressable style={styles.btnMenu}
-                             
-                                onPress={() => getListAccountById(
+                              onPress={() => getListAccountById(
                                  item.id_act,
                                  item.number_act,
                                  item.type_act,
                                  item.open_date_bka,
                                  item.desc_act,
-                                 item.saldo_act,
+                                 item.saldo_act                                 
                               )}
-                             /*
-                                 onPress={() => getListAccountById(
-                                 item.id_bka,
-                                 item.number_bka,
-                                 item.type_bka,
-                                 item.open_date_bka,
-                                 item.desc_bka,
-                                 item.amount_bka,
-                              )}
-                              */
+                           /*
+                               onPress={() => getListAccountById(
+                               item.id_bka,
+                               item.number_bka,
+                               item.type_bka,
+                               item.open_date_bka,
+                               item.desc_bka,
+                               item.amount_bka,
+                            )}
+                            */
                            >
                               <FontAwesome name='edit' size={18} color={"#ffffff"} />
                               <Text style={styles.textBtn}>{`  Edit`}</Text>
@@ -883,7 +731,6 @@ export default function SelectedBank({ navigation }) {
                      </View>
                   </LinearGradient>
                </View>
-
             }
             onScroll={Animated.event([
                { nativeEvent: { contentOffset: { y: scrollOffsetY } } },],
@@ -892,15 +739,7 @@ export default function SelectedBank({ navigation }) {
          >
          </FlatList>
 
-
-
-
-
-
-
-
          <LinearGradient colors={['#97a1a1ff', '#ffececff']} style={styles.containerBtnFooter}>
-
             <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
                   onPress={() => setModalCadAccount(true)}
@@ -909,7 +748,6 @@ export default function SelectedBank({ navigation }) {
                   <Text style={styles.textBtn}>{`  Add Account`}</Text>
                </Pressable>
             </LinearGradient>
-
             <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
                   onPress={() => navigation.navigate("Home")}
@@ -918,12 +756,7 @@ export default function SelectedBank({ navigation }) {
                   <Text style={styles.textBtn}>{`  Home`}</Text>
                </Pressable>
             </LinearGradient>
-
          </LinearGradient>
-
-
-
-
 
 
          <Modal
@@ -975,7 +808,6 @@ export default function SelectedBank({ navigation }) {
                         //dropdownItemStyles={styles.dropdownItem} // Custom style for each item
                         arrowicon={<Text style={{ fontSize: 18, color: '#44E8C3' }}>  ▼</Text>} // Custom arrow icon
                      />
-
                      {/* 
                      <SelectList
                         setSelected={(value) =>
@@ -996,7 +828,6 @@ export default function SelectedBank({ navigation }) {
                      />
                     */}
                   </View>
-
                   <TextInput style={styles.input}
                      placeholder="open date"
                      placeholderTextColor="#44E8C3"
@@ -1006,7 +837,6 @@ export default function SelectedBank({ navigation }) {
                      }
                      value={account.open}
                   />
-
                   <TextInput style={styles.input}
                      placeholder="description"
                      placeholderTextColor="#44E8C3"
@@ -1016,7 +846,6 @@ export default function SelectedBank({ navigation }) {
                      }
                      value={account.desc}
                   />
-
                   <TextInput style={styles.input}
                      placeholder="Saldo"
                      placeholderTextColor="#44E8C3"
@@ -1027,7 +856,6 @@ export default function SelectedBank({ navigation }) {
                   // value={account.amount}
                   />
                </View>
-
                <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
                   <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                      <Pressable style={styles.btnMenu}
@@ -1046,11 +874,7 @@ export default function SelectedBank({ navigation }) {
                   </LinearGradient>
                </LinearGradient>
             </LinearGradient>
-
          </Modal>
-
-
-
 
          <Modal
             animationType='fade'
@@ -1060,11 +884,8 @@ export default function SelectedBank({ navigation }) {
                <View style={styles.contentModal} >
                   <Text style={styles.textInfo}>{` UPDATE ACCOUNT `}</Text>
                </View>
-
                <View style={styles.containerListModal}>
-
                   <View style={styles.contentList}>
-
                      <TextInput style={styles.input}
                         placeholder={` ${account.number}`}
                         type="text"
@@ -1083,7 +904,7 @@ export default function SelectedBank({ navigation }) {
                         }
                         value={account.type}
                      />
-                    {/* 
+                     {/* 
                       <TextInput style={styles.input}
                         placeholder={` ${account.open}`}
                         placeholderTextColor="#cc0000"
@@ -1132,11 +953,8 @@ export default function SelectedBank({ navigation }) {
                </View>
             </LinearGradient>
          </Modal>
-
       </View>
-
    )
-
 }
 
 
@@ -1144,26 +962,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/*
+  {/*
            <FlatList
 
                data={listAccount}
@@ -1263,7 +1062,7 @@ export default function SelectedBank({ navigation }) {
 
 
 
-{/*     
+   {/*     
             <SelectList
                //setSelected={(val) => setTest(val)} 
                // setSelected={(val) => handleInputChange('idbk', val)}  
@@ -1292,10 +1091,10 @@ export default function SelectedBank({ navigation }) {
             value={account.idbk}
             //
          />
-        */}
+   */}
 
 
-{/* 
+   {/* 
          <View>
               <SelectList
                 data={listBank}
@@ -1319,6 +1118,6 @@ export default function SelectedBank({ navigation }) {
                 
               />
            </View>
-        */}
+     */}
 
 

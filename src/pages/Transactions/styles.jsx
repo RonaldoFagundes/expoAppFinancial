@@ -266,6 +266,35 @@ input: {
 
 
 
+containerList: {
+    padding: 10,
+    flexDirection: 'column',
+    alignItems: 'center',    
+    width: '100%',
+  },
+
+ contentCardList: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: "100%",
+    height: "auto",
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "#030f0cff",
+    borderRadius: 10,
+    backgroundColor:'#77a79bff'
+  },
+
+   textList: {
+    fontSize: 16,
+    color: '#0a0238ff',
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+
+
       
 });
 
