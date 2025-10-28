@@ -600,8 +600,7 @@ export default function SelectedBank({ navigation }) {
                   height: headerScrollHeight,
                   borderBottomLeftRadius: 40,
                   borderBottomRightRadius: 40,
-                  overflow: 'hidden',
-                  marginTop:25
+                  overflow: 'hidden',                 
                }}
             >
                <Animated.Image

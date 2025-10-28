@@ -4,7 +4,6 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-
   main: {
     flex: 1,
     height: '100%',    
@@ -18,8 +17,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     borderBottomLeftRadius:40,
-    borderBottomRightRadius:40,
-    marginTop:25
+    borderBottomRightRadius:40,    
   },
 
   contentHeaderTitle: {
@@ -56,8 +54,7 @@ export default StyleSheet.create({
     marginStart: 5,
     marginEnd: 5,
     borderRadius: 10,
-    marginBottom: 'auto'
-    // alignItems: 'center',
+    marginBottom: 'auto'    
   },
 
   titleProof: {
@@ -74,7 +71,6 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
   containeEmpty: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -84,9 +80,6 @@ export default StyleSheet.create({
     height: 200,
     backgroundColor: '#dfdfe4ff',
   },
-
-
-
 
   containerBtn: {
     flexDirection: 'row',
@@ -105,19 +98,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    borderRadius: 10,
-    //flexWrap: 'wrap',
+    borderRadius: 10,    
     width: 'auto',
-    height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
+    height: 'auto',   
     marginTop: 220,
     marginBottom: 50
   },
-
-
-
 
   boxBtn: {
     height: 40,
@@ -137,19 +123,11 @@ export default StyleSheet.create({
     padding: 10,
   },
 
-
-
-
   textBtn: {
     color: '#44E8C3',
     fontSize: 14,
     fontWeight: 'bold',
   },
-
-
-
-
-
 
   textInfo: {
     color: '#44E8C3',
@@ -157,17 +135,11 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 
-
-
-
   containerModal: {
     flex: 1,
     padding: 10,
     height: '100%',
   },
-
-
-
 
   infoModal: {
     height: 'auto',
@@ -182,15 +154,11 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-
-
   contentModal: {
     height: 'auto',
     width: '100%',
     padding: 10,
   },
-
-
 
   infoCheckBox: {
     height: 'auto',
@@ -205,7 +173,6 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-
   containerCheckBox: {
     width: '100%',
     padding: 10,
@@ -214,13 +181,11 @@ export default StyleSheet.create({
     backgroundColor: '#0c1037',
   },
 
-
   contentCheckBox: {
     width: 'auto',
     padding: 10,
     borderRadius: 10,
   },
-
 
   checkBox: {
     width: 50,
@@ -230,7 +195,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#123a61',
   },
-
 
   boxCard: {
     width: '100%',
@@ -245,7 +209,6 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
 
-
   input: {
     width: '100%',
     height: 50,
@@ -258,9 +221,6 @@ export default StyleSheet.create({
     backgroundColor: '#062531',
     fontSize: 16
   },
-
-
-
 
 
 });

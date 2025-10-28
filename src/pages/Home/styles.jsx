@@ -1,10 +1,6 @@
 import { StyleSheet } from "react-native";
 
-
-
 export default StyleSheet.create({
-
- 
 
   containerLoading: {
     flex: 1,
@@ -14,18 +10,11 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
 
-
   main: {
     flex: 1,
     flexDirection: "column",
     alignItems: 'center',
-    
-    
-
-    //backgroundColor: '#06121c'
-    //backgroundColor: '#1C1B20'
   },
-
 
   textHeader: {
     fontSize: 18,
@@ -34,18 +23,13 @@ export default StyleSheet.create({
     color: '#fff'
   },
 
-
   containerBtnCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
-    //flexWrap: 'wrap',
     width: '90%',
     height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
     marginTop: 20,
     marginBottom: 20
   },
@@ -55,29 +39,17 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
-    //flexWrap: 'wrap',
     width: 'auto',
     height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
     marginTop: 20,
     marginBottom: 50
   },
-
 
   boxBtn: {
     height: 40,
     borderRadius: 10,
   },
 
- /*
-  btn: {
-    width: 'auto',
-    height: 'auto',
-    padding: 12,
-  },
- */
   btnMenu: {
     flexDirection: 'row',
     width: 'auto',
@@ -86,20 +58,17 @@ export default StyleSheet.create({
   },
 
   textBtn: {
-     color: '#ffffff',
+    color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
   },
 
-
-
   containerList: {
     padding: 10,
     flexDirection: 'column',
-    alignItems: 'center',    
+    alignItems: 'center',
     width: '100%',
   },
-
 
   contentList: {
     flexDirection: 'column',
@@ -108,27 +77,10 @@ export default StyleSheet.create({
     width: 340,
     height: 'auto',
     padding: 6,
-
     borderWidth: 1,
     borderBottomColor: "#000000ff",
     borderRadius: 10,
-    
-    
   },
-
-
-
-/* 
-  contentCardList: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    width: "100%",
-    height: "auto",
-    padding: 10,
-    marginTop: 10,
-    marginBottom: 10
-  },
- */
 
   resizeModel: {
     height: 80,
@@ -137,7 +89,6 @@ export default StyleSheet.create({
     borderRadius: 8
   },
 
-
   textList: {
     fontSize: 16,
     color: '#a2eaf1',
@@ -145,15 +96,10 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
-
   textInfo: {
     color: '#44E8C3',
     fontSize: 18
   },
-
-
-
 
   containerModal: {
     flex: 1,
@@ -161,9 +107,6 @@ export default StyleSheet.create({
     height: '100%',
     paddingBottom: '50%',
   },
-
-
-
 
   contentModal: {
     height: 'auto',
@@ -177,9 +120,6 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-
-
-
   boxImg: {
     backgroundColor: 'transparent',
     flexDirection: 'column',
@@ -192,7 +132,6 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
   },
-
 
   formModal: {
     backgroundColor: 'transparent',
@@ -208,7 +147,6 @@ export default StyleSheet.create({
     marginTop: 20
   },
 
-
   input: {
     width: '100%',
     height: 50,
@@ -222,7 +160,6 @@ export default StyleSheet.create({
     fontSize: 16
   },
 
-
   boxModalBtn: {
     backgroundColor: 'black',
     width: "100%",
@@ -231,8 +168,6 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     padding: 10,
   },
-
-
 
 });
 

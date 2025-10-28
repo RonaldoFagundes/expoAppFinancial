@@ -24,9 +24,8 @@ export default StyleSheet.create({
     padding: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomLeftRadius:40,
-    borderBottomRightRadius:40,
-    marginTop:25
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
   },
 
   resizeModel: {
@@ -80,7 +79,6 @@ export default StyleSheet.create({
     marginEnd: 5,
     borderRadius: 10,
     marginBottom: 'auto'
-    // alignItems: 'center',
   },
 
   titleProof: {
@@ -122,36 +120,22 @@ export default StyleSheet.create({
     width: "auto",
     height: 'auto',
     padding: 6,
-    backgroundColor:'#150c4bff',
-    marginBottom:10
+    backgroundColor: '#150c4bff',
+    marginBottom: 10
   },
 
-
-  contentList2: {
+  containerSimulator: {
     flexDirection: 'column',
     alignItems: 'center',
-    borderRadius: 10,
-    width: "auto",
+    width: 'auto',
     height: 'auto',
-    padding: 6,
+    padding: 10,
+    marginBottom: 10
   },
 
-
-  containerSimulator:{
-     flexDirection: 'column',
-     alignItems:'center',
-     width:'auto',
-     height:'auto',
-     padding:10,  
-     marginBottom:10  
+  contentSimulator: {
+    width: '100%',
   },
-
-
-   contentSimulator:{
-     width:'100%',     
-  },
-
-
 
   contentCardList: {
     flexDirection: 'column',
@@ -173,13 +157,24 @@ export default StyleSheet.create({
   containerBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding:4,
+    padding: 4,
     paddingTop: 10,
-    paddingBottom:10,
+    paddingBottom: 10,
     width: '100%',
-    height: 'auto',    
+    height: 'auto',
     marginTop: 'auto',
-    marginBottom:40
+    marginBottom: 40
+  },
+
+  containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    width: 'auto',
+    height: 'auto',
+    marginTop: 'auto',
+    marginBottom: 40
   },
 
   boxBtn: {
@@ -192,16 +187,13 @@ export default StyleSheet.create({
     width: 'auto',
     height: 'auto',
     padding: 10,
-  },  
+  },
 
   textBtn: {
     color: '#44E8C3',
     fontSize: 14,
     fontWeight: 'bold',
   },
-
-
-  
 
   containerModal: {
     flex: 1,
@@ -272,7 +264,6 @@ export default StyleSheet.create({
   },
   */
 
-
   boxCard: {
     width: '100%',
     height: 'auto',
@@ -298,9 +289,6 @@ export default StyleSheet.create({
     backgroundColor: '#062531',
     fontSize: 16
   },
-
-
-
 
 });
 

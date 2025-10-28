@@ -4,7 +4,6 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-
   containerLoading: {
     flex: 1,
     backgroundColor: '#F5F5F5',
@@ -23,15 +22,14 @@ export default StyleSheet.create({
     height: "20%",
     width: 'auto',
     padding: 10,
-    paddingTop:60,
+    paddingTop: 60,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomLeftRadius:40,
-    borderBottomRightRadius:40,
-    marginTop:25
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
   },
-  
-   containerInfo: {
+
+  containerInfo: {
     height: 'auto',
     width: 'auto',
     alignItems: 'center',
@@ -40,10 +38,10 @@ export default StyleSheet.create({
     marginTop: -24,
     marginStart: 30,
     marginEnd: 30,
-    padding:10,    
+    padding: 10,
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
-    borderRadius: 10,    
+    borderRadius: 10,
     backgroundColor: '#ecf4f5ff',
   },
 
@@ -78,7 +76,7 @@ export default StyleSheet.create({
     marginTop: 10
   },
 
-containerBtn: {
+  containerBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
@@ -95,21 +93,16 @@ containerBtn: {
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
-    //flexWrap: 'wrap',
     width: 'auto',
     height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
-    marginTop: 'auto',    
-    marginBottom:40 
+    marginTop: 'auto',
+    paddingBottom:40,    
   },
-
 
   boxBtn: {
     height: 'auto',
     borderRadius: 10,
-  }, 
+  },
 
   btn: {
     flexDirection: 'row',
@@ -154,12 +147,12 @@ containerBtn: {
     borderRadius: 10,
     elevation: 4,
     padding: 10,
-    paddingStart:30,
-    paddingEnd:30,
+    paddingStart: 30,
+    paddingEnd: 30,
     marginBottom: 10,
     backgroundColor: '#374d77ff',
-    borderWidth:2,
-    borderColor:'#10bebeff'
+    borderWidth: 2,
+    borderColor: '#10bebeff'
   },
 
   dataCard: {
@@ -176,13 +169,10 @@ containerBtn: {
     marginTop: 7
   },
 
-
-  flegCard:{
-    flexDirection:'row',
-    justifyContent:'space-between'
+  flegCard: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-
-
 
   containerList: {
     height: "100%",
@@ -244,7 +234,6 @@ containerBtn: {
     backgroundColor: '#062531',
     fontSize: 16
   },
-
 
 });
 

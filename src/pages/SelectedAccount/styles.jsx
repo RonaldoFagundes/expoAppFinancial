@@ -4,8 +4,6 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-
-
   containerLoading: {
     flex: 1,
     backgroundColor: '#F5F5F5',
@@ -14,26 +12,21 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
 
-
   main: {
     flex: 1,
-    height: '100%',   
-    backgroundColor: '#fffdf5ff'   
+    height: '100%',
+    backgroundColor: '#fffdf5ff'
   },
-
-
-
 
   containerHeaderOne: {
     height: "20%",
     flexDirection: 'row',
-    justifyContent: 'space-evenly',   
+    justifyContent: 'space-evenly',
     paddingTop: 50,
     paddingStart: 15,
     backgroundColor: '#9da2a7ff',
     borderBottomStartRadius: 40,
     borderBottomEndRadius: 40,
-    marginTop:25
   },
 
   resizeModel: {
@@ -52,10 +45,9 @@ export default StyleSheet.create({
     marginTop: -50,
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
-    borderRadius: 10,       
+    borderRadius: 10,
     backgroundColor: '#ecf4f5ff',
   },
-
 
   contentHeaderBox: {
     flexDirection: 'row',
@@ -63,7 +55,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: 5,
   },
-
 
   contentHeaderTwo: {
     height: 100,
@@ -86,12 +77,11 @@ export default StyleSheet.create({
   },
 
   textList: {
-    fontSize: 12,    
+    fontSize: 12,
     color: '#060630ff',
     fontWeight: 'bold',
     marginBottom: 10
   },
-
 
   containerInfo: {
     height: 'auto',
@@ -100,16 +90,14 @@ export default StyleSheet.create({
     marginTop: 10
   },
 
-
   containerCarrousel: {
     height: 140,
     width: "100%",
-    padding: 20,    
+    padding: 20,
     marginTop: 20,
     paddingTop: 10,
     borderRadius: 10
   },
-
 
   contentCarrousel: {
     height: 80,
@@ -146,7 +134,6 @@ export default StyleSheet.create({
     marginTop: 10
   },
 
-
   containerBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -165,16 +152,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
-    //flexWrap: 'wrap',
     width: 'auto',
     height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
     marginTop: 'auto',
     marginBottom: 50
   },
-
 
   boxBtn: {
     height: 'auto',
@@ -199,8 +181,6 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
-
-
 
 });
 

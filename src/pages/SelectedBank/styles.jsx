@@ -4,8 +4,6 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
 
-
-
   containerLoading: {
     flex: 1,
     backgroundColor: '#F5F5F5',
@@ -14,19 +12,11 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
 
-
-
-
   main: {
     flex: 1,
-    // backgroundColor: '#2c4254',
     backgroundColor: '#06121c',
-    //backgroundColor:'#121212'   
     height: '100%',
   },
-
-
-
 
   containerListModal: {
     height: '100%',
@@ -37,12 +27,9 @@ export default StyleSheet.create({
   containerList: {
     padding: 10,
     flexDirection: 'column',
-    alignItems: 'center',    
+    alignItems: 'center',
     width: '100%',
   },
-
-
-
 
   contentList: {
     flexDirection: 'column',
@@ -52,8 +39,6 @@ export default StyleSheet.create({
     height: 'auto',
     padding: 6,
   },
-
- 
 
   contentCardList: {
     flexDirection: 'column',
@@ -65,23 +50,12 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
-
-
-
-
-
   dataList: {
     borderRadius: 6,
     shadowColor: 'black',
     elevation: 4,
     margin: 4,
   },
-
-
-
-
-
 
   cardList: {
     flexDirection: 'column',
@@ -93,18 +67,11 @@ export default StyleSheet.create({
     margin: 2,
   },
 
-
-
-
-
   resizeModel: {
     height: 80,
     width: 80,
     borderRadius: 10,
   },
-
-
-
 
   textList: {
     fontSize: 16,
@@ -112,7 +79,6 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10
   },
-
 
   textAlert: {
     fontSize: 22,
@@ -122,14 +88,10 @@ export default StyleSheet.create({
     marginBottom: 10
   },
 
-
   textInfo: {
     color: '#44E8C3',
     fontSize: 18
   },
-
-
-
 
   containerBtn: {
     flexDirection: 'row',
@@ -143,30 +105,21 @@ export default StyleSheet.create({
     height: 'auto',
   },
 
-
-
-   containerBtnFooter: {
+  containerBtnFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
-    //flexWrap: 'wrap',
     width: 'auto',
     height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
     marginTop: 20,
     marginBottom: 50
   },
 
-
-
   boxBtn: {
-    height:'auto',
+    height: 'auto',
     borderRadius: 8,
   },
-
 
   btn: {
     width: 'auto',
@@ -181,18 +134,11 @@ export default StyleSheet.create({
     padding: 14,
   },
 
-
-
-
   textBtn: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
   },
-
-
-
-
 
   containerModal: {
     flex: 1,
@@ -200,8 +146,6 @@ export default StyleSheet.create({
     height: '100%',
     paddingBottom: '50%',
   },
-
-
 
   contentModal: {
     height: 'auto',
@@ -214,8 +158,6 @@ export default StyleSheet.create({
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
   },
-
-
 
   formModal: {
     backgroundColor: 'transparent',
@@ -231,7 +173,6 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-
   boxSurch: {
     flexDirection: 'column',
     width: 'auto',
@@ -244,7 +185,6 @@ export default StyleSheet.create({
     marginBottom: 10,
     borderRadius: 10,
     padding: 10
-
   },
 
   input: {
@@ -259,13 +199,6 @@ export default StyleSheet.create({
     backgroundColor: '#062531',
     fontSize: 16
   },
-
-
-
-
-
-
-
 
 });
 

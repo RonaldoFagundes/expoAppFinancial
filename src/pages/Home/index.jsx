@@ -12,11 +12,9 @@ import {
    Animated,
    StatusBar,
    ScrollView,
-
    KeyboardAvoidingView,
    Platform,
    Dimensions,
-
 }
    from 'react-native';
 
@@ -28,15 +26,9 @@ import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../../components/Header';
 
-//import Introduction from '../../components/Introduction';
-
 const h_max_hight = 215;
 const h_min_hight = 205;
 const h_scroll_distance = h_max_hight - h_min_hight;
-
-
-
-
 
 export default function Home({ navigation }) {
 
@@ -52,16 +44,11 @@ export default function Home({ navigation }) {
       setAccounts
    } = useContext(AuthContext);
 
-
-
-
    useEffect(() => {
       navigation.addListener('focus', () => setLoad(!load));
       getTime();
       getListBank();
    }, [load, navigation]);
-
-
 
 
    const getTime = () => {
@@ -88,9 +75,6 @@ export default function Home({ navigation }) {
          setWelcome("Boa noite")
       }
    };
-
-
-
 
 
    //const imgUpdate = null;
@@ -139,9 +123,6 @@ export default function Home({ navigation }) {
    });
 
 
-
-
-
    const cleanFields = () => {
       setBank(
          {
@@ -156,7 +137,6 @@ export default function Home({ navigation }) {
          }
       )
    };
-
 
 
    const pickImage = async () => {
@@ -288,8 +268,6 @@ export default function Home({ navigation }) {
    };
 
 
-
-
    const getListBankById = async (
       id,
       number,
@@ -404,10 +382,6 @@ export default function Home({ navigation }) {
 
 
 
-
-
-
-
    const closeModal = async (atribute) => {
       if (atribute == "cad") {
          setModalCadBank(false);
@@ -417,8 +391,6 @@ export default function Home({ navigation }) {
       getListBank();
       cleanFields();
    };
-
-
 
 
 
@@ -438,10 +410,7 @@ export default function Home({ navigation }) {
 
 
 
-   const screenCashPost = () => {
-      console.log("Cash");
-   }
-
+   
 
 
 
@@ -453,9 +422,11 @@ export default function Home({ navigation }) {
             <Text>Loading...</Text>
          </View>
       )
-   }
+   };
 
    //const screenHeight = Dimensions.get('window').height;
+
+
 
    return (
       /* 
@@ -492,12 +463,12 @@ export default function Home({ navigation }) {
                   height: headerScrollHeight,
                   borderBottomLeftRadius: 40,
                   borderBottomRightRadius: 40,
-                  overflow: 'hidden',
-                  marginTop:25,                                 
+                  overflow: 'hidden',                                                  
                }}
             >
                <Animated.Image
-                  source={require('../logo_rfideia.png')}
+                  //source={require('../logo_rfideia.png')}
+                  source={require('../../../assets/icon.png')}
                   style={{
                      padding: imageScaleHeight,
                      width: 60,

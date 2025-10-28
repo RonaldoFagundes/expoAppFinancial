@@ -7,8 +7,8 @@ export default StyleSheet.create({
   main: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#fffdf5ff',   
-  },  
+    backgroundColor: '#fffdf5ff',
+  },
 
   containerHeader: {
     height: "20%",
@@ -16,13 +16,11 @@ export default StyleSheet.create({
     padding: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomLeftRadius:40,
-    borderBottomRightRadius:40,
-    marginTop:25
-   
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
   },
-  
-   containerInfo: {
+
+  containerInfo: {
     height: 'auto',
     width: 'auto',
     alignItems: 'center',
@@ -31,10 +29,10 @@ export default StyleSheet.create({
     marginTop: -24,
     marginStart: 30,
     marginEnd: 30,
-    padding:10,    
+    padding: 10,
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
-    borderRadius: 10,    
+    borderRadius: 10,
     backgroundColor: '#ecf4f5ff',
   },
 
@@ -71,8 +69,8 @@ export default StyleSheet.create({
     marginStart: 5,
     marginEnd: 5,
     borderRadius: 10,
-    marginBottom: 'auto'    
-  },  
+    marginBottom: 'auto'
+  },
 
   titleProof: {
     color: '#000000',
@@ -101,7 +99,6 @@ export default StyleSheet.create({
     backgroundColor: '#c8e7f3ff',
   },
 
-
   /*
     boxInfo: {
       width: 'auto',
@@ -120,7 +117,6 @@ export default StyleSheet.create({
     },
   */
 
-
   /*
    boxSurch: {
      flexDirection: 'column',
@@ -133,8 +129,7 @@ export default StyleSheet.create({
      marginTop: 10,
      marginBottom: 10,
      borderRadius: 10,
-     padding: 10
- 
+     padding: 10 
    },
   */
 
@@ -147,32 +142,31 @@ export default StyleSheet.create({
   containerBtn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 10,   
+    padding: 10,
     width: 'auto',
     height: 'auto',
-    marginTop:10,
+    marginTop: 10,
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
-    borderRadius: 10,    
+    borderRadius: 10,
   },
-  
-   containerBtnFooter: {
+
+  containerBtnFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    borderRadius: 10,    
-    width: 'auto',
-    height: 'auto',   
-    marginTop: 20,
-    marginBottom: '10%'
+    paddingBottom:20,
+    borderRadius: 10,
+    width: '100%',
+    height: 'auto',    
+    position: 'absolute',
+    marginTop:570
   },
 
   boxBtn: {
     height: 40,
     borderRadius: 10,
-  }, 
-
-  
+  },
 
   btnMenu: {
     flexDirection: 'row',
@@ -187,58 +181,48 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  containerSearch: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    height: 'auto',
+    padding: 10,
+    marginTop: 10,
+  },
 
+  contentSearch: {
+    backgroundColor: '#1c0c7aff',
+    width: '40%',
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: '#44E8C3',
+  },
 
-containerSearch:{
-  flexDirection:'row',
- justifyContent:'center',
-  width:'100%',
-  height:'auto',
-  padding:10,
-  marginTop:10,  
-},
-
-contentSearch:{
-  backgroundColor:'#1c0c7aff',
-  width:'40%',
-  borderRadius:6,
-  borderWidth:2,
-  borderColor:'#44E8C3',
-},
-
-
-
-
-
-containerList: {
+  containerList: {
     padding: 10,
     flexDirection: 'column',
-    alignItems: 'center',    
+    alignItems: 'center',
     width: '100%',
   },
 
- contentCardList: {
+  contentCardList: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: "100%",
     height: "auto",
-    padding: 10, 
+    padding: 10,
     borderBottomWidth: 2,
     borderBottomColor: "#030f0cff",
     borderRadius: 10,
-    backgroundColor:'#77a79bff'
+    backgroundColor: '#77a79bff'
   },
 
-   textList: {
+  textList: {
     fontSize: 16,
     color: '#0a0238ff',
     fontWeight: 'bold',
     marginBottom: 10
   },
-
-
-
-
 
   /*
     containerReport: {
@@ -250,7 +234,6 @@ containerList: {
       borderRadius: 10,    
     },
   */
-
 
   /*
    headerReport: {
@@ -269,7 +252,6 @@ containerList: {
   },
   */
 
-
   /*
   textTitle: {
     fontSize: 12,
@@ -277,7 +259,6 @@ containerList: {
     fontWeight: 'bold',
   },
  */
-
 
   /*
    containerList: {
@@ -290,7 +271,6 @@ containerList: {
      marginTop: 2,    
    },
    */
-
 
   /*
   contentList: {
@@ -312,13 +292,6 @@ containerList: {
   },
  */
 
-
-
-
-
-
-
- 
   containerModal: {
     flex: 1,
     padding: 10,
@@ -326,13 +299,9 @@ containerList: {
     paddingBottom: '50%'
   },
 
-
-  scrollModal:{
-    height:1000
-
-   
+  scrollModal: {
+    height: 1000
   },
-
 
   contentModal: {
     height: 'auto',
@@ -345,8 +314,6 @@ containerList: {
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
   },
-
-
 
   formModal: {
     backgroundColor: 'transparent',
@@ -361,7 +328,6 @@ containerList: {
     borderRadius: 10,
   },
 
-
   input: {
     width: '100%',
     height: 50,
@@ -374,10 +340,6 @@ containerList: {
     backgroundColor: '#062531',
     fontSize: 16
   },
-
-
-
-
 
 
 });

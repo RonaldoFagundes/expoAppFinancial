@@ -253,6 +253,24 @@ export default function Investments({ navigation }) {
             >
             </FlatList>
          </View>
+
+         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.containerBtnFooter}>
+                     
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                  <Pressable style={styles.btn}
+                           onPress={() => navigation.navigate("SelectedAccount")}>
+                           <FontAwesome name='backward' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>{`  Voltar`}</Text>
+                  </Pressable>
+            </LinearGradient>
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btn}
+                           onPress={() => navigation.navigate("Home")}>
+                           <FontAwesome name='home' size={16} color={"#44E8C3"} />
+                           <Text style={styles.textBtn}>{`  Home`}</Text>
+                        </Pressable>
+            </LinearGradient>
+         </LinearGradient>
        
          <Modal
             animationType='fade'

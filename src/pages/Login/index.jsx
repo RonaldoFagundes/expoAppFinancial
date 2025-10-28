@@ -212,13 +212,16 @@ const logIn2 = async () => {
 
 
 return(
-   <View style={styles.main}>      
+   <View style={styles.main}>   
 
-      <View style={styles.container}>
+
+   <Text style={styles.textTitle}>Login</Text>   
+
+      <View style={styles.container}>          
 
          <TextInput  style={styles.input}
             placeholder={"user"}
-            placeholderTextColor="#44E8C3"
+            placeholderTextColor="#0a1311ff"
             type="text"
             onChangeText={(valor) =>
                handleInputChange('name',valor)
@@ -227,7 +230,7 @@ return(
 
           <TextInput  style={styles.input}
             placeholder={"password"}
-            placeholderTextColor="#44E8C3"
+            placeholderTextColor="#0a1311ff"
             secureTextEntry={true}
             type="text"
             onChangeText={(valor) =>
