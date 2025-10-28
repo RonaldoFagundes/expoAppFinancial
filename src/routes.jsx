@@ -40,24 +40,18 @@ export default function Routes() {
   </Tab.Navigator>
  */
 
-
-
   
     <Stack.Navigator
       screenOptions={{
         headerShown: false
       }}
-    >
-      
-           
-     {/* 
+    >      
+     
       <Stack.Screen
         name='Login'
         component={Login}
-      />
-     */} 
-      
-        
+      /> 
+
        <Stack.Screen
         name='Home'
         component={Home}
@@ -81,8 +75,7 @@ export default function Routes() {
       <Stack.Screen
         name='SelectedCreditCard'
         component={SelectedCreditCard}
-      />   
-    
+      />  
 
       <Stack.Screen
         name='Transactions'
@@ -99,9 +92,7 @@ export default function Routes() {
         component={CashPayment}
       />
      
-    </Stack.Navigator>
-   
-
+    </Stack.Navigator> 
 
   )
 };

@@ -75,9 +75,7 @@ export default function Investments({ navigation }) {
 
    const [simulator, setSimulator] = useState();
 
-    const [showSimulator, setShowSimulator] = useState(false);
-
-
+   const [showSimulator, setShowSimulator] = useState(false);
 
    const [modalInvestments, setModalInvestments] = useState(false);
 
@@ -98,7 +96,6 @@ export default function Investments({ navigation }) {
    };
 
 
-
    const getInvestments = async () => {
       await fetch(endpoint + "?action=investments")
          .then(res => {
@@ -112,8 +109,6 @@ export default function Investments({ navigation }) {
             console.log('erro => ' + error.message);
          });
    };
-
-
 
 
 
@@ -139,7 +134,6 @@ export default function Investments({ navigation }) {
    };
 
 
-
    const invest = (name, tx) => {
       setShowSimulator(false);      
       setModalInvestments(true);
@@ -152,7 +146,6 @@ export default function Investments({ navigation }) {
    };
 
 
-
    const handleInputChange = (atribute, value) => {
       setSafeInvestments(
          {
@@ -162,11 +155,10 @@ export default function Investments({ navigation }) {
    };
 
 
-
    const safePostInvestment = () => {
       setModalInvestments(false);
       setAmountAccount(amountAccount - safeInvestments.value);
-      console.log(safeInvestments);
+      alert(safeInvestments);
    };
 
 
@@ -205,12 +197,9 @@ export default function Investments({ navigation }) {
             }
          </View>
 
-
-
-
          <View style={styles.containerSimulator} >
 
-             <Text style={styles.textInfo}>{` Simulador `}</Text>  
+            <Text style={styles.textInfo}>{` Simulador `}</Text>  
 
             <View style={styles.contentSimulator}>
                <TextInput style={styles.input}
@@ -221,9 +210,8 @@ export default function Investments({ navigation }) {
                  (valor) => setSimulator(valor)
                 }            
                />                   
-            </View>       
+            </View>     
            
-
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
               <Pressable style={styles.btn}
                 onPress={() => getSimulator()}>
@@ -240,9 +228,7 @@ export default function Investments({ navigation }) {
             :
             <View></View>
              }
-        </View>
-
-
+        </View>        
 
          <View style={styles.containerList}>
             <FlatList
@@ -267,89 +253,47 @@ export default function Investments({ navigation }) {
             >
             </FlatList>
          </View>
-
-
-
-        <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
-            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
-                  onPress={() => back()}>
-                  <FontAwesome name='backward' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>{`  Back`}</Text>
-               </Pressable>
-            </LinearGradient>        
-            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
-                  onPress={() => navigation.navigate("Home")}>
-                  <FontAwesome name='home' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>{`  Home`}</Text>
-               </Pressable>
-            </LinearGradient>
-         </LinearGradient>        
-
-      
-
-
-
+       
          <Modal
             animationType='fade'
             visible={modalInvestments}
          >
-
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
-
                <View style={styles.infoModal} >
                   <Text style={styles.textDesc}>{` Register Investment `}</Text>
                </View>
-
-               <View style={styles.contentModal} >
-
+               <View style={styles.contentModal}>
                   <View style={styles.boxCard}>
-
                      <Text style={styles.input}>{safeInvestments.type}</Text>
-
                      <Text style={styles.input}>{safeInvestments.rate}</Text>
-
                      <TextInput style={styles.input}
                         placeholder="Valor"
                         placeholderTextColor="#44E8C3"
                         type="text"
-
                         onChangeText={
                            (valor) => handleInputChange('value', valor)
                         }
                         value={safeInvestments.value}
                      />
-
                   </View>
-
                   <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
-
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable style={styles.btn} onPress={() => safePostInvestment()}>
                            <FontAwesome name='save' size={16} color={"#44E8C3"} />
                            <Text style={styles.textBtn}>{`  Safe`}</Text>
                         </Pressable>
                      </LinearGradient>
-
                      <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                         <Pressable style={styles.btn} onPress={() => setModalInvestments(false)}                  >
                            <FontAwesome name='close' size={16} color={"#44E8C3"} />
                            <Text style={styles.textBtn}>{`  Cancel`}</Text>
                         </Pressable>
                      </LinearGradient>
-
                   </LinearGradient>
-
                </View>
-
             </LinearGradient>
-
          </Modal>
-
-
       </KeyboardAvoidingView>
-
    )
 }
 

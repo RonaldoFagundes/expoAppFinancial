@@ -122,7 +122,6 @@ export default StyleSheet.create({
     width: "auto",
     height: 'auto',
     padding: 6,
-
     backgroundColor:'#150c4bff',
     marginBottom:10
   },
@@ -143,9 +142,8 @@ export default StyleSheet.create({
      alignItems:'center',
      width:'auto',
      height:'auto',
-     padding:10,
-
-    
+     padding:10,  
+     marginBottom:10  
   },
 
 
@@ -201,6 +199,9 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+
+
+  
 
   containerModal: {
     flex: 1,

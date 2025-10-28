@@ -573,7 +573,7 @@ export default function CreditCard({ navigation }) {
 
                                <Text style={styles.textCard}>
                                 {/*  {` ${item.format_cc} `} */}
-                                 {` Ronaldo ${user} `}
+                                 {`${user} `}
                               </Text>
 
                               {/*  {item.type_cc == "visa" */}
