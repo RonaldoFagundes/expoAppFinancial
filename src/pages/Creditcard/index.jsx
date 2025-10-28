@@ -264,7 +264,7 @@ export default function CreditCard({ navigation }) {
 
 
 
-   const getListCreditCard = async (id, number, type, format, desc, fromDate, expiry, due, limit, fk_bac) => {
+   const getListCreditCard = async (id, number, type, format, desc, fromDate, expiry, due, limit) => {
       // console.log(" update id getListAccountById  id account " + id + " id do banco " + account.fkbnk);
       setCadCreditCard(
          {
@@ -277,7 +277,7 @@ export default function CreditCard({ navigation }) {
             creditCardData, ['expiry']: expiry,
             creditCardData, ['due']: due,
             creditCardData, ['limit']: limit,
-            creditCardData, ['idac']: fk_bac,
+           // creditCardData, ['idac']: fk_bac,
          }
       )
       setModalUpdate(true);
@@ -544,8 +544,38 @@ export default function CreditCard({ navigation }) {
                renderItem={({ item }) =>
                   
                   <View style={styles.containerCard}>
+
                      <View style={styles.contentCard}>
+                       
+                          {/*  
+                           <View style={styles.dataContent}>
+                              <Text style={styles.textList}>
+                                 {` ${item.type_cc} `}
+                              </Text>
+                           </View>
+                         */}
+
                         <View>
+                              <Text style={styles.textCard}>
+                                 {/*   {` ${item.number_cc} `} */}
+                                 {` ${item.number_ccr} `}
+                              </Text>
+                        </View>
+
+                        <View> 
+                              <Text style={styles.textCard}>
+                                 {/* {` ${item.expery_date_cc} `} */}
+                                 {` ${item.expiry_ccr} `}
+                              </Text>
+                        </View>
+
+                         <View style={styles.flegCard}>
+
+                               <Text style={styles.textCard}>
+                                {/*  {` ${item.format_cc} `} */}
+                                 {` Ronaldo ${user} `}
+                              </Text>
+
                               {/*  {item.type_cc == "visa" */}
                               {item.type_ccr == "visa"
                                  ?
@@ -554,30 +584,9 @@ export default function CreditCard({ navigation }) {
                                  <FontAwesome name='cc-mastercard' size={42} color={"white"} />
                               }
                         </View>
-                          {/*  
-                           <View style={styles.dataContent}>
-                              <Text style={styles.textList}>
-                                 {` ${item.type_cc} `}
-                              </Text>
-                           </View>
-                         */}
-                        <View>
-                              <Text style={styles.textCard}>
-                                 {/*   {` ${item.number_cc} `} */}
-                                 {` ${item.number_ccr} `}
-                              </Text>
-                        </View>
-                        <View>
-                              <Text style={styles.textCard}>
-                                {/*  {` ${item.format_cc} `} */}
-                                 {` ${item.format_ccr} `}
-                              </Text>
-                              <Text style={styles.textCard}>
-                                 {/* {` ${item.expery_date_cc} `} */}
-                                 {` ${item.expiry_ccr} `}
-                              </Text>
-                        </View>
+
                      </View>
+
                      <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>                          
                            <Pressable style={styles.btn}
@@ -617,8 +626,8 @@ export default function CreditCard({ navigation }) {
                                     item.id_ccr,
                                     item.number_ccr,
                                     item.type_ccr,
-                                    item.format_cc,
-                                    item.desc_cc,
+                                    item.format_ccr,
+                                    item.desc_ccr,
                                     item.fromDate_ccr,
                                     item.expiry_ccr,
                                     item.due_ccr,
@@ -641,7 +650,7 @@ export default function CreditCard({ navigation }) {
             </FlatList>
           :
           <View style={styles.containerNoList}>
-               <Text style={styles.textInfo}>{`${user} Ainda não existem cartões nessa conta !!!`}</Text>
+               <Text style={styles.textInfo}>{`${user} Ainda não existem cartões na conta ${accountData.number}`}</Text>
           </View>    
          }
 
@@ -748,7 +757,7 @@ export default function CreditCard({ navigation }) {
                         onChangeText={
                            (valor) => handleInputChangeCad('limit', valor)
                         }
-                     //value={cadCreditCard.limit}
+                     value={cadCreditCard.limit}
                      />
                   </View>
                   <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
@@ -768,6 +777,7 @@ export default function CreditCard({ navigation }) {
                </LinearGradient>
             </ScrollView>
          </Modal>
+         
          <Modal
             animationType='fade'
             visible={modalUpdate}
@@ -870,7 +880,7 @@ export default function CreditCard({ navigation }) {
                            value={cadCreditCard.due}
                         />
                         <TextInput style={styles.input}
-                           placeholder={` ${creditCardData.limit}`}
+                           placeholder={` ${cadCreditCard.limit}`}
                            placeholderTextColor="#44E8C3"
                            type="text"
                            onChangeText={

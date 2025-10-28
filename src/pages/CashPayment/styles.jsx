@@ -14,12 +14,12 @@ export default StyleSheet.create({
   containerHeader: {
     height: "20%",
     width: 'auto',
-    padding: 50,
-    
+    padding: 50,    
     flexDirection: 'row',
     justifyContent: 'center',
     borderBottomLeftRadius:40,
-    borderBottomRightRadius:40
+    borderBottomRightRadius:40,
+    marginTop:25
   },
 
   contentHeaderTitle: {

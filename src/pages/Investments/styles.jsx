@@ -21,11 +21,12 @@ export default StyleSheet.create({
   containerHeader: {
     height: "20%",
     width: 'auto',
-    padding: 10,
+    padding: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomStartRadius: 40,
-    borderBottomEndRadius: 40
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40,
+    marginTop:25
   },
 
   resizeModel: {
@@ -48,7 +49,7 @@ export default StyleSheet.create({
 
   containerInfo: {
     height: 'auto',
-    width: '80%',
+    width: 'auto',
     alignItems: 'center',
     marginStart: 10,
     marginEnd: 10,
@@ -121,7 +122,38 @@ export default StyleSheet.create({
     width: "auto",
     height: 'auto',
     padding: 6,
+
+    backgroundColor:'#150c4bff',
+    marginBottom:10
   },
+
+
+  contentList2: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: 10,
+    width: "auto",
+    height: 'auto',
+    padding: 6,
+  },
+
+
+  containerSimulator:{
+     flexDirection: 'column',
+     alignItems:'center',
+     width:'auto',
+     height:'auto',
+     padding:10,
+
+    
+  },
+
+
+   contentSimulator:{
+     width:'100%',     
+  },
+
+
 
   contentCardList: {
     flexDirection: 'column',
@@ -149,6 +181,7 @@ export default StyleSheet.create({
     width: '100%',
     height: 'auto',    
     marginTop: 'auto',
+    marginBottom:40
   },
 
   boxBtn: {

@@ -15,9 +15,7 @@ export default function Header({user , info}){
 
     return(
 
-
       <View style={styles.container}>
-
        
          <View style={styles.content}>
 

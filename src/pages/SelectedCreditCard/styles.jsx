@@ -7,22 +7,24 @@ export default StyleSheet.create({
   main: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#fffdf5ff'
+    backgroundColor: '#fffdf5ff',   
   },  
 
   containerHeader: {
     height: "20%",
     width: 'auto',
-    padding: 10,
+    padding: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    borderBottomStartRadius: 40,
-    borderBottomEndRadius: 40
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40,
+    marginTop:25
+   
   },
   
    containerInfo: {
     height: 'auto',
-    width: '80%',
+    width: 'auto',
     alignItems: 'center',
     marginStart: 10,
     marginEnd: 10,
@@ -148,25 +150,21 @@ export default StyleSheet.create({
     padding: 10,   
     width: 'auto',
     height: 'auto',
+    marginTop:10,
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
-    borderRadius: 10,
-    marginTop: 'auto',
+    borderRadius: 10,    
   },
   
    containerBtnFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    borderRadius: 10,
-    //flexWrap: 'wrap',
+    borderRadius: 10,    
     width: 'auto',
-    height: 'auto',
-   // borderWidth: 1,
-   // borderBottomColor: "#44E8C3",
-   // borderRadius: 10,
+    height: 'auto',   
     marginTop: 20,
-    marginBottom: 50
+    marginBottom: '10%'
   },
 
   boxBtn: {
@@ -191,6 +189,25 @@ export default StyleSheet.create({
 
 
 
+containerSearch:{
+  flexDirection:'row',
+ justifyContent:'center',
+  width:'100%',
+  height:'auto',
+  padding:10,
+  marginTop:10,  
+},
+
+contentSearch:{
+  backgroundColor:'#1c0c7aff',
+  width:'40%',
+  borderRadius:6,
+  borderWidth:2,
+  borderColor:'#44E8C3',
+},
+
+
+
 
 
 containerList: {
@@ -205,9 +222,7 @@ containerList: {
     alignItems: 'flex-start',
     width: "100%",
     height: "auto",
-    padding: 10,
-    marginTop: 10,
-    marginBottom: 10,
+    padding: 10, 
     borderBottomWidth: 2,
     borderBottomColor: "#030f0cff",
     borderRadius: 10,
@@ -303,13 +318,20 @@ containerList: {
 
 
 
+ 
   containerModal: {
     flex: 1,
     padding: 10,
     height: '100%',
+    paddingBottom: '50%'
   },
 
 
+  scrollModal:{
+    height:1000
+
+   
+  },
 
 
   contentModal: {

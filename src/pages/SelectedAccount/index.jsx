@@ -574,7 +574,7 @@ export default function SelectedAccount({ navigation }) {
                <Pressable style={styles.btn}
                   onPress={() => setShowAmount(false)}>
                   {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
-                  <Text style={styles.textHidden}>{` AMOUNT R$ ${amountAccount}`}</Text>
+                  <Text style={styles.textHidden}>{`R$ ${amountAccount}`}</Text>
                </Pressable>
 
                :
@@ -656,7 +656,7 @@ export default function SelectedAccount({ navigation }) {
 
                            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                               <Pressable style={styles.btn}
-                                 onPress={() => navigation.navigate("Transactions")}>
+                                 onPress={() => navigation.navigate("Investments")}>
                                  <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
                                  <Text style={styles.textBtn}>Investir</Text>
                               </Pressable>
@@ -685,7 +685,7 @@ export default function SelectedAccount({ navigation }) {
 
                            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtnCarrousel}>
                               <Pressable style={styles.btn}
-                                 onPress={() => navigation.navigate("Transactions")}>
+                                 onPress={() => navigation.navigate("Investments")}>
                                  <FontAwesome name='list-alt' size={30} color={"#44E8C3"} />
                                  <Text style={styles.textBtn}>Investir</Text>
                               </Pressable>
@@ -739,7 +739,7 @@ export default function SelectedAccount({ navigation }) {
                <Pressable style={styles.btnMenu}
                   onPress={() => navigation.navigate("SelectedBank")}>
                   <FontAwesome name='backward' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>{`  Voltar`}</Text>
+                  <Text style={styles.textBtn}>{`  Back`}</Text>
                </Pressable>
             </LinearGradient>
 

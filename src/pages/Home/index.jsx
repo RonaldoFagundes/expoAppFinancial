@@ -30,8 +30,8 @@ import Header from '../../components/Header';
 
 //import Introduction from '../../components/Introduction';
 
-const h_max_hight = 260;
-const h_min_hight = 190;
+const h_max_hight = 215;
+const h_min_hight = 205;
 const h_scroll_distance = h_max_hight - h_min_hight;
 
 
@@ -71,14 +71,13 @@ export default function Home({ navigation }) {
       var mm = (dta.getMonth() + 1).toString().padStart(2, '0');
       var nxt = (dta.getMonth() + 2).toString().padStart(2, '0');
       var yyyy = dta.getFullYear();
-      // var today = dd + "/" + mm + "/" + yyyy;
+      
       setInfoDate(
          {
             ...infoDate, 'day': dd,
             infoDate, 'month': mm,
             infoDate, 'nextMonth': nxt,
             infoDate, 'year': yyyy
-
          }
       );
       if (hours > 0 && hours < 12) {
@@ -105,7 +104,7 @@ export default function Home({ navigation }) {
 
    const imageScaleHeight = scrollOffsetY.interpolate({
       inputRange: [0, h_max_hight],
-      outputRange: [60, 24],
+      outputRange: [50, 24],
       extrapolate: 'clamp'
    });
 
@@ -478,7 +477,7 @@ export default function Home({ navigation }) {
          />
         */}
 
-         <View style={{ height: h_max_hight }}>
+         <View style={{ height: h_max_hight , marginBottom:20}}>
 
             <Animated.View
                style={{
@@ -493,7 +492,8 @@ export default function Home({ navigation }) {
                   height: headerScrollHeight,
                   borderBottomLeftRadius: 40,
                   borderBottomRightRadius: 40,
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  marginTop:25,                                 
                }}
             >
                <Animated.Image
@@ -503,7 +503,7 @@ export default function Home({ navigation }) {
                      width: 60,
                      height: imageScaleHeight,
                      borderRadius: 8,
-                     marginTop: 60
+                     marginTop: 20,                     
                   }}
                   resizeModel='contain'
                />
@@ -721,8 +721,6 @@ export default function Home({ navigation }) {
               </Pressable>     
          </View>          
       */}
-
-
          <LinearGradient colors={['#faffffff', '#97a1a1ff']} style={styles.containerBtnFooter}>
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btnMenu}
@@ -832,7 +830,6 @@ export default function Home({ navigation }) {
                </LinearGradient>
             </ScrollView>
          </Modal>
-
 
          <Modal animationType='fade'
             visible={modalUpdateBank}>

@@ -25,8 +25,7 @@ import styles from './styles';
 import { FontAwesome } from '@expo/vector-icons';
 
 import Header from '../../components/Header';
-
-
+import PdfReport from '../../components/PdfCreditCardPost'; 
 
 export default function SelectedCreditCard({ navigation }) {
 
@@ -87,12 +86,17 @@ export default function SelectedCreditCard({ navigation }) {
        // proofPost(creditCardData.id);
         // console.log(" dados do cartao  id "+accountData.id+" data vencimento "+creditCardData.due_day)
 
+
+         
          var count = Object.keys(postCreditcard).length;
          if(count != 0  ){
             setShowProof(true);
+            setListReports(postCreditcard);
           }else{
            setShowProof(false);
           }
+
+          
         
     }, [load, navigation]);
 
@@ -127,6 +131,7 @@ export default function SelectedCreditCard({ navigation }) {
     const [resultPost, setResultPost] = useState();
     const [proof, setProof] = useState({});
 
+    
 
     const [postCreditCard, setPostCreditCard] = useState({
         placeshop: "",
@@ -182,6 +187,46 @@ export default function SelectedCreditCard({ navigation }) {
             }
         );
     };
+
+
+
+   const [searchVisible, setSearchVisible] = useState(false);
+   const [listReports, setListReports] = useState([]);    
+   const [reportSearch, setReportSearch] = useState('');
+
+   const handleReport = (value) => {
+    setReportSearch(value);   
+    const filters = postCreditcard.filter((item) =>   
+     item.date_pst.toLowerCase().includes(removeString(value.toLowerCase()))
+    );
+    setListReports(filters);    
+  };
+   
+
+    const removeString = (value) => {
+    return value.replace(/[^0-9]/g, '');
+   }
+
+
+    
+
+    var today = infoDate.year + "-" + infoDate.month + "-" + infoDate.day;
+    var title = creditCardData.type+" Nº "+creditCardData.number;
+    var expery_date = creditCardData.due_day+"/"+monthPay;
+
+    const pdfReport = () => {
+      PdfReport(
+        bankData.img, 
+        title,
+        expery_date,
+        listReports,
+        today);
+  }
+
+
+
+
+
 
 
     const closeModal = (atribute) => {
@@ -453,10 +498,48 @@ export default function SelectedCreditCard({ navigation }) {
                 <Text style={styles.textDesc}>{`Vencimento ${creditCardData.due_day}/${monthPay}`}</Text>
             </View>
 
+            <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                    <Pressable style={styles.btnMenu}
+                        onPress={() => setShowProof(false) & setModalPost(true)}>
+                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>{`  Post`}</Text>
+                    </Pressable>
+                </LinearGradient>
+                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                    <Pressable style={styles.btnMenu}
+                        onPress={() =>  {!searchVisible? setSearchVisible(true):setSearchVisible(false) }  }>
+                        <FontAwesome name='search' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>{`  Search`}</Text>
+                    </Pressable>
+                </LinearGradient>
+                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                    <Pressable style={styles.btnMenu}
+                        onPress={() => pdfReport()}>
+                        <FontAwesome name='file-pdf-o' size={16} color={"#44E8C3"} />
+                        <Text style={styles.textBtn}>{` Pdf`}</Text>
+                    </Pressable>
+                </LinearGradient>              
+            </LinearGradient>
+
+            {searchVisible?         
+            <View style={styles.containerSearch}>                
+                <View style={styles.contentSearch} >
+                    <TextInput  style={{color:"#C0C0C0"}}                                          
+                       placeholder="Pesquisar..."
+                       placeholderTextColor="#C0C0C0"
+                       value={reportSearch}
+                       onChangeText={handleReport}                      
+                     />   
+                </View>
+            </View>  
+             :
+             <View></View>
+            }
          
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    data={postCreditcard}
+                    data={listReports}
                     renderItem={({ item }) =>
 
                         <View style={styles.containerList}>
@@ -515,26 +598,15 @@ export default function SelectedCreditCard({ navigation }) {
             <Text style={styles.textInfo}>{` EXPIRY  ${creditCardData.expiry}`}</Text>
         </View>
       */}
+
+      
             <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
-                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                    <Pressable style={styles.btnMenu}
-                        onPress={() => setShowProof(false) & setModalPost(true)}>
-                        <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>{`  Post`}</Text>
-                    </Pressable>
-                </LinearGradient>
-                <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-                    <Pressable style={styles.btnMenu}
-                        onPress={() => navigation.navigate("ReportCreditCard")}>
-                        <FontAwesome name='list-alt' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>{`  Report`}</Text>
-                    </Pressable>
-                </LinearGradient>
+               
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                     <Pressable style={styles.btnMenu}
                         onPress={() => navigation.navigate("CreditCard")}>
                         <FontAwesome name='backward' size={16} color={"#44E8C3"} />
-                        <Text style={styles.textBtn}>{`  Voltar`}</Text>
+                        <Text style={styles.textBtn}>{`  Back`}</Text>
                     </Pressable>
                 </LinearGradient>
                 <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
@@ -543,15 +615,19 @@ export default function SelectedCreditCard({ navigation }) {
                         <FontAwesome name='home' size={16} color={"#44E8C3"} />
                         <Text style={styles.textBtn}>{`  Home`}</Text>
                     </Pressable>
-                </LinearGradient>
+                </LinearGradient>               
+
             </LinearGradient>
 
-            <Modal
+
+            <Modal 
                 animationType='fade'
                 visible={modalPost}
-            >
+            >              
                 <ScrollView>
-                    <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal}>
+
+                    <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerModal} >
+
                         <View style={styles.contentModal} >
                             <Text style={styles.textInfo}>{` Register PostCreditCard`}</Text>
                         </View>
@@ -619,8 +695,9 @@ export default function SelectedCreditCard({ navigation }) {
                                 }
                                 value={postCreditCard.expery}
                             />
-                        </View>
-                        <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+                        </View> 
+
+                        <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
                             <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.boxBtn}>
                                 <Pressable style={styles.btnMenu}
                                     onPress={() => safePost()}>
@@ -636,8 +713,11 @@ export default function SelectedCreditCard({ navigation }) {
                                 </Pressable>
                             </LinearGradient>
                         </LinearGradient>
+
                     </LinearGradient>
+
                 </ScrollView>
+              
             </Modal>
         </KeyboardAvoidingView>
     )

@@ -15,11 +15,12 @@ export default StyleSheet.create({
     height: "20%",
     flexDirection: 'row',
     justifyContent: 'space-evenly',   
-    paddingTop: 15,
+    paddingTop: 50,
     paddingStart: 15,
     backgroundColor: '#06121c',
     borderBottomStartRadius: 40,
-    borderBottomEndRadius: 40
+    borderBottomEndRadius: 40,
+    marginTop:25
   },
 
   resizeModel: {
@@ -32,7 +33,7 @@ export default StyleSheet.create({
 
 
    containerHeaderTwo: {
-    width: '80%',
+    width: 'auto',
     height:80,
     flexDirection: 'row',
     alignItems:'center',
@@ -74,9 +75,28 @@ export default StyleSheet.create({
   containerInfo:{ 
     height:70,    
     alignItems:'center',  
-     backgroundColor: '#ecf4f5ff',
+    backgroundColor: '#ecf4f5ff',
+    marginTop:10,  
+    paddingTop:15 
   },
 
+
+containerSearch:{
+  flexDirection:'row',
+ justifyContent:'center',
+  width:'100%',
+  height:'auto',
+  padding:10,
+  marginTop:10,  
+},
+
+contentSearch:{
+  backgroundColor:'#1c0c7aff',
+  width:'40%',
+  borderRadius:6,
+  borderWidth:2,
+  borderColor:'#44E8C3',
+},
 
 
 
@@ -149,11 +169,25 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderBottomColor: "#44E8C3",
     borderRadius: 10,
-    marginTop: 'auto',
+   // marginTop: 'auto',
   },
 
 
+
+  containerBtnFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderRadius: 10,
+    width: 'auto',
+    height: 'auto',
+    marginTop: 'auto',
+    marginBottom:"10%"
+  },
+
  
+
+
 
   boxBtn: {
     height: 40,
@@ -165,7 +199,7 @@ export default StyleSheet.create({
    flexDirection: 'row',
     width: 'auto',
     height: 'auto',
-    padding: 10,
+    padding: 10,    
   },
 
 
@@ -279,8 +313,7 @@ containerList: {
     width: "100%",
     height: "auto",
     padding: 10,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 3,
     borderBottomWidth: 2,
     borderBottomColor: "#030f0cff",
     borderRadius: 10,
@@ -291,7 +324,7 @@ containerList: {
     fontSize: 16,
     color: '#0a0238ff',
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 8
   },
 
 

@@ -27,12 +27,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderBottomLeftRadius:40,
-    borderBottomRightRadius:40
+    borderBottomRightRadius:40,
+    marginTop:25
   },
   
    containerInfo: {
     height: 'auto',
-    width: '80%',
+    width: 'auto',
     alignItems: 'center',
     marginStart: 10,
     marginEnd: 10,
@@ -100,8 +101,8 @@ containerBtn: {
    // borderWidth: 1,
    // borderBottomColor: "#44E8C3",
    // borderRadius: 10,
-    marginTop: 'auto',
-    marginBottom:40   
+    marginTop: 'auto',    
+    marginBottom:40 
   },
 
 
@@ -142,7 +143,7 @@ containerBtn: {
     width: "auto",
     height: "auto",
     padding: 10,
-    marginTop: 5,
+    marginTop: 15,
     marginBottom: 5,
     borderRadius: 10,
   },
@@ -153,8 +154,12 @@ containerBtn: {
     borderRadius: 10,
     elevation: 4,
     padding: 10,
+    paddingStart:30,
+    paddingEnd:30,
     marginBottom: 10,
-    backgroundColor: '#0b1936',
+    backgroundColor: '#374d77ff',
+    borderWidth:2,
+    borderColor:'#10bebeff'
   },
 
   dataCard: {
@@ -170,6 +175,14 @@ containerBtn: {
     fontWeight: 'bold',
     marginTop: 7
   },
+
+
+  flegCard:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
+
+
 
   containerList: {
     height: "100%",

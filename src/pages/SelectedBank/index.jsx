@@ -28,8 +28,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import Header from '../../components/Header';
 
 
-const h_max_hight = 260;
-const h_min_hight = 180;
+const h_max_hight = 215;
+const h_min_hight = 205;
 const h_scroll_distance = h_max_hight - h_min_hight;
 
 
@@ -102,7 +102,7 @@ export default function SelectedBank({ navigation }) {
 
    const [isList, setIsList] = useState(false);
 
-
+   const [showAmount, setShowAmount] = useState(false);
 
    const [account, setAccount] = useState({
       id: 0,
@@ -586,7 +586,7 @@ export default function SelectedBank({ navigation }) {
 
    return (
       <View style={{ flex: 1 }} >
-         <View style={{ height: h_max_hight }}>
+         <View style={{ height: h_max_hight,  marginBottom:20 }}>
             <Animated.View
                style={{
                   position: 'absolute',
@@ -600,7 +600,8 @@ export default function SelectedBank({ navigation }) {
                   height: headerScrollHeight,
                   borderBottomLeftRadius: 40,
                   borderBottomRightRadius: 40,
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  marginTop:25
                }}
             >
                <Animated.Image
@@ -610,7 +611,7 @@ export default function SelectedBank({ navigation }) {
                      width: 60,
                      height: imageScaleHeight,
                      borderRadius: 8,
-                     marginTop: 70,
+                     marginTop: 20,
 
                   }}
                   resizeModel='contain'
@@ -662,16 +663,32 @@ export default function SelectedBank({ navigation }) {
                         */}
                         <Text style={styles.textList}>
                            {/*   {`Type :  ${item.type_bka}`} */}
-                           {`Type :  ${item.type_act}`}
+                           {`Conta :  ${item.type_act}`}
                         </Text>
                         <Text style={styles.textList}>
                            {/*  {`Nº :  ${item.number_bka}`} */}
-                           {`Nº :  ${item.number_act}`}
+                           {`Nº   :  ${item.number_act}`}
                         </Text>
-                        <Text style={styles.textList}>
-                           {/* {`Amount:  ${item.amount_bka}`} */}
-                           {`Amount:  ${item.saldo_act}`}
-                        </Text>
+
+
+                            
+                       
+                                   {showAmount ?                       
+                                      <Pressable style={styles.btn}
+                                         onPress={() => setShowAmount(false)}>                                       
+                                         <Text style={styles.textList}>{`R$ ${item.saldo_act}`}</Text>
+                                      </Pressable>                       
+                                      :
+                                      <Pressable style={styles.btn}
+                                         onPress={() => setShowAmount(true)}>
+                                         <FontAwesome name='eye' size={30} color={"#02dee6ff"} />
+                                      </Pressable>
+                                   }
+                       
+                              
+                     
+
+
                      </View>
                      <View style={styles.containerBtn}>
                         <LinearGradient colors={['#fdfdffff', `${bankData.backgroundup}`]} style={styles.boxBtn}>

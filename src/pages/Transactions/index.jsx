@@ -27,7 +27,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 
 import Header from '../../components/Header';
-
+import PdfReport from '../../components/PdfTransactions'; 
 
 
 
@@ -45,6 +45,7 @@ export default function Transactions({ navigation }) {
       setAmountAccount,
       amountAccount,
       transactionsType,
+      infoDate,
 
       accounts,
       reports,  
@@ -68,6 +69,7 @@ export default function Transactions({ navigation }) {
       var count = Object.keys(reports).length;     
         if(count != 0  ){
            setListReport(true);
+            setListReports(reports);
         }else{
            setListReport(false);
         }
@@ -122,6 +124,45 @@ export default function Transactions({ navigation }) {
 
 
 
+   const [searchVisible, setSearchVisible] = useState(false);
+   const [listReports, setListReports] = useState([]);    
+   const [reportSearch, setReportSearch] = useState('');
+   
+      const handleReport = (value) => {
+       setReportSearch(value);   
+       const filters = reports.filter((item) =>   
+        item.date_rpt.toLowerCase().includes(removeString(value.toLowerCase()))
+       );
+       setListReports(filters);    
+     };
+      
+   
+       const removeString = (value) => {
+       return value.replace(/[^0-9]/g, '');
+      }
+
+
+
+
+
+
+       var today = infoDate.year + "-" + infoDate.month + "-" + infoDate.day;
+       var title = accountData.type+" Nº "+accountData.number;
+             
+          const pdfReport = () => {
+            PdfReport(
+              bankData.img, 
+              title,              
+              listReports,
+              today);
+        }
+
+
+
+
+
+
+
    // const [selectedType, setSelectedType] = useState("");
 
    /*
@@ -137,11 +178,14 @@ export default function Transactions({ navigation }) {
    */
 
 
+
+
    const listIn = [
       { key: '2', value: 'Pix Outros' },
       { key: '4', value: 'Ted Outros' },
       { key: '6', value: 'Deposito' },
    ]
+
 
    const listOut = [
       { key: '1', value: 'Pix Pessoal' },
@@ -508,7 +552,7 @@ export default function Transactions({ navigation }) {
                <Pressable style={styles.btn}
                   onPress={() => setShowAmount(false)}>
                   {/*  <Text style={styles.textInfo}>{` AMOUNT = ${accountData.amount}`}</Text> */}
-                  <Text style={styles.textDesc}>{` AMOUNT R$ ${amountAccount}`}</Text>
+                  <Text style={styles.textDesc}>{`R$ ${amountAccount}`}</Text>
                </Pressable>
                :
                <Pressable style={styles.btn}
@@ -518,24 +562,78 @@ export default function Transactions({ navigation }) {
             }
          </View>
 
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => setShowProof(false) & setModalTransaction(true)}>
+                  <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
+                  <Text style={styles.textBtn}>{`  Post`}</Text>
+               </Pressable>
+            </LinearGradient>
+
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                   onPress={() =>  {!searchVisible? setSearchVisible(true):setSearchVisible(false) }}>
+                 <FontAwesome name='search' size={16} color={"#44E8C3"} />
+                 <Text style={styles.textBtn}>{`  Search`}</Text>
+               </Pressable>
+            </LinearGradient>
+
+            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+               <Pressable style={styles.btn}
+                  onPress={() => pdfReport()}>
+                  <FontAwesome name='file-pdf-o' size={16} color={"#44E8C3"} />
+                   <Text style={styles.textBtn}>{`  Pdf`}</Text>
+               </Pressable>
+            </LinearGradient>
+
+         </LinearGradient>
+
+
+
+
+
+
+
+
+
           {
-           listReport ?      
+           listReport ?
+
            <View>
+
+              {searchVisible?         
+               <View style={styles.containerSearch}>                
+                  <View style={styles.contentSearch} >
+                    <TextInput  style={{color:"#C0C0C0"}}                                          
+                       placeholder="Pesquisar..."
+                       placeholderTextColor="#C0C0C0"
+                       value={reportSearch}
+                       onChangeText={handleReport}                      
+                     />   
+                  </View>
+               </View>  
+                :
+               <View></View>
+              }
+
                <FlatList
                       showsVerticalScrollIndicator={false}
-                      data={reports}
+                      data={listReports}
                       renderItem={({ item }) =>                         
                          <View style={styles.containerList}>
                             <View style={styles.contentCardList}>
                               <Text style={styles.textList}>{`Data :  ${item.date_rpt}`}</Text>
                               <Text style={styles.textList}>{`Desc :  ${item.desc_rpt}`}</Text>
-                              <Text style={styles.textList}>{`R$ :  ${item.value_rpt}`}</Text>   
+                              <Text style={styles.textList}>{`R$   :  ${item.value_rpt}`}</Text>   
                             </View>
                          </View>
                       }
                    >               
                </FlatList>
-            </View>                   
+            </View> 
+            
+            
              :
             <View style={styles.containerList}>
                <Text style={styles.textList}>{`Não existem transações na conta  ${accountData.number}`}</Text>
@@ -595,7 +693,7 @@ export default function Transactions({ navigation }) {
          */}
 
 
-          <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtn}>
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
             {/*      
             <Pressable style={styles.btn}
                onPress={() => checkType()}>
@@ -615,25 +713,9 @@ export default function Transactions({ navigation }) {
 
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                <Pressable style={styles.btn}
-                  onPress={() => setShowProof(false) & setModalTransaction(true)}>
-                  <FontAwesome name='barcode' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>{`  Post`}</Text>
-               </Pressable>
-            </LinearGradient>
-
-            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
-                  onPress={() => getReport()}>
-                  <FontAwesome name='list-alt' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>{`  Extrato`}</Text>
-               </Pressable>
-            </LinearGradient>
-
-            <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
-               <Pressable style={styles.btn}
                   onPress={() => back()}>
                   <FontAwesome name='backward' size={16} color={"#44E8C3"} />
-                  <Text style={styles.textBtn}>{`  Voltar`}</Text>
+                  <Text style={styles.textBtn}>{`  Back`}</Text>
                </Pressable>
             </LinearGradient>
 
@@ -645,8 +727,6 @@ export default function Transactions({ navigation }) {
                </Pressable>
             </LinearGradient>
          </LinearGradient>
-
-
 
 
          <Modal

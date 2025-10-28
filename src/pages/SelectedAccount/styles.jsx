@@ -32,7 +32,8 @@ export default StyleSheet.create({
     paddingStart: 15,
     backgroundColor: '#9da2a7ff',
     borderBottomStartRadius: 40,
-    borderBottomEndRadius: 40
+    borderBottomEndRadius: 40,
+    marginTop:25
   },
 
   resizeModel: {
@@ -43,7 +44,7 @@ export default StyleSheet.create({
   },
 
   containerHeaderTwo: {
-    width: '80%',
+    width: 'auto',
     flexDirection: 'column',
     padding: 10,
     marginStart: 30,

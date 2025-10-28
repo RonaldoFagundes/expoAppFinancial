@@ -6,15 +6,12 @@ const Stack = createNativeStackNavigator();
 //const Tab = createBottomTabNavigator();
 
 
-
-import Config from './pages/Config';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import SelectedBank from './pages/SelectedBank';
 import SelectedAccount from './pages/SelectedAccount';
 import CreditCard from './pages/Creditcard';
 import SelectedCreditCard from './pages/SelectedCreditCard';
-import ReportCreditCard from './pages/ReportCreditCard';
 import Transactions from './pages/Transactions';
 import Investments from './pages/Investments';
 import CashPayment from './pages/CashPayment';
@@ -52,14 +49,7 @@ export default function Routes() {
       }}
     >
       
-     {/* 
-      <Stack.Screen
-        name='Config'
-        component={Config}
-      />
-      */}
-
-      
+           
      {/* 
       <Stack.Screen
         name='Login'
@@ -92,11 +82,7 @@ export default function Routes() {
         name='SelectedCreditCard'
         component={SelectedCreditCard}
       />   
-
-      <Stack.Screen
-        name='ReportCreditCard'
-        component={ReportCreditCard}
-      /> 
+    
 
       <Stack.Screen
         name='Transactions'
