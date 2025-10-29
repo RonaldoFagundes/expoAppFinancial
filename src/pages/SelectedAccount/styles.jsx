@@ -155,7 +155,7 @@ export default StyleSheet.create({
     width: 'auto',
     height: 'auto',
     marginTop: 'auto',
-    marginBottom: 50
+    marginBottom: 40
   },
 
   boxBtn: {

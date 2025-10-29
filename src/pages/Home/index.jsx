@@ -478,7 +478,7 @@ export default function Home({ navigation }) {
                   }}
                   resizeModel='contain'
                />
-               <View style={{ marginTop: 10, borderRadius: 6, backgroundColor: "#021f4b" }}>
+               <View style={{ marginTop: 5, borderRadius: 6 }}>
                   <Header user={`${welcome} ${user}`} />
                </View>
             </Animated.View>

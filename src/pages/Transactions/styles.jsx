@@ -150,18 +150,17 @@ export default StyleSheet.create({
     borderRadius: 10,
   },
 
-  containerBtnFooter: {
+   containerBtnFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    paddingBottom:20,
+    paddingBottom:40,
     borderRadius: 10,
     width: '100%',
-    height: 'auto',    
-    position: 'absolute',
-    marginTop:570
+    height: 'auto',     
+    marginTop:"auto"
   },
-
+ 
   boxBtn: {
     height: 40,
     borderRadius: 10,

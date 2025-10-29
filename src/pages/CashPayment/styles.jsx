@@ -26,7 +26,7 @@ export default StyleSheet.create({
 
   containerInfo: {
     height: 'auto',
-    width: '80%',
+    width: 'auto',
     alignItems: 'center',
     marginStart: 10,
     marginEnd: 10,

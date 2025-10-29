@@ -85,7 +85,7 @@ export default function SelectedBank({ navigation }) {
 
    const imageScaleHeight = scrollOffsetY.interpolate({
       inputRange: [0, h_max_hight],
-      outputRange: [60, 24],
+      outputRange: [50, 24],
       extrapolate: 'clamp'
    });
 
@@ -600,7 +600,7 @@ export default function SelectedBank({ navigation }) {
                   height: headerScrollHeight,
                   borderBottomLeftRadius: 40,
                   borderBottomRightRadius: 40,
-                  overflow: 'hidden',                 
+                  overflow: 'hidden',                                
                }}
             >
                <Animated.Image
@@ -610,8 +610,7 @@ export default function SelectedBank({ navigation }) {
                      width: 60,
                      height: imageScaleHeight,
                      borderRadius: 8,
-                     marginTop: 20,
-
+                     marginTop: 20    
                   }}
                   resizeModel='contain'
                />

@@ -178,6 +178,7 @@ export default function Investments({ navigation }) {
             </View>
          </LinearGradient>
 
+
          <View style={styles.containerInfo}>
             <Text style={styles.textInfo}>{`Conta ${accountData.type}  `}</Text>
             <Text style={styles.textInfo}>{`${accountData.number}`}</Text>
@@ -197,7 +198,8 @@ export default function Investments({ navigation }) {
             }
          </View>
 
-         <View style={styles.containerSimulator} >
+
+         <View style={styles.containerSimulator}>
 
             <Text style={styles.textInfo}>{` Simulador `}</Text>  
 
@@ -230,6 +232,42 @@ export default function Investments({ navigation }) {
              }
         </View>        
 
+         <View style={{height:360}}>
+
+           <View style={styles.containerList}>
+             
+              <FlatList
+              
+                  data={investments}
+                  renderItem={({ item }) =>
+
+                      <View style={styles.contentList}>
+                        <Text style={styles.textList}> {`Tipo : ${item.name}`}</Text>
+                        <Text style={styles.textList}> {`Rentabilidade : ${item.tx}${item.details}`}</Text>
+
+
+                         <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
+                        <Pressable style={styles.btn}
+                           onPress={() =>
+                              invest(item.name, item.tx)
+                           }
+                        >
+                           <Text style={styles.textBtn}>{`Investir`}</Text>
+                        </Pressable>
+                     </LinearGradient>
+                      </View>
+
+                  }
+              
+              >
+              </FlatList>
+
+
+           </View>
+
+         </View>
+
+{/* 
          <View style={styles.containerList}>
             <FlatList
                data={investments}
@@ -254,7 +292,11 @@ export default function Investments({ navigation }) {
             </FlatList>
          </View>
 
-         <LinearGradient colors={['#08042F', '#B1B2AB']} style={styles.containerBtnFooter}>
+ */}
+
+
+
+         <LinearGradient colors={['#08042F', '#050b3d']} style={styles.containerBtnFooter}>
                      
             <LinearGradient colors={['#08042F', '#413f56']} style={styles.boxBtn}>
                   <Pressable style={styles.btn}

@@ -170,13 +170,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
+    paddingBottom:50,
     borderRadius: 10,
-    width: 'auto',
-    height: 'auto',
-    marginTop: 'auto',
-    marginBottom: 40
+    width: '100%',
+    height: 'auto',     
+    marginTop:"auto"
   },
-
+ 
   boxBtn: {
     height: 40,
     borderRadius: 10,
